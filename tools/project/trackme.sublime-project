@@ -1,0 +1,35 @@
+{
+	"folders":
+	[
+		{
+			"path": "../../"
+		}
+	],
+	"build_systems":
+	[
+		{
+			"name": "start",
+			"shell_cmd": "cd ${project_path}/../../ && npm run start && npm run electron",
+			"windows" : 
+			{
+            	"shell": true
+        	}   
+		},
+		{
+			"name": "build",
+			"shell_cmd": "cd ${project_path}/../../ && npm run build",
+			"windows" : 
+			{
+            	"shell": true
+        	}   
+		},
+		{
+			"name": "electron",
+			"shell_cmd": "cd ${project_path}/../../ && npm run electron",
+			"windows" : 
+			{
+            	"shell": true
+        	}   
+		}
+	]
+}
