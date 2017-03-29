@@ -1,19 +1,23 @@
 import { Injectable } from '@angular/core';
-import { Process } from './process';
 
+import { Process } from './process';
 import { PROCESSES } from './mock-process';
 
 
 @Injectable()
 export class ProcessService 
 {
-	constructor()
+	getProcesses(): Promise<Process[]>
 	{
+		// return Promise.resolve( PROCESSES );
 
-	}
-
-	getProcesses(): Process[] 
-	{
-		return PROCESSES;
+		return new Promise(resolve => 
+		{
+			// Simulate server latency with 2 second delay
+			setTimeout( () => 
+			{
+				resolve( PROCESSES ), 200 
+			});
+	    });
 	}
 }

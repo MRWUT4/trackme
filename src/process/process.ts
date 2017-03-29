@@ -1,7 +1,4 @@
 export class Process
 {
-	constructor()
-	{
-		
-	}
+	constructor(private id:Number){}
 }

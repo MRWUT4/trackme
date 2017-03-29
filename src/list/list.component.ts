@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Process } from '../process/process';
 import { ProcessService } from '../process/process.service';
 
@@ -9,7 +9,7 @@ import { ProcessService } from '../process/process.service';
 	providers: [ ProcessService ]
 	// styleUrls: ['./app.component.css']
 })
-export class ListComponent
+export class ListComponent implements OnInit
 {
 	processes: Process[];
 
@@ -18,10 +18,17 @@ export class ListComponent
 	// 	this.processes = this.processService.getProcesses();
 	// }
 
-	constructor(private processService: ProcessService){}
+	constructor(private processService:ProcessService){}
 
-	ngOnInit()
+	ngOnInit():void
 	{
-		this.processes = this.processService.getProcesses();
+		this.getProcesses();
+	}
+
+	getProcesses():void
+	{
+		// this.processes = this.processService.getProcesses();
+
+		this.processService.getProcesses().then( processes => this.processes = processes );
 	}
 }
