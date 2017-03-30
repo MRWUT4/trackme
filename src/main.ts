@@ -8,4 +8,11 @@ if( environment.production )
 	enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule( AppModule );
+import { spawn } from 'child_process';
+
+// const spawn = require('child_process').spawn;
+// var childProcess = new ChildProcess();
+
+console.log( spawn );
+
+// platformBrowserDynamic().bootstrapModule( AppModule );

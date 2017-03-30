@@ -27,6 +27,10 @@ export class ListComponent implements OnInit
 
 	getProcesses():void
 	{
+		// var spawn = require( '../../child_process' ).spawn;
+
+		// console.log( spawn );
+
 		// this.processes = this.processService.getProcesses();
 
 		this.processService.getProcesses().then( processes => this.processes = processes );
