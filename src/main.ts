@@ -8,11 +8,16 @@ if( environment.production )
 	enableProdMode();
 }
 
-import { spawn } from 'child_process';
-
+// import * as child_process from 'child_process';
+// const exec: any = eval("require('child_process').exec");
 // const spawn = require('child_process').spawn;
 // var childProcess = new ChildProcess();
 
-console.log( spawn );
+// let remote = require('electron').remote;
+// let fs = remote.require('fs');
 
-// platformBrowserDynamic().bootstrapModule( AppModule );
+// const electron = require('electron');
+
+// import { remote, ipcRenderer } from 'electron';	 
+
+platformBrowserDynamic().bootstrapModule( AppModule );
