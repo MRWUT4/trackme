@@ -18,6 +18,24 @@ if( environment.production )
 
 // const electron = require('electron');
 
-// import { remote, ipcRenderer } from 'electron';	 
+// import { child_pro}
+
+// console.log( require('child_process').exec );
+
+// System.config({
+//   map: {
+//     'child_process': '@node/child_process'
+//   }
+// });
+
+// import * as child_process from 'child_process';
+// import { remote } from 'electron';
+
+// console.log( child_process );
+
+import * as fs from 'fs';
+
+// console.log( fs )
+// console.log( System.get('electron') );
 
 platformBrowserDynamic().bootstrapModule( AppModule );
