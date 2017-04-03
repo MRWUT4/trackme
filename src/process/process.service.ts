@@ -10,58 +10,23 @@ const spawn:any = eval( 'require("child_process").spawn' );
 @Injectable()
 export class ProcessService 
 {
-// const exec: any = eval( 'require("child_process").exec' );
-
-// var string = exec( "ls" );
-
-// console.log( string );
-
-	// static get spawn()
-	// {
-	// 	return require( 'child_process' ).spawn;
-	// }
-
-	// static get app()
-	// {
-	// 	return require('electron').app;
-	// }
-
-
 	getProcesses(): Promise<Process[]>
 	{
-		// return Promise.resolve( PROCESSES );
-
 		return new Promise(resolve => 
 		{	
 			var that = this;
 
-			that.receiveUsername( (username) =>
+			that.receiveUsername( username =>
 			{
-				console.log( "receiveUsername");
-
-				that.receivePSAwk( (processes) =>
+				that.receivePSAux( processes =>
 				{
-					var userProcesses = that.getUserProcessesAsObjects( username, processes );
-					that.addOpenFilesToUserProcesses( userProcesses );
-					// console.log( userProcesses );
+					that.receiveFormatedUserProcessColums( processes, list =>
+					{
+						var userProcesses = this.filterObjectProperty( list, "user", username );
+						that.addOpenFilesToUserProcesses( userProcesses );
+					});
 				});
 			});
-
-			// this.execute( 
-			// [
-			// 	this.receiveUsername,
-			// 	this.receivePSAwk
-			// ], 
-			// values =>
-			// {
-			// 	var result = that.getUserProcessesAsObjects( values[ 0 ], values[ 1 ] );
-
-			// 	result.forEach( element => console.log( element ) );
-
-			// 	resolve( result );
-			// 	// Application.app.quit();
-			// });
-
 
 			// Simulate server latency with 2 second delay
 			// setTimeout( () => 
@@ -74,43 +39,120 @@ export class ProcessService
 
 	addOpenFilesToUserProcesses(userProcesses)
 	{
-		// console.log( "\n\n addOpenFilesToUserProcesses" );
+		const that = this;
 
-		// var result = userProcesses.map( (userProcesses) => 
-		// {
-			var lsof = spawn( 'lsof', [ '-p', userProcesses[ 0 ].pid ] );
+		userProcesses.shift();
+
+		userProcesses.forEach( userProcess =>
+		{
+			var string = '';
+			var lsof = spawn( 'lsof', [ '-p', userProcess.pid ] );
+
 
 			lsof.stdout.on( 'data', data =>
 			{
-				// echo "a b c d" | awk --field-separator=" " "{ print NF }"
-				console.log( data.toString() );
+				string += data.toString();
 			});
-		// });
+
+			lsof.on( 'close', event =>
+			{
+				var formatted = that.receiveFormatedUserProcessColums( string, result =>
+				{
+					result.forEach( element => console.log( element ) );
+					// console.log( that.filterObjectProperty( result, "type", "DIR" ) );
+				});
+			});
+		});
+
 	}
 
-	// execute(list, callback)
-	// {
-	// 	var copy = list.concat();
-	// 	var values = [];
+	receiveFormatedUserProcessColums(input, callback)
+	{
+		const that = this;
+		const awkNumColumns = spawn( 'awk', [  '--field-seperator=" "', '{ print NF }' ] );
 
-	// 	var run = () =>
-	// 	{
-	// 		if( copy.length > 0 )
-	// 		{
-	// 			var method = copy.shift();
+		var string = '';
 
-	// 			method( result =>
-	// 			{
-	// 				values.push( result );
-	// 				run();
-	// 			});
-	// 		}
-	// 		else
-	// 			callback( values );
-	// 	};
+		awkNumColumns.stdout.on( 'data', data =>
+		{
+			string += data.toString();
+		});
 
-	// 	run();
-	// }	
+		awkNumColumns.on( 'close', event =>
+		{
+			var numLines = Number( string );
+
+			that.receiveColumnsOfString( input, numLines, result => 
+			{
+				var list = that.getFormatedObjectList( result );
+				callback( list );
+			});
+		});
+
+		var firstLine = input.split( "\n" )[ 0 ];
+		awkNumColumns.stdin.write( firstLine );
+		awkNumColumns.stdin.end();
+	}
+
+	getFormatedObjectList(list)
+	{
+		var result = [];
+		var length = list[ 0 ].length;
+
+		for( var i = 1; i < length - 1; i++ )
+		{
+			var object = {};
+
+			for( var j = 1; j < list.length; j++ )
+			{
+				var column = list[ j ];
+
+				var property = column[ 0 ].toLowerCase();
+				var value = column[ i ];
+
+				object[ property ] = value;
+			}
+
+			result.push( object );
+		}
+
+		return result;
+	}
+
+	receiveColumnsOfString(input, num, callback)
+	{
+		var result = [];
+
+		for( var i = 0; i < num; i++ )
+		{
+			var parse = (index) =>
+			{
+				var awkColumnAtIndex = spawn( 'awk', [ '{ print $' + String( index + 1 ) + ' }' ] );
+				var string = '';
+
+				if( awkColumnAtIndex.stdout )
+				{
+					awkColumnAtIndex.stdout.on( 'data', data =>
+					{
+						string += data.toString();
+					});
+
+					awkColumnAtIndex.on( 'close', () =>
+					{
+						result.push( string.split( "\n" ) );
+
+						if( result.length >= num )
+							callback( result );
+					})
+
+					awkColumnAtIndex.stdin.write( input );
+					awkColumnAtIndex.stdin.end();
+				}
+			}
+			
+			parse( i );
+		}
+	}
 
 
 	receiveUsername(callback)
@@ -121,59 +163,38 @@ export class ProcessService
 		whoami.stdout.on( "data", data =>
 		{
 			var username = data.toString().replace( "\n", "" ).replace( " ", "" );
+			console.log( username );
 			callback( username );
 		});
 	}
 
-	receivePSAwk(callback)
+	receivePSAux(callback)
 	{	
-		var result = '';
+		var string = '';
 
-		// const spawn = Application.spawn;
+		const that = this;
 		const ps = spawn( 'ps', [ 'aux' ] );
 
-		const awk = spawn( 'awk', 
-		[ 
-			'{ \
-				print \
-				"user:" $1 ";" \
-				"pid:" $2 ";" \
-				"cpu:" $3 ";" \
-				"mem:" $4 ";" \
-				"vsz:" $5 ";" \
-				"rss:" $6 ";" \
-				"stat:" $8 ";" \
-				"started:" $9 ";" \
-				"time:" $10 ";" \
-				"command:" $11 \
-			}'
-
-		], { stdio: [ ps.stdout ] } );
-
-
-		awk.stdout.on( 'data', data =>
+		ps.stdout.on( 'data', data =>
 		{
-			result += data.toString();
+			string += data.toString();
 		});
 
-		awk.on( 'close', data =>
+		ps.on( 'close', data =>
 		{
-			// console.log( 'END', data );
-			callback( result );
+			callback( string );
 		});
 	}
 
 
-	getUserProcessesAsObjects(username, string)
-	{
-		var lines = this.splitNewLine( string );
-		var columns = this.mapColumns( lines, ";" );
-		var data = this.mapData( columns );
-		var users = this.filterObjectProperty( data, "user", username );
-
-		// console.log( users );
-		return users;
-	}
+	// receiveUserProcessesAsObjects(username, string, callback)
+	// {
+	// 	this.receiveFormatedUserProcessColums( string, list =>
+	// 	{
+	// 		var userList = this.filterObjectProperty( list, "user", username );
+	// 		callback( userList );
+	// 	});
+	// }
 
 	splitNewLine(string)
 	{
