@@ -9,7 +9,6 @@ if( environment.production )
 }
 
 // import * as child_process from 'child_process';
-// const exec: any = eval("require('child_process').exec");
 // const spawn = require('child_process').spawn;
 // var childProcess = new ChildProcess();
 
@@ -33,7 +32,17 @@ if( environment.production )
 
 // console.log( child_process );
 
-import * as fs from 'fs';
+// import * as fs from 'fs';
+// import * as child_process from 'child_process';
+
+// let exec = child_process.exec;
+
+// const { remote } = require('electron')
+
+// import { exec } from 'child_process';
+
+// var string = exec( "ls" );
+
 
 // console.log( fs )
 // console.log( System.get('electron') );

@@ -520,10 +520,10 @@
 	"buffers":
 	[
 		{
-			"file": "/Users/david.ochmann/Documents/application/project/electron/trackme/src/index.html",
+			"file": "/Users/david.ochmann/Documents/application/project/electron/trackme/src/tsconfig.json",
 			"settings":
 			{
-				"buffer_size": 368,
+				"buffer_size": 408,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -532,24 +532,7 @@
 			"file": "/Users/david.ochmann/Documents/application/project/electron/trackme/src/main.ts",
 			"settings":
 			{
-				"buffer_size": 563,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/Users/david.ochmann/Documents/application/project/electron/trackme/package.json",
-			"settings":
-			{
-				"buffer_size": 1387,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/Users/david.ochmann/Documents/application/project/electron/trackme/angular-cli.json",
-			"settings":
-			{
-				"buffer_size": 1270,
+				"buffer_size": 1264,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -564,43 +547,30 @@
 			}
 		},
 		{
-			"file": "/Users/david.ochmann/Documents/application/project/electron/trackme/src/list/list.component.ts",
+			"file": "/Users/david.ochmann/Documents/application/project/electron/trackme/package.json",
 			"settings":
 			{
-				"buffer_size": 841,
+				"buffer_size": 1078,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "{\n  \"project\": {\n    \"version\": \"1.0.0-beta.28.3\",\n    \"name\": \"trackme\"\n  },\n  \"apps\": [\n    {\n      \"root\": \"src\",\n      \"outDir\": \"dist\",\n      \"assets\": [\n        \"assets\",\n        \"favicon.ico\"\n      ],\n      \"index\": \"index.html\",\n      \"main\": \"main.ts\",\n      \"polyfills\": \"polyfills.ts\",\n      \"test\": \"test.ts\",\n      \"tsconfig\": \"tsconfig.json\",\n      \"prefix\": \"app\",\n      \"styles\": [\n        \"styles.css\"\n      ],\n      \"scripts\": \n      [\n        \n      ],\n      \"environments\": {\n        \"source\": \"environments/environment.ts\",\n        \"dev\": \"environments/environment.ts\",\n        \"prod\": \"environments/environment.prod.ts\"\n      }\n    }\n  ],\n  \"e2e\": {\n    \"protractor\": {\n      \"config\": \"./protractor.conf.js\"\n    }\n  },\n  \"lint\": [\n    {\n      \"files\": \"src/**/*.ts\",\n      \"project\": \"src/tsconfig.json\"\n    },\n    {\n      \"files\": \"e2e/**/*.ts\",\n      \"project\": \"e2e/tsconfig.json\"\n    }\n  ],\n  \"test\": {\n    \"karma\": {\n      \"config\": \"./karma.conf.js\"\n    }\n  },\n  \"defaults\": {\n    \"styleExt\": \"css\",\n    \"prefixInterfaces\": false,\n    \"inline\": {\n      \"style\": false,\n      \"template\": false\n    },\n    \"spec\": {\n      \"class\": false,\n      \"component\": true,\n      \"directive\": true,\n      \"module\": false,\n      \"pipe\": true,\n      \"service\": true\n    }\n  }\n}\n",
+			"file": "/Users/david.ochmann/Documents/application/project/electron/trackme/angular-cli.json",
+			"file_size": 1269,
+			"file_write_time": 131353636850000000,
+			"settings":
+			{
+				"buffer_size": 1292,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/david.ochmann/Documents/application/project/electron/trackme/src/index.html",
+			"settings":
+			{
+				"buffer_size": 445,
 				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/Users/david.ochmann/Documents/application/project/electron/dotrack/js/application.js",
-			"settings":
-			{
-				"buffer_size": 3220,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/Users/david.ochmann/Documents/application/project/electron/dotrack/main.js",
-			"settings":
-			{
-				"buffer_size": 1955,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/Users/david.ochmann/Documents/application/project/electron/dotrack/index.html",
-			"settings":
-			{
-				"buffer_size": 1229,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/Users/david.ochmann/Documents/application/project/electron/dotrack/renderer.js",
-			"settings":
-			{
-				"buffer_size": 375,
 				"line_ending": "Unix"
 			}
 		}
@@ -656,17 +626,25 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 87.0,
-		"last_filter": "togglem",
+		"height": 392.0,
+		"last_filter": "",
 		"selected_items":
 		[
 			[
-				"togglem",
-				"View: Toggle Minimap"
-			],
-			[
 				"close",
 				"File: Close All"
+			],
+			[
+				"dele",
+				"ANF: Delete Current File"
+			],
+			[
+				"EDI",
+				"Project: Edit Project"
+			],
+			[
+				"togglem",
+				"View: Toggle Minimap"
 			],
 			[
 				"lowe",
@@ -674,10 +652,6 @@
 			],
 			[
 				"edi",
-				"Project: Edit Project"
-			],
-			[
-				"EDI",
 				"Project: Edit Project"
 			],
 			[
@@ -691,10 +665,6 @@
 			[
 				"anf",
 				"ANF: Rename File"
-			],
-			[
-				"dele",
-				"ANF: Delete Current File"
 			],
 			[
 				"ss ja",
@@ -851,15 +821,28 @@
 	],
 	"file_history":
 	[
-		"/Users/david.ochmann/Documents/application/project/electron/trackme/node_modules/.bin/webpack",
+		"/Users/david.ochmann/Documents/application/project/electron/trackme/main.js",
+		"/Users/david.ochmann/Documents/application/project/electron/trackme/src/main.ts",
+		"/Users/david.ochmann/Documents/application/project/electron/trackme/src/tsconfig.json",
+		"/Users/david.ochmann/Documents/application/project/electron/trackme/src/index.html",
 		"/Users/david.ochmann/Documents/application/project/electron/trackme/package.json",
+		"/Users/david.ochmann/Documents/application/project/electron/trackme/.env",
+		"/Users/david.ochmann/Documents/application/project/electron/trackme/README.md",
+		"/Users/david.ochmann/Documents/application/project/electron/dotrack/js/application.js",
+		"/Users/david.ochmann/Documents/application/project/electron/dotrack/main.js",
+		"/Users/david.ochmann/Documents/application/project/electron/dotrack/index.html",
+		"/Users/david.ochmann/Documents/application/project/electron/dotrack/renderer.js",
+		"/Users/david.ochmann/Documents/application/project/electron/trackme/angular-cli.json",
+		"/Users/david.ochmann/Documents/application/project/electron/trackme/src/list/list.component.ts",
+		"/Users/david.ochmann/Documents/application/project/electron/trackme/node_modules/webpack-dev-server/client/webpack.config.js",
+		"/Users/david.ochmann/Documents/application/project/electron/trackme/webpack.config.js",
+		"/Users/david.ochmann/Documents/application/project/electron/trackme/tools/project/trackme.sublime-project",
+		"/Users/david.ochmann/Documents/application/project/electron/trackme/node_modules/angular-cli/models/webpack-config.d.ts",
+		"/Users/david.ochmann/Documents/application/project/electron/trackme/node_modules/.bin/webpack",
 		"/Users/david.ochmann/Documents/application/project/electron/trackme/node_modules/tsickle/tsconfig.json",
 		"/Users/david.ochmann/Documents/application/project/electron/trackme/e2e/tsconfig.json",
 		"/Users/david.ochmann/Documents/application/project/electron/trackme/renderer.js",
-		"/Users/david.ochmann/Documents/application/project/electron/trackme/src/main.ts",
 		"/Users/david.ochmann/Documents/application/project/html/JS-Library/europapark/Oesterreich-BrisanteBaladen/tools/project/Oesterreich-BrisanteBaladen.sublime-project",
-		"/Users/david.ochmann/Documents/application/project/electron/trackme/src/list/list.component.ts",
-		"/Users/david.ochmann/Documents/application/project/electron/dotrack/main.js",
 		"/Users/david.ochmann/Documents/application/project/electron/dotrack/package.json",
 		"/Users/david.ochmann/Documents/application/project/electron/trackme/src/process/process.service.ts",
 		"/Users/david.ochmann/Documents/application/project/electron/trackme/src/app/app.component.ts",
@@ -867,20 +850,17 @@
 		"/Users/david.ochmann/Documents/application/project/electron/trackme/src/process/process.ts",
 		"/Users/david.ochmann/Downloads/toh-4/src/app/hero.service.ts",
 		"/Users/david.ochmann/Library/Caches/Cornerstone/Store/https%3A%2F%2Fdavid.ochmann%40svn.eoa.de%3A44443%2Fsvn%2Fjs-library/0000012229/trunk/manifest.json",
-		"/Users/david.ochmann/Documents/application/project/electron/trackme/main.js",
 		"/Users/david.ochmann/Documents/application/project/electron/trackme/src/list/list.module.ts",
 		"/Users/david.ochmann/Downloads/toh-4/src/app/app.module.ts",
 		"/Users/david.ochmann/Downloads/toh-4/src/app/app.component.ts",
 		"/Users/david.ochmann/Documents/application/project/electron/trackme/src/process/mock-process.ts",
 		"/Users/david.ochmann/Documents/application/project/electron/trackme/src/list/list.service.ts",
-		"/Users/david.ochmann/Documents/application/project/electron/trackme/src/index.html",
 		"/Users/david.ochmann/Documents/application/project/electron/trackme/src/list.component.html",
 		"/Users/david.ochmann/Documents/application/project/electron/trackme/src/app/app.component.html",
 		"/Users/david.ochmann/Documents/application/project/electron/dotrack/src/list/list.module.js",
 		"/Users/david.ochmann/Documents/application/project/electron/dotrack/src/list/list.component.js",
 		"/Users/david.ochmann/Documents/application/project/electron/dotrack/src/app/app.module.js",
 		"/Users/david.ochmann/Documents/application/project/electron/trackme/src/list.list.component.html",
-		"/Users/david.ochmann/Documents/application/project/electron/trackme/tools/project/trackme.sublime-project",
 		"/Users/david.ochmann/Desktop/dotrack/package.json",
 		"/Users/david.ochmann/Desktop/dotrack/src/app/app.component.html",
 		"/Users/david.ochmann/Desktop/dotrack/tools/project/dotrack.sublime-project",
@@ -900,8 +880,6 @@
 		"/Users/david.ochmann/Desktop/angular-electron/tsconfig.json",
 		"/Users/david.ochmann/Desktop/angular-electron/src/main.ts",
 		"/Users/david.ochmann/Documents/application/project/electron/dotrack/node_modules/localforage/typing-tests/tsconfig.json",
-		"/Users/david.ochmann/Documents/application/project/electron/dotrack/renderer.js",
-		"/Users/david.ochmann/Documents/application/project/electron/dotrack/index.html",
 		"/Users/david.ochmann/Documents/application/project/electron/dotrack/src/app/app.component.js",
 		"/Users/david.ochmann/Documents/application/project/electron/dotrack/src/app/app.component.html",
 		"/Users/david.ochmann/Documents/application/project/electron/dotrack/src/list/list.component.html",
@@ -909,7 +887,6 @@
 		"/Users/david.ochmann/Documents/application/project/electron/dotrack/app/app.component.js",
 		"/Users/david.ochmann/Documents/application/project/electron/dotrack/app/app.component.html",
 		"/Users/david.ochmann/Documents/application/project/electron/dotrack/app/app.module.js",
-		"/Users/david.ochmann/Documents/application/project/electron/dotrack/js/application.js",
 		"/Users/david.ochmann/Downloads/angular2-quickstart-es6-webpack-master/public/src/index.js",
 		"/Users/david.ochmann/Downloads/angular2-quickstart-es6-webpack-master/public/src/app/main.js",
 		"/Users/david.ochmann/Downloads/angular2-quickstart-es6-webpack-master/public/src/app/app.component.js",
@@ -971,14 +948,7 @@
 		"/Users/david.ochmann/Documents/application/project/html/JS-Library/davidochmann/pixijs-animation-export/html/js/aape/timeline.js",
 		"/Users/david.ochmann/Documents/application/project/html/JS-Library/pombaer/TheVoiceGame/js/game/particlehitmodule.js",
 		"/Users/david.ochmann/Documents/application/project/html/JS-Library/pombaer/TheVoiceGame/debug.html",
-		"/Users/david.ochmann/Documents/application/project/html/JS-Library/pombaer/TheVoiceGame/js/game/main.js",
-		"/Users/david.ochmann/Documents/application/project/html/JS-Library/pombaer/TheVoiceGame/js/game/animationtemplate.js",
-		"/Users/david.ochmann/Documents/application/project/html/JS-Library/pombaer/TheVoiceGame/js/game/gamestate.js",
-		"/Users/david.ochmann/Documents/application/project/html/JS-Library/pombaer/TheVoiceGame/js/game/characteranimationmodule.js",
-		"/Users/david.ochmann/Documents/application/project/html/JS-Library/pombaer/TheVoiceGame/js/game/audioanimationmodule.js",
-		"/Users/david.ochmann/Documents/application/project/html/JS-Library/davidochmann/pixijs-animation-export/html/js/aape/sprite.js",
-		"/Users/david.ochmann/Documents/application/project/html/JS-Library/pombaer/TheVoiceGame/js/sprite-debug.js",
-		"/Users/david.ochmann/Documents/application/project/html/JS-Library/pombaer/TheVoiceGame/js/timeline.js"
+		"/Users/david.ochmann/Documents/application/project/html/JS-Library/pombaer/TheVoiceGame/js/game/main.js"
 	],
 	"find":
 	{
@@ -998,6 +968,23 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"node",
+			"win",
+			"remote",
+			"child_process",
+			"fs",
+			"system",
+			"fs",
+			"no",
+			"electron",
+			"ipcRenderer",
+			"jasmine",
+			"protractor",
+			"pree2e",
+			"dotrack2",
+			"serve",
+			"renderer",
+			"exec",
 			"child_process",
 			"spawn",
 			"NODE_PATH",
@@ -1108,24 +1095,7 @@
 			"const",
 			"this",
 			"his.spawn",
-			"spawn",
-			"command",
-			"\\",
-			"\";\"",
-			"command",
-			"%",
-			"COMMAND",
-			";",
-			"\";\"",
-			",",
-			"\"",
-			"'",
-			"\"",
-			"echo",
-			"\"",
-			"AAA",
-			"print",
-			"awk"
+			"spawn"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1149,32 +1119,38 @@
 			[
 				{
 					"buffer": 0,
-					"file": "/Users/david.ochmann/Documents/application/project/electron/trackme/src/index.html",
+					"file": "/Users/david.ochmann/Documents/application/project/electron/trackme/src/tsconfig.json",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 368,
+						"buffer_size": 408,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								238,
-								238
+								401,
+								401
 							]
 						],
 						"settings":
 						{
-							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
-							"syntax": "Packages/HTML/HTML.sublime-syntax",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/JavaScriptNext - ES6 Syntax/JSON (JavaScriptNext).tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true,
+							"typescript_plugin_format_options":
+							{
+								"convertTabsToSpaces": false,
+								"indentSize": 4,
+								"tabSize": 4
+							}
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -1183,15 +1159,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 563,
+						"buffer_size": 1264,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								563,
-								563
+								1145,
+								1145
 							]
 						],
 						"settings":
@@ -1208,66 +1184,6 @@
 				},
 				{
 					"buffer": 2,
-					"file": "/Users/david.ochmann/Documents/application/project/electron/trackme/package.json",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 1387,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScriptNext - ES6 Syntax/JSON (JavaScriptNext).tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "/Users/david.ochmann/Documents/application/project/electron/trackme/angular-cli.json",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1270,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								238,
-								238
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScriptNext - ES6 Syntax/JSON (JavaScriptNext).tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
 					"file": "/Users/david.ochmann/Documents/application/project/electron/trackme/main.js",
 					"semi_transient": false,
 					"settings":
@@ -1286,14 +1202,68 @@
 						"settings":
 						{
 							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
-							"syntax": "Packages/JavaScriptNext - ES6 Syntax/JavaScriptNext.tmLanguage",
-							"translate_tabs_to_spaces": false,
-							"typescript_plugin_format_options":
-							{
-								"convertTabsToSpaces": false,
-								"indentSize": 4,
-								"tabSize": 4
-							}
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/Users/david.ochmann/Documents/application/project/electron/trackme/package.json",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1078,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								812,
+								812
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScriptNext - ES6 Syntax/JSON (JavaScriptNext).tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/Users/david.ochmann/Documents/application/project/electron/trackme/angular-cli.json",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1292,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								462,
+								462
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScriptNext - ES6 Syntax/JSON (JavaScriptNext).tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1304,166 +1274,31 @@
 				},
 				{
 					"buffer": 5,
-					"file": "/Users/david.ochmann/Documents/application/project/electron/trackme/src/list/list.component.ts",
+					"file": "/Users/david.ochmann/Documents/application/project/electron/trackme/src/index.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 841,
+						"buffer_size": 445,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								201,
-								201
+								362,
+								255
 							]
 						],
 						"settings":
 						{
 							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
-							"syntax": "Packages/TypeScript/TypeScript.tmLanguage",
-							"translate_tabs_to_spaces": false,
-							"use_tab_stops": false
+							"syntax": "Packages/HTML/HTML.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
-					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 0,
-			"sheets":
-			[
-				{
-					"buffer": 6,
-					"file": "/Users/david.ochmann/Documents/application/project/electron/dotrack/js/application.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3220,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								32,
-								37
-							]
-						],
-						"settings":
-						{
-							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
-							"syntax": "Packages/JavaScriptNext - ES6 Syntax/JavaScriptNext.tmLanguage",
-							"translate_tabs_to_spaces": false,
-							"typescript_plugin_format_options":
-							{
-								"convertTabsToSpaces": false,
-								"indentSize": 4,
-								"tabSize": 4
-							}
-						},
-						"translation.x": 0.0,
-						"translation.y": 887.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "/Users/david.ochmann/Documents/application/project/electron/dotrack/main.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1955,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								153,
-								153
-							]
-						],
-						"settings":
-						{
-							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
-							"syntax": "Packages/JavaScriptNext - ES6 Syntax/JavaScriptNext.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 8,
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "/Users/david.ochmann/Documents/application/project/electron/dotrack/index.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1229,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								26,
-								26
-							]
-						],
-						"settings":
-						{
-							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
-							"syntax": "Packages/HTML/HTML.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "/Users/david.ochmann/Documents/application/project/electron/dotrack/renderer.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 375,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								172,
-								172
-							]
-						],
-						"settings":
-						{
-							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
-							"syntax": "Packages/JavaScriptNext - ES6 Syntax/JavaScriptNext.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
+					"stack_index": 1,
 					"type": "text"
 				}
 			]
@@ -1486,18 +1321,11 @@
 				0,
 				1,
 				1
-			],
-			[
-				1,
-				0,
-				2,
-				1
 			]
 		],
 		"cols":
 		[
 			0.0,
-			0.5,
 			1.0
 		],
 		"rows":
@@ -1533,11 +1361,7 @@
 		"selected_items":
 		[
 			[
-				"web",
-				"node_modules/.bin/webpack"
-			],
-			[
-				"ind",
+				"inde",
 				"src/index.html"
 			],
 			[
@@ -1546,27 +1370,43 @@
 			],
 			[
 				"tscon",
-				"e2e/tsconfig.json"
+				"src/tsconfig.json"
 			],
 			[
-				"ren",
-				"renderer.js"
+				"pack",
+				"package.json"
 			],
 			[
-				"inde",
-				"src/index.html"
-			],
-			[
-				"process.ser",
-				"src/process/process.service.ts"
+				"p",
+				"package.json"
 			],
 			[
 				"main",
 				"main.js"
 			],
 			[
-				"pack",
-				"package.json"
+				"webpack-config",
+				"node_modules/angular-cli/models/webpack-config.d.ts"
+			],
+			[
+				"webpack.config",
+				"node_modules/webpack-dev-server/client/webpack.config.js"
+			],
+			[
+				"web",
+				"node_modules/.bin/webpack"
+			],
+			[
+				"ind",
+				"src/index.html"
+			],
+			[
+				"ren",
+				"renderer.js"
+			],
+			[
+				"process.ser",
+				"src/process/process.service.ts"
 			],
 			[
 				".en",
@@ -2031,18 +1871,6 @@
 			[
 				"eventaniamtion",
 				"davidochmann/tools/animation/eventanimationmodule.js"
-			],
-			[
-				"module",
-				"LegoNexoKnights-MonstroxWolke/js/game/moduletemplate.js"
-			],
-			[
-				"resu",
-				"LegoNexoKnights-MonstroxWolke/js/game/resultstate.js"
-			],
-			[
-				"animatio",
-				"LegoNexoKnights-MonstroxWolke/js/game/animationtemplate.js"
 			]
 		],
 		"width": 0.0
@@ -2050,9 +1878,21 @@
 	"select_project":
 	{
 		"height": 500.0,
-		"last_filter": "pom",
+		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"",
+				"~/Documents/application/project/html/JS-Library/europapark/Oesterreich-Wildwasserbahn/tools/project/Europapark-OesterreichWildwasserbahn.sublime-project"
+			],
+			[
+				"wasser",
+				"~/Documents/application/project/html/JS-Library/europapark/Oesterreich-Wildwasserbahn/tools/project/Europapark-OesterreichWildwasserbahn.sublime-project"
+			],
+			[
+				"wild",
+				"~/Documents/application/project/html/JS-Library/europapark/Oesterreich-Wildwasserbahn/tools/project/Europapark-OesterreichWildwasserbahn.sublime-project"
+			],
 			[
 				"pom",
 				"~/Documents/application/project/html/JS-Library/europapark/Oesterreich-BrisanteBaladen/tools/project/Pombaer-TheVoiceGame.sublime-workspace"
@@ -2060,10 +1900,6 @@
 			[
 				"bri",
 				"~/Documents/application/project/html/JS-Library/europapark/Oesterreich-BrisanteBaladen/tools/project/Oesterreich-BrisanteBaladen.sublime-project"
-			],
-			[
-				"wild",
-				"~/Documents/application/project/html/JS-Library/europapark/Oesterreich-Wildwasserbahn/tools/project/Europapark-OesterreichWildwasserbahn.sublime-project"
 			],
 			[
 				"dotra",
@@ -2088,10 +1924,6 @@
 			[
 				"tem",
 				"~/Documents/application/project/html/JS-Library/eoa/Template-PixiJS/tools/project/EOA-Template-PixiJS.sublime-project"
-			],
-			[
-				"",
-				"E:\\SVN\\JS-Library\\daab\\Milchallergie-Spiel\\tools\\project\\DAAB-Michallergie-Spiel.sublime-project"
 			],
 			[
 				"lego",
