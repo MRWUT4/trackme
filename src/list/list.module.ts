@@ -22,6 +22,6 @@ export class ListModule
 {
 	constructor()
 	{
-		console.log( 'ListModule constructor' );
+		// console.log( 'ListModule constructor' );
 	}
 }

@@ -30,7 +30,7 @@
 	[
 		{
 			"name": "start",
-			"shell_cmd": "cd ${project_path}/../../ && npm run start",
+			"shell_cmd": "cd ${project_path}/../../ && npm run electron && npm run start",
 			"windows" : 
 			{
             	"shell": true

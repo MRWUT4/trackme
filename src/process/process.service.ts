@@ -18,29 +18,34 @@ export class ProcessService
 
 			that.receiveUsername( username =>
 			{
-				that.receiveLSOF( string =>
+				that.receivePSAux( processes =>
 				{
-					that.receiveFormatedUserProcessColums( string, list =>
+					that.receiveFormatedUserProcessColums( processes, list =>
 					{
-						list = this.filterObjectProperty( list, "name", "Adobe" );
+						console.log( processes );
+						console.log( '\n\n' );
 
-						list.forEach( element => console.log( element.name ) );
+						console.log( list );
+
+						console.log( "start", list.length );
+
+						list = this.filterObjectProperty( list, "user", user => user == username );
+						list = this.filterObjectProperty( list, "pid", pid => pid != undefined );
+						// list = this.filterObjectProperty( list, "stat", stat => stat == "R" );
+						
+						console.log( "filtered", list.length );
+						
+						// list = this.filterObjectProperty( list, "pid", undefined, false );
+						// list = this.filterObjectProperty( list, "command", "/System", false );
+						// list = this.filterObjectProperty( list, "command", "/usr/", false );
+						// var onlyStatR = this.filterObjectProperty( noUSRCommand, "stat", "R" );
+						// var noUs = this.filterObjectProperty( list, "command", "/System", false );
+						// userProcesses.forEach( element => console.log( element ) );
+
+
+						that.addOpenFilesToUserProcesses( list );
 					});
 				});
-
-				// that.receivePSAux( processes =>
-				// {
-				// 	that.receiveFormatedUserProcessColums( processes, list =>
-				// 	{
-				// 		var userProcesses = this.filterObjectProperty( list, "user", username );
-				// 		var noSystemCommands = this.filterObjectProperty( userProcesses, "command", "/System", false );
-				// 		var noUSRCommand = this.filterObjectProperty( noSystemCommands, "command", "/usr/", false );
-				// 		// var onlyStatR = this.filterObjectProperty( noUSRCommand, "stat", "R" );
-				// 		// var noUs = this.filterObjectProperty( list, "command", "/System", false );
-				// 		// userProcesses.forEach( element => console.log( element ) );
-				// 		that.addOpenFilesToUserProcesses( noUSRCommand );
-				// 	});
-				// });
 			});
 
 			// Simulate server latency with 2 second delay
@@ -52,41 +57,37 @@ export class ProcessService
 	}
 
 
-	// addOpenFilesToUserProcesses(userProcesses)
-	// {
-	// 	const that = this;
+	addOpenFilesToUserProcesses(userProcesses)
+	{
+		const that = this;
 
-	// 	userProcesses.shift();
+		userProcesses.shift();
 
-	// 	userProcesses.forEach( userProcess =>
-	// 	{
-	// 		console.log( userProcess );
+		userProcesses.forEach( userProcess =>
+		{
+			console.log( userProcess );
 
-	// 		if( userProcess.pid )
-	// 		{
-	// 			var string = '';
-	// 			var lsof = spawn( 'lsof', [ userProcess.pid ] );
+			// var string = '';
+			// var lsof = spawn( 'lsof', [ '-p', userProcess.pid ] );
 
-	// 			lsof.stdout.on( 'data', data =>
-	// 			{
-	// 				string += data.toString();
-	// 			});
+			// lsof.stdout.on( 'data', data =>
+			// {
+			// 	string += data.toString();
+			// });
 
-	// 			lsof.on( 'close', event =>
-	// 			{
-	// 				var formatted = that.receiveFormatedUserProcessColums( string, list =>
-	// 				{
-	// 					var onlyTypeDIR = that.filterObjectProperty( list, "type", "DIR" )
+			// lsof.on( 'close', event =>
+			// {
+			// 	var formatted = that.receiveFormatedUserProcessColums( string, list =>
+			// 	{
+			// 		// var onlyTypeDIR = that.filterObjectProperty( list, "type", "DIR" )
 
-	// 					onlyTypeDIR.forEach( element => console.log( element ) );
-	// 					// result.forEach( element => console.log( element ) );
-	// 					// console.log(  );
-	// 				});
-	// 			});
-	// 		}
-	// 	});
-
-	// }
+			// 		list.forEach( element => console.log( "\t", element ) );
+			// 		// result.forEach( element => console.log( element ) );
+			// 		// console.log(  );
+			// 	});
+			// });
+		});
+	}
 
 
 
@@ -95,31 +96,33 @@ export class ProcessService
 	{
 		const awkNumColumns = spawn( 'awk', [  '--field-seperator=" "', '{ print NF }' ] );
 
-		// if( awkNumColumns.stdout )
-		// {
-			const that = this;
-			var string = '';
+		const that = this;
+		var string = '';
 
-			awkNumColumns.stdout.on( 'data', data =>
+		awkNumColumns.stdout.on( 'data', data =>
+		{
+			string += data.toString();
+		});
+
+		awkNumColumns.on( 'close', event =>
+		{
+			var numLines = string.split( '\n' ).reduce( (result, element) =>
+			{	
+				var value = Number( element );
+				return value > result ? value : result;
+
+			}, 0 );
+
+			that.receiveColumnsOfString( input, numLines, result => 
 			{
-				string += data.toString();
+				var list = that.getFormatedObjectList( result );
+				callback( list );
+
 			});
+		});
 
-			awkNumColumns.on( 'close', event =>
-			{
-				var numLines = Number( string );
-
-				that.receiveColumnsOfString( input, numLines, result => 
-				{
-					var list = that.getFormatedObjectList( result );
-					callback( list );
-				});
-			});
-
-			var firstLine = input.split( "\n" )[ 0 ];
-			awkNumColumns.stdin.write( firstLine );
-			awkNumColumns.stdin.end();
-		// }
+		awkNumColumns.stdin.write( input );
+		awkNumColumns.stdin.end();
 	}
 
 	receiveColumnsOfString(input, num, callback)
@@ -133,24 +136,21 @@ export class ProcessService
 				var awkColumnAtIndex = spawn( 'awk', [ '{ print $' + String( index + 1 ) + ' }' ] );
 				var string = '';
 
-				// if( awkColumnAtIndex.stdout )
-				// {
-					awkColumnAtIndex.stdout.on( 'data', data =>
-					{
-						string += data.toString();
-					});
+				awkColumnAtIndex.stdout.on( 'data', data =>
+				{
+					string += data.toString();
+				});
 
-					awkColumnAtIndex.on( 'close', () =>
-					{
-						result.push( string.split( "\n" ) );
+				awkColumnAtIndex.on( 'close', () =>
+				{
+					result.push( string.split( "\n" ) );
 
-						if( result.length >= num )
-							callback( result );
-					})
+					if( result.length >= num )
+						callback( result );
+				});
 
-					awkColumnAtIndex.stdin.write( input );
-					awkColumnAtIndex.stdin.end();
-				// }
+				awkColumnAtIndex.stdin.write( input );
+				awkColumnAtIndex.stdin.end();
 			}
 			
 			parse( i );
@@ -162,16 +162,16 @@ export class ProcessService
 		var result = [];
 		var length = list[ 0 ].length;
 
-		for( var i = 1; i < length - 1; i++ )
+		for( var y = 1; y < length - 1; y++ )
 		{
 			var object = {};
 
-			for( var j = 1; j < list.length; j++ )
+			for( var x = 1; x < list.length; x++ )
 			{
-				var column = list[ j ];
+				var column = list[ x ];
 
 				var property = column[ 0 ].toLowerCase();
-				var value = column[ i ];
+				var value = column[ x ];
 
 				object[ property ] = value;
 			}
@@ -191,8 +191,7 @@ export class ProcessService
 
 		whoami.stdout.on( "data", data =>
 		{
-			var username = data.toString().replace( "\n", "" ).replace( " ", "" );
-			console.log( username );
+			var username = data.toString().replace( "\n", "" ).replace( " ", "" ).split( '\n' ).join( '' );
 			callback( username );
 		});
 	}
@@ -224,7 +223,7 @@ export class ProcessService
 		var string = '';
 
 		const that = this;
-		const ps = spawn( 'lsof' );
+		const ps = spawn( 'lsof', [ '-f' ] );
 
 		ps.stdout.on( 'data', data =>
 		{
@@ -271,11 +270,13 @@ export class ProcessService
 		});
 	}
 
-	filterObjectProperty(list, property, value, bool = true)
+	// filterObjectProperty(list, property, value, bool = true)
+	filterObjectProperty(list, property, filter)
 	{
 		return list.filter( element =>
 		{
-			return ( element[ property ] && element[ property ].match( value ) != null ) == bool;
+			return filter( element[ property ] );
+			// return ( element[ property ] && element[ property ].match( value ) != null ) == bool;
 		});
 	}
 }
