@@ -16,25 +16,28 @@ export class ProcessService
 		{	
 			var that = this;
 
+			setTimeout( () =>
+			{
 			that.receiveUsername( username =>
 			{
 				that.receivePSAux( processes =>
 				{
 					that.receiveFormatedUserProcessColums( processes, list =>
 					{
-						console.log( processes );
-						console.log( '\n\n' );
+						// console.log( processes );
+						// console.log( '\n\n' );
 
-						console.log( list );
 
-						console.log( "start", list.length );
+						// console.log( "start", list.length );
 
-						list = this.filterObjectProperty( list, "user", user => user == username );
-						list = this.filterObjectProperty( list, "pid", pid => pid != undefined );
-						// list = this.filterObjectProperty( list, "stat", stat => stat == "R" );
+						list = this.filterObjectProperty( list, 'user', user => user == username );
+						// list = this.filterObjectProperty( list, 'stat', stat => stat == "R" );
+						list = this.filterObjectProperty( list, 'stat', stat => stat.match( 'R' ) );
+
+						// console.log( "filtered", list.length );
 						
-						console.log( "filtered", list.length );
-						
+						// if( list.length == 0 )
+						// 	console.log( list );
 						// list = this.filterObjectProperty( list, "pid", undefined, false );
 						// list = this.filterObjectProperty( list, "command", "/System", false );
 						// list = this.filterObjectProperty( list, "command", "/usr/", false );
@@ -42,11 +45,15 @@ export class ProcessService
 						// var noUs = this.filterObjectProperty( list, "command", "/System", false );
 						// userProcesses.forEach( element => console.log( element ) );
 
-
+						//*
+						list.forEach( element => console.log( element.command ) );
+						/*/
 						that.addOpenFilesToUserProcesses( list );
+						//*/
 					});
 				});
 			});
+			}, 0 )
 
 			// Simulate server latency with 2 second delay
 			// setTimeout( () => 
@@ -65,27 +72,34 @@ export class ProcessService
 
 		userProcesses.forEach( userProcess =>
 		{
-			console.log( userProcess );
+			var string = '';
+			var lsof = spawn( 'lsof', [ '-p', userProcess.pid ] );
 
-			// var string = '';
-			// var lsof = spawn( 'lsof', [ '-p', userProcess.pid ] );
+			lsof.stdout.on( 'data', data =>
+			{
+				string += data.toString();
+			});
 
-			// lsof.stdout.on( 'data', data =>
-			// {
-			// 	string += data.toString();
-			// });
+			lsof.on( 'close', event =>
+			{
+				var formatted = that.receiveFormatedUserProcessColums( string, list =>
+				{
+					list = that.filterObjectProperty( list, 'type', type => type == "DIR" );
+					// var onlyUserDirectory = that.filterObjectProperty( list, 'name', name => name.match( '/Users/' ) );
+					// list = that.filterObjectProperty( list, 'name', name => 
+					// { 
+					// 	var substring = name.split( '/' ).pop();
 
-			// lsof.on( 'close', event =>
-			// {
-			// 	var formatted = that.receiveFormatedUserProcessColums( string, list =>
-			// 	{
-			// 		// var onlyTypeDIR = that.filterObjectProperty( list, "type", "DIR" )
+					// 	// console.log( substring );
 
-			// 		list.forEach( element => console.log( "\t", element ) );
-			// 		// result.forEach( element => console.log( element ) );
-			// 		// console.log(  );
-			// 	});
-			// });
+					// 	return substring.match( '\\....' );
+					// });
+
+					list.forEach( element => console.log( '\t', element ) );
+					// result.forEach( element => console.log( element ) );
+					// console.log(  );
+				});
+			});
 		});
 	}
 
@@ -117,7 +131,6 @@ export class ProcessService
 			{
 				var list = that.getFormatedObjectList( result );
 				callback( list );
-
 			});
 		});
 
@@ -143,7 +156,7 @@ export class ProcessService
 
 				awkColumnAtIndex.on( 'close', () =>
 				{
-					result.push( string.split( "\n" ) );
+					result.push( string.split( '\n' ) );
 
 					if( result.length >= num )
 						callback( result );
@@ -162,16 +175,16 @@ export class ProcessService
 		var result = [];
 		var length = list[ 0 ].length;
 
-		for( var y = 1; y < length - 1; y++ )
+		for( var y = 1; y < length; y++ )
 		{
 			var object = {};
 
-			for( var x = 1; x < list.length; x++ )
+			for( var x = 0; x < list.length; x++ )
 			{
 				var column = list[ x ];
 
 				var property = column[ 0 ].toLowerCase();
-				var value = column[ x ];
+				var value = column[ y ];
 
 				object[ property ] = value;
 			}
@@ -191,7 +204,7 @@ export class ProcessService
 
 		whoami.stdout.on( "data", data =>
 		{
-			var username = data.toString().replace( "\n", "" ).replace( " ", "" ).split( '\n' ).join( '' );
+			var username = data.toString().replace( "\n", "" ).replace( " ", "" );
 			callback( username );
 		});
 	}
@@ -223,7 +236,7 @@ export class ProcessService
 		var string = '';
 
 		const that = this;
-		const ps = spawn( 'lsof', [ '-f' ] );
+		const ps = spawn( 'lsof', [ '-v' ] );
 
 		ps.stdout.on( 'data', data =>
 		{
@@ -275,7 +288,7 @@ export class ProcessService
 	{
 		return list.filter( element =>
 		{
-			return filter( element[ property ] );
+			return element[ property ] != undefined ? filter( element[ property ] ) : false;
 			// return ( element[ property ] && element[ property ].match( value ) != null ) == bool;
 		});
 	}
