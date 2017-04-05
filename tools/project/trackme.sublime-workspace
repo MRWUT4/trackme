@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"data",
+				"dataListener\tconst"
+			],
+			[
 				"getFOrm",
 				"getFormatedUserProcessColumns\tmethod"
 			],
@@ -510,10 +514,6 @@
 			[
 				"add",
 				"addToComboShiled"
-			],
-			[
-				"fun",
-				"function"
 			]
 		]
 	},
@@ -532,8 +532,7 @@
 			"file": "/Users/david.ochmann/Documents/application/project/electron/trackme/src/process/process.service.ts",
 			"settings":
 			{
-				"buffer_size": 5822,
-				"encoding": "UTF-8",
+				"buffer_size": 6842,
 				"line_ending": "Unix"
 			}
 		}
@@ -590,7 +589,7 @@
 	"command_palette":
 	{
 		"height": 392.0,
-		"last_filter": "",
+		"last_filter": "edi",
 		"selected_items":
 		[
 			[
@@ -783,11 +782,11 @@
 	],
 	"file_history":
 	[
+		"/Users/david.ochmann/Documents/application/project/electron/trackme/src/process/process.service.ts",
 		"/Users/david.ochmann/Documents/application/project/electron/trackme/src/list/list.module.ts",
 		"/Users/david.ochmann/Documents/application/project/electron/trackme/src/polyfills.ts",
 		"/Users/david.ochmann/Documents/application/project/electron/trackme/src/tsconfig.json",
 		"/Users/david.ochmann/Documents/application/project/electron/trackme/src/main.ts",
-		"/Users/david.ochmann/Documents/application/project/electron/trackme/src/process/process.service.ts",
 		"/Users/david.ochmann/Documents/application/project/electron/trackme/angular-cli.json",
 		"/Users/david.ochmann/Documents/application/project/electron/trackme/tools/project/trackme.sublime-project",
 		"/Users/david.ochmann/Documents/application/project/electron/trackme/src/list/list.component.html",
@@ -930,6 +929,29 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"receivePSAux",
+			"receiveTop",
+			"off",
+			"receiveTop",
+			"receiveProcess",
+			"\"",
+			"receivePSAux",
+			"command",
+			"Adobe",
+			"Animate",
+			"list",
+			"onlyRunning",
+			"\"",
+			"'",
+			"\"",
+			"fla",
+			"name",
+			"filterObjectProperty",
+			"type",
+			"onlyTypeDiR",
+			"\"",
+			"filterObjectProperty",
+			"receiveFormatedUserProcessColums",
 			"\"",
 			"receiveUsername",
 			"j",
@@ -1034,30 +1056,7 @@
 			"fs",
 			"no",
 			"electron",
-			"ipcRenderer",
-			"jasmine",
-			"protractor",
-			"pree2e",
-			"dotrack2",
-			"serve",
-			"renderer",
-			"exec",
-			"child_process",
-			"spawn",
-			"NODE_PATH",
-			"system.js",
-			"system.sj",
-			"child_process",
-			"ChildProcess",
-			"main.ts",
-			"main.js",
-			"main.ts",
-			"require",
-			"reload",
-			"electron",
-			"require",
-			"component",
-			"list"
+			"ipcRenderer"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1092,8 +1091,8 @@
 						"selection":
 						[
 							[
-								520,
-								520
+								537,
+								537
 							]
 						],
 						"settings":
@@ -1102,7 +1101,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 70.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -1114,31 +1113,25 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5822,
+						"buffer_size": 6842,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5822,
-								5822
+								3093,
+								3093
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/TypeScript/TypeScript.tmLanguage",
 							"translate_tabs_to_spaces": false,
-							"typescript_plugin_format_options":
-							{
-								"convertTabsToSpaces": false,
-								"indentSize": 4,
-								"tabSize": 4
-							},
 							"use_tab_stops": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 2992.0,
+						"translation.y": 945.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -1203,6 +1196,10 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"proce",
+				"src/process/process.service.ts"
+			],
 			[
 				"listmode",
 				"src/list/list.module.ts"
@@ -1710,10 +1707,6 @@
 			[
 				"tempalte",
 				"LegoNexoKnights-MonstroxWolke/js/game/moduletemplate.js"
-			],
-			[
-				"eventani",
-				"davidochmann/tools/animation/eventanimationmodule.js"
 			]
 		],
 		"width": 0.0
@@ -1721,9 +1714,13 @@
 	"select_project":
 	{
 		"height": 500.0,
-		"last_filter": "",
+		"last_filter": "baer",
 		"selected_items":
 		[
+			[
+				"baer",
+				"~/Documents/application/project/html/JS-Library/pombaer/Baerensuche/tools/project/Pombaer-Baerensuche.sublime-project"
+			],
 			[
 				"eier",
 				"~/Documents/application/project/html/JS-Library/daab/Eierlauf-JumpNRun/tools/project/DAAB-Eierlauf-JumpNRun.sublime-project"

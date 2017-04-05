@@ -16,7 +16,7 @@ export class ProcessService
 		{	
 			var that = this;
 
-			setTimeout( () =>
+			setInterval( () =>
 			{
 			that.receiveUsername( username =>
 			{
@@ -30,13 +30,15 @@ export class ProcessService
 
 						// console.log( "start", list.length );
 
+
 						list = this.filterObjectProperty( list, 'user', user => user == username );
-						// list = this.filterObjectProperty( list, 'stat', stat => stat == "R" );
-						list = this.filterObjectProperty( list, 'stat', stat => stat.match( 'R' ) );
+						list = this.filterObjectProperty( list, 'stat', stat => stat == "R" );
+						// list = this.filterObjectProperty( list, 'stat', stat => stat.match( 'R' ) );
 
 						// console.log( "filtered", list.length );
 						
 						// if( list.length == 0 )
+
 						// 	console.log( list );
 						// list = this.filterObjectProperty( list, "pid", undefined, false );
 						// list = this.filterObjectProperty( list, "command", "/System", false );
@@ -46,14 +48,15 @@ export class ProcessService
 						// userProcesses.forEach( element => console.log( element ) );
 
 						//*
-						list.forEach( element => console.log( element.command ) );
+						console.log( '\n' );
+						list.forEach( element => console.log( element.command, element.pid ) );
 						/*/
 						that.addOpenFilesToUserProcesses( list );
 						//*/
 					});
 				});
 			});
-			}, 0 )
+			}, 3000 )
 
 			// Simulate server latency with 2 second delay
 			// setTimeout( () => 
@@ -96,6 +99,13 @@ export class ProcessService
 					// });
 
 					list.forEach( element => console.log( '\t', element ) );
+
+					// amazonas:~ david.ochmann$ ps -p 475 -o comm
+					// COMM
+					// /Applications/Adobe Animate CC 2017/Adobe Animate CC 2017.app/Contents/MacOS/Adobe Animate CC 2017
+					// amazonas:~ david.ochmann$ 
+
+
 					// result.forEach( element => console.log( element ) );
 					// console.log(  );
 				});
@@ -200,14 +210,31 @@ export class ProcessService
 	receiveUsername(callback)
 	{
 		// const spawn = Application.spawn;
-		const whoami = spawn( "whoami" );
+		const whoami = spawn( 'whoami' );
 
-		whoami.stdout.on( "data", data =>
+		whoami.stdout.on( 'data', data =>
 		{
 			var username = data.toString().replace( "\n", "" ).replace( " ", "" );
 			callback( username );
 		});
 	}
+
+
+	// receiveTop(callback)
+	// {
+	// 	const top = spawn( 'top'/*, [ '-l 0' ]*/ );
+		
+	// 	// top.stdout.pipe(process.stdout);
+
+	// 	const dataListener = data =>
+	// 	{
+	// 		console.log( data.toString() );
+	// 		top.stdout.removeListener( 'data', dataListener );
+	// 	}
+
+	// 	top.stdout.on('data', dataListener );
+
+	// }
 
 
 	/** Receive current active processes. */
