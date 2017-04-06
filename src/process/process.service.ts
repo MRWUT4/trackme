@@ -48,8 +48,22 @@ export class ProcessService
 						// userProcesses.forEach( element => console.log( element ) );
 
 						//*
-						console.log( '\n' );
-						list.forEach( element => console.log( element.command, element.pid ) );
+						list.forEach( process =>
+						{
+							that.receiveApplicationNameFromPID( process.pid, result =>
+							{
+								console.log( result );
+							});
+
+							that.receiveOpenFilesFromPID( process.pid, list =>
+							{
+								list.forEach( element =>
+								{
+									list.forEach( element => console.log( '\t', process.pid, element.fd ) );
+								});
+							});
+						});
+
 						/*/
 						that.addOpenFilesToUserProcesses( list );
 						//*/
@@ -66,7 +80,6 @@ export class ProcessService
 	    });
 	}
 
-
 	addOpenFilesToUserProcesses(userProcesses)
 	{
 		const that = this;
@@ -75,47 +88,68 @@ export class ProcessService
 
 		userProcesses.forEach( userProcess =>
 		{
-			var string = '';
-			var lsof = spawn( 'lsof', [ '-p', userProcess.pid ] );
-
-			lsof.stdout.on( 'data', data =>
-			{
-				string += data.toString();
-			});
-
-			lsof.on( 'close', event =>
-			{
-				var formatted = that.receiveFormatedUserProcessColums( string, list =>
-				{
-					list = that.filterObjectProperty( list, 'type', type => type == "DIR" );
-					// var onlyUserDirectory = that.filterObjectProperty( list, 'name', name => name.match( '/Users/' ) );
-					// list = that.filterObjectProperty( list, 'name', name => 
-					// { 
-					// 	var substring = name.split( '/' ).pop();
-
-					// 	// console.log( substring );
-
-					// 	return substring.match( '\\....' );
-					// });
-
-					list.forEach( element => console.log( '\t', element ) );
-
-					// amazonas:~ david.ochmann$ ps -p 475 -o comm
-					// COMM
-					// /Applications/Adobe Animate CC 2017/Adobe Animate CC 2017.app/Contents/MacOS/Adobe Animate CC 2017
-					// amazonas:~ david.ochmann$ 
-
-
-					// result.forEach( element => console.log( element ) );
-					// console.log(  );
-				});
-			});
+	
 		});
 	}
 
 
 
 	/** Receive bash output and format its columns to objects. */
+	receiveApplicationNameFromPID(pid, callback)
+	{
+		const psPOComm = spawn( 'ps', [  '-p', String( pid ), '-o comm' ] );
+
+		var string = '';
+
+		psPOComm.stdout.on( 'data', data =>
+		{
+			string += data.toString();
+		});
+
+		psPOComm.on( 'close', event =>
+		{
+			callback( string.split( '\n' )[ 1 ] );
+		});
+	}
+
+	receiveOpenFilesFromPID(pid, callback)
+	{
+		var that = this;
+		var string = '';
+		var lsof = spawn( 'lsof', [ '-p', pid] );
+
+		lsof.stdout.on( 'data', data =>
+		{
+			string += data.toString();
+		});
+
+		lsof.on( 'close', event =>
+		{
+			var formatted = that.receiveFormatedUserProcessColums( string, list =>
+			{
+				list = that.filterObjectProperty( list, 'fd', fd => fd != 'txt' );
+				list = that.filterObjectProperty( list, 'fd', fd => fd != 'cwd' );
+				list = that.filterObjectProperty( list, 'type', type => type == 'REG' );
+				// var onlyUserDirectory = that.filterObjectProperty( list, 'name', name => name.match( '/Users/' ) );
+				// list = that.filterObjectProperty( list, 'name', name => 
+				// { 
+				// 	var substring = name.split( '/' ).pop();
+
+				// 	// console.log( substring );
+
+				// 	return substring.match( '\\....' );
+				// });
+
+				callback( list )
+
+
+				// result.forEach( element => console.log( element ) );
+				// console.log(  );
+			});
+		});
+	}
+
+
 	receiveFormatedUserProcessColums(input, callback)
 	{
 		const awkNumColumns = spawn( 'awk', [  '--field-seperator=" "', '{ print NF }' ] );
@@ -196,7 +230,8 @@ export class ProcessService
 				var property = column[ 0 ].toLowerCase();
 				var value = column[ y ];
 
-				object[ property ] = value;
+				if( property && value )
+					object[ property ] = value;
 			}
 
 			result.push( object );
