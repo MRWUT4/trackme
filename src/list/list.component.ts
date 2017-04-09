@@ -1,38 +1,28 @@
 import { Component, OnInit } from '@angular/core';
-import { Process } from '../process/process';
-import { ProcessService } from '../process/process.service';
+import { Modified } from '../modified/modified';
+import { ModifiedService } from '../modified/modified.service';
+
 
 @Component(
 {
 	selector: 'list-component',
 	templateUrl: './list.component.html',
-	providers: [ ProcessService ]
+	providers: [ ModifiedService ] 
 	// styleUrls: ['./app.component.css']
 })
 export class ListComponent implements OnInit
 {
-	processes: Process[];
+	modifieds: Modified[];
 
-	// getHeroes(): void 
-	// {
-	// 	this.processes = this.processService.getProcesses();
-	// }
-
-	constructor(private processService:ProcessService){}
+	constructor(private modifiedService:ModifiedService){}
 
 	ngOnInit():void
 	{
-		this.getProcesses();
+		this.getModifiedList();
 	}
 
-	getProcesses():void
+	getModifiedList():void
 	{
-		// var spawn = require( '../../child_process' ).spawn;
-
-		// console.log( spawn );
-
-		// this.processes = this.processService.getProcesses();
-
-		this.processService.getProcesses().then( processes => this.processes = processes );
+		this.modifiedService.getModifiedList().then( modifieds => this.modifieds = modifieds );
 	}
 }

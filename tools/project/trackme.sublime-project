@@ -12,7 +12,7 @@
 				"*.bundle.map",
 				"*.gitkeep",
 				"tsconfig.json",
-				"angular-cli.json",
+				//"angular-cli.json",
 				"polyfills.ts",
 				"tslint.json",
 				"README.md",
