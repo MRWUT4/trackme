@@ -8,8 +8,8 @@
 				"*.env",
 				"*.editorconfig",
 				"*.gitignore",
-				"*.bundle.js",
-				"*.bundle.map",
+				// "*.bundle.js",
+				// "*.bundle.map",
 				"*.gitkeep",
 				"tsconfig.json",
 				//"angular-cli.json",
@@ -20,7 +20,7 @@
 			"folder_exclude_patterns": 
 			[ 
 				"*/environments",
-				"node_modules",
+				// "node_modules",
 				"dist",
 				"tools",
 			],
@@ -29,8 +29,8 @@
 	"build_systems":
 	[
 		{
-			"name": "start",
-			"shell_cmd": "cd ${project_path}/../../ && npm run start && npm run electron",
+			"name": "serve",
+			"shell_cmd": "cd ${project_path}/../../ && npm run serve",
 			"windows" : 
 			{
             	"shell": true

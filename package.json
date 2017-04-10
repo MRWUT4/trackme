@@ -6,7 +6,7 @@
   "angular-cli": {},
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "serve": "ng serve",
     "build": "ng build --base-href $(pwd)/dist/",
     "electron": "electron .",
     "setup": "npm install -g @angular-cli",

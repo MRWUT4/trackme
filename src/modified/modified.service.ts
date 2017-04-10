@@ -1,8 +1,12 @@
 import { Injectable } from '@angular/core';
 
 import { Modified } from './modified';
+import { sqlite3 } from 'sqlite3';
 // import { PROCESSES } from './mock-process';
 
+// var sqlite3 = require( 'sqlite3' ).verbose();
+
+// console.log( sqlite3);
 
 const spawn:any = eval( 'require("child_process").spawn' );
 
@@ -27,8 +31,6 @@ export class ModifiedService
 					list = this.filterNonLibrary( list );
 					list = this.filterNonEmpty( list );
 
-					console.log( list );
-
 					list = this.getObjects( list );
 
 					list.forEach( element => console.log( element ) );
@@ -41,7 +43,6 @@ export class ModifiedService
 
 	getObjects(list):Modified[]
 	{
-		// return null;
 		var objects:Modified[] = list.map( (path) =>
 		{
 			var modified:Modified = new Modified();
@@ -50,8 +51,6 @@ export class ModifiedService
 
 			return modified;
 		});
-
-		console.log( objects );
 
 		return objects;
 	}
