@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 
 import { Modified } from './modified';
-import { sqlite3 } from 'sqlite3';
+
 // import { PROCESSES } from './mock-process';
 
-// var sqlite3 = require( 'sqlite3' ).verbose();
+import * as child_process from "@node/child_process";
 
-// console.log( sqlite3);
+	console.log( child_process );
 
 const spawn:any = eval( 'require("child_process").spawn' );
 
+// const spawn:any = child_process.spawn;
 
 @Injectable()
 export class ModifiedService 

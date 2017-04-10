@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"elee",
+				"element\tparameter"
+			],
+			[
 				"data",
 				"dataListener\tconst"
 			],
@@ -510,29 +514,77 @@
 			[
 				"shi",
 				"shields"
-			],
-			[
-				"add",
-				"addToComboShiled"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "trackme.sublime-project",
+			"file": "/Users/david.ochmann/Documents/application/project/electron/trackme/src/process/process.service.ts",
 			"settings":
 			{
-				"buffer_size": 923,
+				"buffer_size": 10643,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "/Users/david.ochmann/Documents/application/project/electron/trackme/src/process/process.service.ts",
+			"file": "/Users/david.ochmann/Documents/application/project/electron/trackme/src/list/list.component.ts",
 			"settings":
 			{
-				"buffer_size": 6842,
+				"buffer_size": 624,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/david.ochmann/Documents/application/project/electron/trackme/src/list/list.component.html",
+			"settings":
+			{
+				"buffer_size": 78,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/david.ochmann/Documents/application/project/electron/trackme/src/index.html",
+			"settings":
+			{
+				"buffer_size": 457,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "trackme.sublime-project",
+			"settings":
+			{
+				"buffer_size": 914,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/david.ochmann/Documents/application/project/electron/trackme/src/tsconfig.json",
+			"settings":
+			{
+				"buffer_size": 408,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/david.ochmann/Documents/application/project/electron/trackme/src/modified/modified.service.ts",
+			"settings":
+			{
+				"buffer_size": 1906,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/david.ochmann/Documents/application/project/electron/trackme/angular-cli.json",
+			"settings":
+			{
+				"buffer_size": 1126,
 				"line_ending": "Unix"
 			}
 		}
@@ -540,6 +592,26 @@
 	"build_system": "electron",
 	"build_system_choices":
 	[
+		[
+			[
+				[
+					"build",
+					""
+				],
+				[
+					"electron",
+					""
+				],
+				[
+					"serve",
+					""
+				]
+			],
+			[
+				"electron",
+				""
+			]
+		],
 		[
 			[
 				[
@@ -580,7 +652,7 @@
 				]
 			],
 			[
-				"electron",
+				"start",
 				""
 			]
 		]
@@ -753,7 +825,7 @@
 				"Package Control: Install Package"
 			]
 		],
-		"width": 485.0
+		"width": 467.0
 	},
 	"console":
 	{
@@ -778,20 +850,22 @@
 	},
 	"expanded_folders":
 	[
-		"/Users/david.ochmann/Documents/application/project/electron/trackme"
+		"/Users/david.ochmann/Documents/application/project/electron/trackme",
+		"/Users/david.ochmann/Documents/application/project/electron/trackme/src",
+		"/Users/david.ochmann/Documents/application/project/electron/trackme/src/process"
 	],
 	"file_history":
 	[
+		"/Users/david.ochmann/Documents/application/project/electron/trackme/tools/project/trackme.sublime-project",
+		"/Users/david.ochmann/Documents/application/project/electron/trackme/package.json",
 		"/Users/david.ochmann/Documents/application/project/electron/trackme/src/process/process.service.ts",
 		"/Users/david.ochmann/Documents/application/project/electron/trackme/src/list/list.module.ts",
 		"/Users/david.ochmann/Documents/application/project/electron/trackme/src/polyfills.ts",
 		"/Users/david.ochmann/Documents/application/project/electron/trackme/src/tsconfig.json",
 		"/Users/david.ochmann/Documents/application/project/electron/trackme/src/main.ts",
 		"/Users/david.ochmann/Documents/application/project/electron/trackme/angular-cli.json",
-		"/Users/david.ochmann/Documents/application/project/electron/trackme/tools/project/trackme.sublime-project",
 		"/Users/david.ochmann/Documents/application/project/electron/trackme/src/list/list.component.html",
 		"/Users/david.ochmann/Documents/application/project/electron/dotrack/js/application.js",
-		"/Users/david.ochmann/Documents/application/project/electron/trackme/package.json",
 		"/Users/david.ochmann/Documents/application/project/electron/trackme/src/index.html",
 		"/Users/david.ochmann/Documents/application/project/electron/trackme/main.js",
 		"/Users/david.ochmann/Documents/application/project/electron/trackme/.env",
@@ -929,6 +1003,40 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"start",
+			"data",
+			"receiveLastModifiedFiles",
+			"find",
+			"top",
+			"runningServices",
+			"filterActiveServices",
+			"list",
+			"stat",
+			"filterRunningServices",
+			"list",
+			"userServices",
+			"\"",
+			"find",
+			"reduce",
+			"curryFilterDocumentType",
+			"DOCUMENT_TYPES",
+			".fla",
+			"TTF",
+			"ttf",
+			"otf",
+			"receiveOpenFilesFromPID",
+			"name",
+			"type",
+			"REG",
+			"\"",
+			"txt",
+			"fd",
+			"name",
+			"type",
+			"name",
+			"process",
+			"pid",
+			"dotrack2",
 			"receivePSAux",
 			"receiveTop",
 			"off",
@@ -1022,41 +1130,7 @@
 			"endc",
 			"object",
 			"property",
-			"result",
-			"element",
-			"awkColumnAtIndex",
-			"awk",
-			"formatUserProcessColums",
-			"strin",
-			"line",
-			"'",
-			"\"",
-			"json",
-			"map",
-			"node_modules",
-			"map",
-			"config",
-			"receivePSAwk",
-			"userProcesses",
-			"awk",
-			"userProcesses",
-			"resolveUserProcessesWithOpenFiles",
-			"resolveUserProcessesWithOpenFile",
-			"parseBatchData",
-			"this",
-			"PROCESSES",
-			"'",
-			"\"",
-			"node",
-			"win",
-			"remote",
-			"child_process",
-			"fs",
-			"system",
-			"fs",
-			"no",
-			"electron",
-			"ipcRenderer"
+			"result"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1064,6 +1138,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"trackme",
 			""
 		],
 		"reverse": false,
@@ -1075,24 +1150,142 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 3,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "trackme.sublime-project",
+					"file": "/Users/david.ochmann/Documents/application/project/electron/trackme/src/process/process.service.ts",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 923,
+						"buffer_size": 10643,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								537,
-								537
+								4154,
+								4154
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/TypeScript/TypeScript.tmLanguage",
+							"translate_tabs_to_spaces": false,
+							"use_tab_stops": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1909.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/Users/david.ochmann/Documents/application/project/electron/trackme/src/list/list.component.ts",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 624,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								249,
+								249
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/TypeScript/TypeScript.tmLanguage",
+							"translate_tabs_to_spaces": false,
+							"use_tab_stops": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/Users/david.ochmann/Documents/application/project/electron/trackme/src/list/list.component.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 78,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								63,
+								63
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/Users/david.ochmann/Documents/application/project/electron/trackme/src/index.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 457,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								373,
+								252
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "trackme.sublime-project",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 914,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								301,
+								301
 							]
 						],
 						"settings":
@@ -1104,24 +1297,60 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
-					"buffer": 1,
-					"file": "/Users/david.ochmann/Documents/application/project/electron/trackme/src/process/process.service.ts",
+					"buffer": 5,
+					"file": "/Users/david.ochmann/Documents/application/project/electron/trackme/src/tsconfig.json",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6842,
+						"buffer_size": 408,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3093,
-								3093
+								167,
+								167
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScriptNext - ES6 Syntax/JSON (JavaScriptNext).tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 6,
+					"file": "/Users/david.ochmann/Documents/application/project/electron/trackme/src/modified/modified.service.ts",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1906,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								242,
+								204
 							]
 						],
 						"settings":
@@ -1131,10 +1360,40 @@
 							"use_tab_stops": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 945.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "/Users/david.ochmann/Documents/application/project/electron/trackme/angular-cli.json",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 1126,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScriptNext - ES6 Syntax/JSON (JavaScriptNext).tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
 					"type": "text"
 				}
 			]
@@ -1157,11 +1416,18 @@
 				0,
 				1,
 				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
 			]
 		],
 		"cols":
 		[
 			0.0,
+			0.5,
 			1.0
 		],
 		"rows":
@@ -1197,6 +1463,26 @@
 		"selected_items":
 		[
 			[
+				"ind",
+				"src/index.html"
+			],
+			[
+				"tscon",
+				"src/tsconfig.json"
+			],
+			[
+				"listco",
+				"src/list/list.component.html"
+			],
+			[
+				"pack",
+				"package.json"
+			],
+			[
+				"pro",
+				"src/process/process.service.ts"
+			],
+			[
 				"proce",
 				"src/process/process.service.ts"
 			],
@@ -1221,14 +1507,6 @@
 				"package.json"
 			],
 			[
-				"tscon",
-				"src/tsconfig.json"
-			],
-			[
-				"pack",
-				"package.json"
-			],
-			[
 				"p",
 				"package.json"
 			],
@@ -1247,10 +1525,6 @@
 			[
 				"web",
 				"node_modules/.bin/webpack"
-			],
-			[
-				"ind",
-				"src/index.html"
 			],
 			[
 				"ren",
@@ -1699,14 +1973,6 @@
 			[
 				"lange",
 				"LegoNexoKnights-MonstroxWolke/js/game/lanegameplaymodule.js"
-			],
-			[
-				"fluidmo",
-				"davidochmann/module/pixijs/fluidmoudle.js"
-			],
-			[
-				"tempalte",
-				"LegoNexoKnights-MonstroxWolke/js/game/moduletemplate.js"
 			]
 		],
 		"width": 0.0
@@ -1714,9 +1980,17 @@
 	"select_project":
 	{
 		"height": 500.0,
-		"last_filter": "baer",
+		"last_filter": "bae",
 		"selected_items":
 		[
+			[
+				"bae",
+				"~/Documents/application/project/html/JS-Library/pombaer/Baerensuche/tools/project/Pombaer-Baerensuche.sublime-project"
+			],
+			[
+				"pom",
+				"~/Documents/application/project/html/JS-Library/pombaer/Baerensuche/tools/project/Pombaer-Baerensuche.sublime-project"
+			],
 			[
 				"baer",
 				"~/Documents/application/project/html/JS-Library/pombaer/Baerensuche/tools/project/Pombaer-Baerensuche.sublime-project"
@@ -1736,10 +2010,6 @@
 			[
 				"wild",
 				"~/Documents/application/project/html/JS-Library/europapark/Oesterreich-Wildwasserbahn/tools/project/Europapark-OesterreichWildwasserbahn.sublime-project"
-			],
-			[
-				"pom",
-				"~/Documents/application/project/html/JS-Library/europapark/Oesterreich-BrisanteBaladen/tools/project/Pombaer-TheVoiceGame.sublime-workspace"
 			],
 			[
 				"bri",
@@ -2081,7 +2351,7 @@
 		],
 		"width": 0.0
 	},
-	"selected_group": 0,
+	"selected_group": 1,
 	"settings":
 	{
 	},
@@ -2089,7 +2359,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 241.0,
+	"side_bar_width": 211.0,
 	"status_bar_visible": false,
 	"template_settings":
 	{
