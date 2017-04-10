@@ -10,67 +10,99 @@ const spawn:any = eval( 'require("child_process").spawn' );
 @Injectable()
 export class ProcessService 
 {
+	filterDocumentTypes:Function = this.curryFilterDocumentTypes( [ 'js', 'fla', 'ts', 'html' ] );
+
 	getProcesses(): Promise<Process[]>
 	{
 		return new Promise(resolve => 
 		{	
 			var that = this;
 
+			var execute = () =>
+			{
+				that.receiveUsername( username =>
+				{
+					that.receiveLastModifiedFiles( username, list =>
+					{
+						list.forEach( element => console.log( element ) );
+					});
+
+					// that.receivePSAux( processes =>
+					// {
+					// 	that.receiveFormatedUserProcessColums( processes, list =>
+					// 	{
+					// 		// console.log( processes );
+					// 		// console.log( '\n\n' );
+
+					// 		// find /users -mtime -1
+
+					// 		// console.log( "start", list.length );
+
+							
+
+					// 		var userServices = this.filterObjectProperty( list, 'user', user => user == username );
+					// 		// list = this.filterObjectProperty( list, 'stat', stat => stat != 'Ss' );
+					// 		// list = this.filterObjectProperty( list, 'stat', stat => stat != 'SNs' );
+					// 		// list = this.filterObjectProperty( list, 'stat', stat => stat != 'Z' );
+					// 		// list = this.filterObjectProperty( list, 'stat', stat => stat != 'S' );
+					// 		var runningServices = this.filterObjectProperty( userServices, 'stat', stat => stat.match( 'R' ) );
+
+
+
+					// 		var activeServices = this.filterActiveServices( userServices, runningServices );
+
+					// 		activeServices.forEach( activeService => console.log( activeService.command ) );
+
+					// 		// activeServices.forEach( service => console.log( service.command ) );
+
+					// 		// console.log( "filtered", list.length );
+							
+					// 		// if( list.length == 0 )
+
+					// 		// 	console.log( list );
+					// 		// list = this.filterObjectProperty( list, "pid", undefined, false );
+					// 		// list = this.filterObjectProperty( list, "command", "/System", false );
+					// 		// list = this.filterObjectProperty( list, "command", "/usr/", false );
+					// 		// var onlyStatR = this.filterObjectProperty( noUSRCommand, "stat", "R" );
+					// 		// var noUs = this.filterObjectProperty( list, "command", "/System", false );
+					// 		// userProcesses.forEach( element => console.log( element ) );
+
+					// 		//*
+					// 		activeServices.forEach( process =>
+					// 		{
+					// 			// that.receiveApplicationNameFromPID( process.pid, result =>
+					// 			// {
+					// 			// 	console.log( result );
+					// 			// });
+
+					// 			that.receiveOpenFilesFromPID( process.pid, username, list =>
+					// 			{
+					// 				// console.log( '\n', list.length );
+					// 				list.forEach( element =>
+					// 				{
+					// 					list.forEach( element => console.log( '\t', element.name ) );
+					// 				});
+					// 			});
+					// 		});
+
+					// 		/*/
+					// 		that.addOpenFilesToUserProcesses( list );
+					// 		//*/
+					// 	});
+					// });
+				});
+			}
+
 			setInterval( () =>
 			{
-			that.receiveUsername( username =>
-			{
-				that.receivePSAux( processes =>
-				{
-					that.receiveFormatedUserProcessColums( processes, list =>
-					{
-						// console.log( processes );
-						// console.log( '\n\n' );
+				execute();
+
+			}, 60000 );
+
+			execute();
 
 
-						// console.log( "start", list.length );
-
-
-						list = this.filterObjectProperty( list, 'user', user => user == username );
-						list = this.filterObjectProperty( list, 'stat', stat => stat == "R" );
-						// list = this.filterObjectProperty( list, 'stat', stat => stat.match( 'R' ) );
-
-						// console.log( "filtered", list.length );
-						
-						// if( list.length == 0 )
-
-						// 	console.log( list );
-						// list = this.filterObjectProperty( list, "pid", undefined, false );
-						// list = this.filterObjectProperty( list, "command", "/System", false );
-						// list = this.filterObjectProperty( list, "command", "/usr/", false );
-						// var onlyStatR = this.filterObjectProperty( noUSRCommand, "stat", "R" );
-						// var noUs = this.filterObjectProperty( list, "command", "/System", false );
-						// userProcesses.forEach( element => console.log( element ) );
-
-						//*
-						list.forEach( process =>
-						{
-							that.receiveApplicationNameFromPID( process.pid, result =>
-							{
-								console.log( result );
-							});
-
-							that.receiveOpenFilesFromPID( process.pid, list =>
-							{
-								list.forEach( element =>
-								{
-									list.forEach( element => console.log( '\t', process.pid, element.fd ) );
-								});
-							});
-						});
-
-						/*/
-						that.addOpenFilesToUserProcesses( list );
-						//*/
-					});
-				});
-			});
-			}, 3000 )
+			
 
 			// Simulate server latency with 2 second delay
 			// setTimeout( () => 
@@ -92,9 +124,59 @@ export class ProcessService
 		});
 	}
 
+	curryFilterDocumentTypes(list)
+	{
+		return string =>
+		{
+			var name = string.split( '/' ).pop();
 
+			for( var i = 0; i < list.length; i++ )
+			{
+				var type = "\\." + list[ i ];
+
+				if( name.match( type ) )
+					return true;
+			}
+
+			return false;
+		}
+	}
+
+
+	filterActiveServices(userServices, runningServices)
+	{
+		var that = this;
+		var result = [];
+
+		runningServices.forEach( service =>
+		{
+			var name = service.command.split( '/' ).pop();
+			var list = that.filterObjectProperty( userServices, 'command', command => command.match( name ) );
+
+			result = result.concat( list );
+		});
+
+		return result;
+	}
 
 	/** Receive bash output and format its columns to objects. */
+	receiveLastModifiedFiles(username, callback)
+	{
+		// find /users/david.ochmann -mtime -1m
+		var userdir = '/users/' + username;
+		const find = spawn( 'find', [ userdir, '-mtime', '-1m' ] );
+		
+		var findListener = data =>
+		{
+			var string = data.toString();
+			find.stdout.removeListener( 'data', findListener );
+
+			callback( string.split( '\n' ) );
+		}
+
+		find.stdout.on( 'data', findListener );
+	}
+
 	receiveApplicationNameFromPID(pid, callback)
 	{
 		const psPOComm = spawn( 'ps', [  '-p', String( pid ), '-o comm' ] );
@@ -112,11 +194,11 @@ export class ProcessService
 		});
 	}
 
-	receiveOpenFilesFromPID(pid, callback)
+	receiveOpenFilesFromPID(pid, username, callback)
 	{
 		var that = this;
 		var string = '';
-		var lsof = spawn( 'lsof', [ '-p', pid] );
+		var lsof = spawn( 'lsof', [ '-p', pid ] );
 
 		lsof.stdout.on( 'data', data =>
 		{
@@ -125,26 +207,32 @@ export class ProcessService
 
 		lsof.on( 'close', event =>
 		{
+			// console.log( string );
 			var formatted = that.receiveFormatedUserProcessColums( string, list =>
 			{
-				list = that.filterObjectProperty( list, 'fd', fd => fd != 'txt' );
-				list = that.filterObjectProperty( list, 'fd', fd => fd != 'cwd' );
-				list = that.filterObjectProperty( list, 'type', type => type == 'REG' );
-				// var onlyUserDirectory = that.filterObjectProperty( list, 'name', name => name.match( '/Users/' ) );
-				// list = that.filterObjectProperty( list, 'name', name => 
-				// { 
-				// 	var substring = name.split( '/' ).pop();
+			// 	list = that.filterObjectProperty( list, 'fd', fd => fd != 'txt' );
+			// 	list = that.filterObjectProperty( list, 'fd', fd => fd != 'txt' );
+			// 	list = that.filterObjectProperty( list, 'fd', fd => fd != 'cwd' );
+				// list = that.filterObjectProperty( list, 'type', type => type == 'DIR' );
+				// list = that.filterObjectProperty( list, 'type', type => type != 'CHR' );
+				// list = that.filterObjectProperty( list, 'type', type => type != 'PIPE' );
+				list = that.filterObjectProperty( list, 'name', that.filterDocumentTypes )
 
-				// 	// console.log( substring );
+				// list = that.filterObjectProperty( list, 'name', name => name.match( username ) );
+				// list = that.filterObjectProperty( list, 'name', name => name.match( '\\.OTF' ) == null );
+				// list = that.filterObjectProperty( list, 'name', name => name.match( '\\.otf' ) == null );
+				// list = that.filterObjectProperty( list, 'name', name => name.match( '\\.TTF' ) == null );
+				// list = that.filterObjectProperty( list, 'name', name => name.match( '\\.ttf' ) == null );
+				// list = that.filterObjectProperty( list, 'name', name => name.match( '\\.ttc' ) == null );
+				// list = that.filterObjectProperty( list, 'name', name => name.match( '/System/' ) == null );
+				// list = that.filterObjectProperty( list, 'name', name => name.match( '/Library/' ) == null );
+				// list = that.filterObjectProperty( list, 'name', name => name.match( '/usr/' ) == null );
+				// list = that.filterObjectProperty( list, 'name', name => name.match( '/private/' ) == null );
+				// list = that.filterObjectProperty( list, 'name', name => name.split( '/' ).pop().split( '.' ).length > 1 );
 
-				// 	return substring.match( '\\....' );
-				// });
+				// list = that.filterObjectProperty( list, 'fd', fd => fd == 'txt' );
 
-				callback( list )
-
-
-				// result.forEach( element => console.log( element ) );
-				// console.log(  );
+				callback( list );
 			});
 		});
 	}
