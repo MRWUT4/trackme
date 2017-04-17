@@ -6,7 +6,7 @@ import { ModifiedService } from '../modified/modified.service';
 @Component(
 {
 	selector: 'list-component',
-	templateUrl: './list.component.html',
+	template: require( './list.component.html' ),
 	providers: [ ModifiedService ] 
 	// styleUrls: ['./app.component.css']
 })

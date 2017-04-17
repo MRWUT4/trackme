@@ -4,11 +4,13 @@ import { Modified } from './modified';
 
 // import { PROCESSES } from './mock-process';
 
-import * as child_process from "@node/child_process";
+// import * as child_process from "child_process";
 
-	console.log( child_process );
+// console.log( child_process.spawn );
 
-const spawn:any = eval( 'require("child_process").spawn' );
+import { spawn } from 'child_process';
+
+// const spawn:any = eval( 'require("child_process").spawn' );
 
 // const spawn:any = child_process.spawn;
 
