@@ -2,10 +2,13 @@ import { Injectable } from '@angular/core';
 import { Modified } from './modified';
 import { spawn } from 'child_process';
 import { Filter, FilterElement } from '../filter/Filter';
+import { LocalSQLite } from '../localsqlite/localsqlite';
 
 @Injectable()
 export class ModifiedService
 {
+	localSQLite:LocalSQLite = new LocalSQLite( 'modified' );
+
 	filter:Filter = new Filter(
 	[
 		new FilterElement( 'nonApplicationSupport', list => list.filter( value => !value.match( '/Application Support' ) ) ),
@@ -39,7 +42,7 @@ export class ModifiedService
 		{
 			var modified:Modified = new Modified();
 			modified.path = path;
-			modified.date = new Date();
+			modified.time = new Date().getTime();
 
 			return modified;
 		});

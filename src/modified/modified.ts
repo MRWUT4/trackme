@@ -1,5 +1,5 @@
 export class Modified
 {
-	date: Date;
+	time: Number;
 	path: String;
 }
