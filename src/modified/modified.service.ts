@@ -1,39 +1,28 @@
 import { Injectable } from '@angular/core';
-
 import { Modified } from './modified';
-
-// import { PROCESSES } from './mock-process';
-
-// import * as child_process from "child_process";
-
-// console.log( child_process.spawn );
-
 import { spawn } from 'child_process';
-
-// const spawn:any = eval( 'require("child_process").spawn' );
-
-// const spawn:any = child_process.spawn;
+import { Filter, FilterElement } from '../filter/Filter';
 
 @Injectable()
-export class ModifiedService 
+export class ModifiedService
 {
-	filterNonApplicationSupport:Function = list => list.filter( value => !value.match( '/Application Support' ) );
-	filterNonLibrary:Function = list => list.filter( value => !value.match( '/Library' ) );
-	filterNonEmpty:Function = list => list.filter( value => value != '' );
-
+	filter:Filter = new Filter(
+	[
+		new FilterElement( 'nonApplicationSupport', list => list.filter( value => !value.match( '/Application Support' ) ) ),
+		new FilterElement( 'nonLibrary', list => list.filter( value => !value.match( '/Library' ) ) ),
+		new FilterElement( 'nonEmpty', list => list.filter( value => value != '' ) ),
+		new FilterElement( 'nonFiles', list => list.filter( value => value.split( '/' ).pop().split( '.' ).length > 1 ) )
+	]);
 
 	getModifiedList(): Promise<Modified[]>
 	{
-		return new Promise(resolve => 
-		{	
+		return new Promise(resolve =>
+		{
 			this.receiveUsername( username =>
 			{
 				this.receiveLastModified( username, list =>
 				{
-					list = this.filterNonApplicationSupport( list );
-					list = this.filterNonLibrary( list );
-					list = this.filterNonEmpty( list );
-
+					list = this.filter.apply( list );
 					list = this.getObjects( list );
 
 					list.forEach( element => console.log( element ) );
@@ -41,7 +30,7 @@ export class ModifiedService
 					resolve( list );
 				});
 			});
-	    });
+		});
 	}
 
 	getObjects(list):Modified[]
@@ -71,7 +60,7 @@ export class ModifiedService
 			callback( list );
 
 			find.stdout.removeListener( 'data', findHandler );
-		}	
+		}
 
 		find.stdout.on( 'data', findHandler );
 	}

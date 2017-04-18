@@ -8,11 +8,11 @@ import { AppComponent } from './app.component';
 
 @NgModule(
 {
-	declarations: 
+	declarations:
 	[
 		AppComponent
 	],
-	imports: 
+	imports:
 	[
 		BrowserModule,
 		ListModule
@@ -22,10 +22,4 @@ import { AppComponent } from './app.component';
 	providers: [],
 	bootstrap: [ AppComponent ]
 })
-export class AppModule 
-{
-	constructor()
-	{
-		console.log( "APP MODULE" );
-	}
-}
+export class AppModule{}

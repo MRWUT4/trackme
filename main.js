@@ -15,7 +15,8 @@ require('electron-reload')(__dirname + '/build');
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow, menu, dockMenu;
 
-let createWindow = () => {
+let createWindow = () =>
+{
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 800, height: 600});
 
@@ -23,79 +24,17 @@ let createWindow = () => {
   mainWindow.loadURL('file://' + __dirname + '/index.html');
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
 
   // Emitted when the window is closed.
-  mainWindow.on('closed', () => {
-    // toggleFileTasks(false);
-    // toggleNewWindowTask(true);
-
+  mainWindow.on('closed', () =>
+  {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     mainWindow = null;
   });
-
-  // if (!menu) setMenu();
-  // if (!dockMenu) setDock();
-
-  // toggleFileTasks(true);
-  // toggleNewWindowTask(false);
 }
-
-// let toggleFileTasks = isEnabled => {
-//   // The 'File' menu should only be available if there is an open window
-//   menu.items
-//     .find(item => item.label === 'File')
-//     .submenu.items
-//     .forEach(subItem => subItem.enabled = isEnabled);
-// }
-
-// let toggleNewWindowTask = isEnabled => {
-//   // The 'New Window' task in the main menu and dock menu
-//   // should only be available if there are no open windows
-//   let newWindowMenu = menu.items
-//     .find(item => item.label === 'Window')
-//     .submenu.items
-//     .find(subItem => subItem.label === 'New');
-//
-//   let dockWindowMenu = dockMenu.items
-//     .find(item => item.label === 'New Window');
-//
-//   newWindowMenu.enabled = isEnabled;
-//   dockWindowMenu.enabled = isEnabled;
-// }
-
-// let setMenu = () => {
-//   // Set custom click handlers for menu tasks
-//   let fileMenu = menuTemplate
-//     .find(item => item.label === 'File');
-//
-//   fileMenu.submenu
-//     .find(item => item.label === 'Open')
-//     .click = () => mainWindow.webContents.send('open-file')
-//
-//   fileMenu.submenu
-//     .find(item => item.label === 'Save As...')
-//     .click = () => mainWindow.webContents.send('save-file')
-//
-//   menuTemplate
-//     .find(item => item.label === 'Window')
-//     .submenu
-//     .find(subItem => subItem.label === 'New')
-//     .click = () => createWindow()
-//
-//   menu = Menu.buildFromTemplate(menuTemplate);
-//   Menu.setApplicationMenu(menu);
-// }
-
-// let setDock = () => {
-//   // Create a 'New Window' task in the dock menu (OSX only)
-//   dockMenu = Menu.buildFromTemplate([
-//     { label: 'New Window', click: createWindow }
-//   ]);
-//   app.dock.setMenu(dockMenu);
-// }
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
