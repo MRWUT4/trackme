@@ -7,7 +7,7 @@ import { LocalSQLite } from '../localsqlite/localsqlite';
 @Injectable()
 export class ModifiedService
 {
-	localSQLite:LocalSQLite = new LocalSQLite( 'modified' );
+	localSQLite:LocalSQLite = new LocalSQLite( 'trackme' );
 
 	filter:Filter = new Filter(
 	[
@@ -21,14 +21,16 @@ export class ModifiedService
 	{
 		return new Promise(resolve =>
 		{
+			// this.localSQLite.insert( 'modified', [ new Modified( 1, 'hello world' ) ] );
+
 			this.receiveUsername( username =>
 			{
 				this.receiveLastModified( username, list =>
 				{
 					list = this.filter.apply( list );
-					list = this.getObjects( list );
+					list = this.getModifiedWithDate( list );
 
-					list.forEach( element => console.log( element ) );
+					this.localSQLite.insert( 'modified', list );
 
 					resolve( list );
 				});
@@ -36,7 +38,7 @@ export class ModifiedService
 		});
 	}
 
-	getObjects(list):Modified[]
+	getModifiedWithDate(list):Modified[]
 	{
 		var objects:Modified[] = list.map( (path) =>
 		{

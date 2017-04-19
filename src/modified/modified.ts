@@ -1,5 +1,9 @@
 export class Modified
 {
-	time: Number;
-	path: String;
+	constructor(
+
+		public time:Number = 0,
+		public path:String = ''
+
+	){}
 }
