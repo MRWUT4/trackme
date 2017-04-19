@@ -12,6 +12,7 @@ export class LocalSQLite
   private save:Function;
 
   public insert:Function;
+  public export:Function;
 
 
   /*
@@ -140,6 +141,27 @@ export class LocalSQLite
     this.getSQLTableExists = this.curryGetSQLTableExists( db );
     this.save = this.currySave( db, this.path );
     this.insert = this.curryInsert( db );
+    this.export = this.curryExport( db );
+  }
+
+
+  curryExport(db:any)
+  {
+    return (tableID:String) =>
+    {
+      return {
+
+        map: (templateConstuctor:any) =>
+        {
+          var template = new templateConstuctor();
+
+          // TODO: receive db entrys and add them to template.
+
+          return [ template ];
+            // console.log( classID, typeof( classID ) );
+        }
+      }
+    }
   }
 
 

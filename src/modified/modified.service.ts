@@ -23,6 +23,9 @@ export class ModifiedService
 		{
 			// this.localSQLite.insert( 'modified', [ new Modified( 1, 'hello world' ) ] );
 
+			resolve( this.localSQLite.export( 'modified' ).map( Modified ) );
+
+			/*
 			this.receiveUsername( username =>
 			{
 				this.receiveLastModified( username, list =>
@@ -35,6 +38,7 @@ export class ModifiedService
 					resolve( list );
 				});
 			});
+			*/
 		});
 	}
 

@@ -5,12 +5,12 @@ import { ModifiedService } from '../modified/modified.service';
 
 @Component(
 {
-	selector: 'list-component',
-	template: require( './list.component.html' ),
-	providers: [ ModifiedService ] 
+	selector: 'timelist',
+	template: require( './timelist.component.html' ),
+	providers: [ ModifiedService ]
 	// styleUrls: ['./app.component.css']
 })
-export class ListComponent implements OnInit
+export class TimeListComponent implements OnInit
 {
 	modifieds: Modified[];
 

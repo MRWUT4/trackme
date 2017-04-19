@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 // import { FormsModule } from '@angular/forms';
 // import { HttpModule } from '@angular/http';
 
-import { ListModule } from '../list/list.module';
+import { TimeListModule } from '../timelist/timelist.module';
 import { AppComponent } from './app.component';
 
 @NgModule(
@@ -15,7 +15,7 @@ import { AppComponent } from './app.component';
 	imports:
 	[
 		BrowserModule,
-		ListModule
+		TimeListModule
 		// FormsModule,
 		// HttpModule
 	],
