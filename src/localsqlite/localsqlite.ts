@@ -1,43 +1,18 @@
+import * as fs from 'fs';
+import { ValuePair } from './valuepair';
 // import * as SQL from 'sql.js';
 let SQL = require( 'sql.js' );
-
-import * as fs from 'fs';
-
-
-export class ValuePair
-{
-  private _value:any;
-
-  get value():any
-  {
-    var result = this._value;
-    result = typeof result == 'string' ? '\'' + result + '\'' : result;
-
-    return result;
-  }
-
-  set value(value:any)
-  {
-    this._value = value;
-  }
-
-
-  constructor(public property:String, value:any)
-  {
-    this.value = value;
-  }
-
-
-  toString():String
-  {
-    return this.property + ' ' + this.value;
-  }
-}
 
 
 export class LocalSQLite
 {
   private _db:any;
+
+  private getSQLTableExists:Function;
+  private save:Function;
+
+  public insert:Function;
+
 
   /*
    * Getter / Setter
@@ -65,6 +40,7 @@ export class LocalSQLite
 
     return this._db;
   }
+
 
   getSQLType(value:any)
   {
@@ -152,33 +128,56 @@ export class LocalSQLite
     return result;
   }
 
+
   /*
    * Public interface.
    */
 
-  constructor(private name:String){}
-
-
-  save():void
+  constructor(private name:String)
   {
-    var data = this.db.export();
-    var buffer = new Buffer( data );
+    var db = this.db;
 
-    fs.writeFileSync( this.path, buffer );
+    this.getSQLTableExists = this.curryGetSQLTableExists( db );
+    this.save = this.currySave( db, this.path );
+    this.insert = this.curryInsert( db );
   }
 
-  insert(tableID:String, list:Object[])
+
+  currySave(db:any, path:string):Function
   {
-    var table = this.getDataTableFromObjectList( list );
+    return ():void =>
+    {
+      var data = db.export();
+      var buffer = new Buffer( data );
 
-    var createTable = this.getSQLStringCreateTable( tableID, table[ 0 ] );
-    var insertListObjectData = this.getSQLStringInsertListObjectData( tableID, table );
+      fs.writeFileSync( path, buffer );
+    }
+  }
 
-    var sqlString = `${ createTable }\n${ insertListObjectData }`;
+  curryGetSQLTableExists(db:any):Function
+  {
+    return (tableID:String):Boolean =>
+    {
+        var sqlString = `SELECT name FROM sqlite_master WHERE type='table' AND name='${ tableID }' ;`;
+        var result = this.db.exec( sqlString );
 
-    console.log( sqlString );
+        return result.length > 0;
+    }
+  }
 
-    this.db.run( sqlString );
-    this.save();
+  curryInsert(db:any):Function
+  {
+    return (tableID:String, list:Object[]):void =>
+    {
+      var table = this.getDataTableFromObjectList( list );
+      var tableExists = this.getSQLTableExists( tableID );
+      var createTable = tableExists ? '' : this.getSQLStringCreateTable( tableID, table[ 0 ] );
+      var insertListObjectData = this.getSQLStringInsertListObjectData( tableID, table );
+
+      var sqlString = `${ createTable }\n${ insertListObjectData }`;
+      db.run( sqlString );
+
+      this.save();
+    }
   }
 }
