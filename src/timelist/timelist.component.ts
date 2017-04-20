@@ -42,14 +42,16 @@ export class TimeListComponent implements OnInit
 	{
 		this.modifiedService.getModifiedList( date, insertOpenFiles ).then( modifieds =>
 		{
+			modifieds.forEach( modified => console.log( modified.path ) );
+
 			this.modifieds = modifieds;
-		} );
+		});
 	}
 
 
 	onDateChange(date:Date):void
 	{
-		console.log( 'onDateChange' );
+		console.log( this, this.modifieds )
 		this.getModifiedList( date, false );
 	}
 }

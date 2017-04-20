@@ -8,12 +8,9 @@
     <tbody>
 
       <timevalue
-
-        *ngFor='var modified of modifieds'
-
+        *ngFor='let modified of modifieds'
         [time]='modified.time'
         [path]='modified.path'
-
       ></timevalue>
 
     </tbody>

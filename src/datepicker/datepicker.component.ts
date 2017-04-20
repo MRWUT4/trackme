@@ -1,14 +1,10 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
-import { Modified } from '../modified/modified';
-import { ModifiedService } from '../modified/modified.service';
-
 
 @Component(
 {
 	selector: 'datepicker',
 	template: require( './datepicker.component.html' ),
-	styles: [ require( './datepicker.component.css' ) ],
-	providers: [ ModifiedService ]
+	styles: [ require( './datepicker.component.css' ) ]
 })
 export class DatePickerComponent
 {
