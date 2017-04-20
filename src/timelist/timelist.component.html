@@ -1,6 +1,7 @@
-<table *ngFor="let modified of modifieds">
+<datepicker></datepicker>
+
+<table>
   <tbody>
-    <timevalue></timevalue>
+    <timevalue *ngFor='let modified of modifieds' [time]=modified.time [path]=modified.path></timevalue>
   </tbody>
-  <!-- <span>{{modified.path}}</span> -->
 </table>

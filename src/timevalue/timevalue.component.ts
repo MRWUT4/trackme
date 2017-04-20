@@ -3,8 +3,8 @@ import { Component, Input } from '@angular/core';
 @Component(
 {
 	selector: 'timevalue',
-	template: require( './timevalue.component.html' )
-	// styleUrls: ['./app.component.css']
+	template: require( './timevalue.component.html' ),
+	styles: [ require( './timevalue.component.css' ) ]
 })
 export class TimeValueComponent
 {

@@ -147,18 +147,36 @@ export class LocalSQLite
 
   curryExport(db:any)
   {
-    return (tableID:String) =>
+    return (sqlString:String) =>
     {
       return {
 
         map: (templateConstuctor:any) =>
         {
-          var template = new templateConstuctor();
+          var result = [];
+          var list = db.exec( sqlString );
 
-          // TODO: receive db entrys and add them to template.
+          list.forEach( element =>
+          {
+            var queryList = [];
+            result.push( queryList );
 
-          return [ template ];
-            // console.log( classID, typeof( classID ) );
+            var columns = element.columns;
+            var values = element.values;
+
+            values.forEach( value =>
+            {
+              var template = new templateConstuctor();
+              queryList.push( template );
+
+              columns.forEach( (column, index) =>
+              {
+                template[ column ] = value[ index ];
+              });
+            });
+          });
+
+          return result;
         }
       }
     }
@@ -181,7 +199,7 @@ export class LocalSQLite
     return (tableID:String):Boolean =>
     {
         var sqlString = `SELECT name FROM sqlite_master WHERE type='table' AND name='${ tableID }' ;`;
-        var result = this.db.exec( sqlString );
+        var result = db.exec( sqlString );
 
         return result.length > 0;
     }

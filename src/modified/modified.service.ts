@@ -7,6 +7,7 @@ import { LocalSQLite } from '../localsqlite/localsqlite';
 @Injectable()
 export class ModifiedService
 {
+	tableID:String = 'modified';
 	localSQLite:LocalSQLite = new LocalSQLite( 'trackme' );
 
 	filter:Filter = new Filter(
@@ -17,15 +18,28 @@ export class ModifiedService
 		new FilterElement( 'nonFiles', list => list.filter( value => value.split( '/' ).pop().split( '.' ).length > 1 ) )
 	]);
 
+
+	getSQLStringSelectAllFromTable(tableID:String):String
+	{
+		return `SELECT * FROM ${ tableID };`
+	}
+
+	getSQLStringSelectDayFromTable(tableID:String, date:Date):String
+	{
+		var nextDay:Date = new Date( date.getTime() );
+		nextDay.setDate( date.getDate() + 1 );
+
+		return `SELECT * FROM ${ tableID } WHERE time > ${ date.getTime() } AND time < ${ nextDay.getTime() }`;
+	}
+
+
 	getModifiedList(): Promise<Modified[]>
 	{
 		return new Promise(resolve =>
 		{
-			// this.localSQLite.insert( 'modified', [ new Modified( 1, 'hello world' ) ] );
+			var table:Modified[] = this.localSQLite.export( this.getSQLStringSelectDayFromTable( this.tableID, new Date( 2017, 3, 19 ) ) ).map( Modified );
+			resolve( table[ 0 ] );
 
-			resolve( this.localSQLite.export( 'modified' ).map( Modified ) );
-
-			/*
 			this.receiveUsername( username =>
 			{
 				this.receiveLastModified( username, list =>
@@ -33,12 +47,9 @@ export class ModifiedService
 					list = this.filter.apply( list );
 					list = this.getModifiedWithDate( list );
 
-					this.localSQLite.insert( 'modified', list );
-
-					resolve( list );
+					this.localSQLite.insert( this.tableID, list );
 				});
 			});
-			*/
 		});
 	}
 

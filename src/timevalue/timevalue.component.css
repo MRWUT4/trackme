@@ -1,0 +1,9 @@
+td
+{
+  padding-right: 1em;
+}
+
+.value
+{
+  word-break: break-all;
+}

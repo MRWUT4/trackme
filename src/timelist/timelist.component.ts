@@ -7,8 +7,8 @@ import { ModifiedService } from '../modified/modified.service';
 {
 	selector: 'timelist',
 	template: require( './timelist.component.html' ),
+	styles: [ require( './timelist.component.css' ) ],
 	providers: [ ModifiedService ]
-	// styleUrls: ['./app.component.css']
 })
 export class TimeListComponent implements OnInit
 {
