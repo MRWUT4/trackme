@@ -1,5 +1,5 @@
 {
-  "name": "electrogram",
+  "name": "trackme",
   "version": "0.0.1",
   "description": "",
   "main": "main.js",
@@ -9,7 +9,7 @@
     "watch": "webpack --watch --progress --profile --colors --display-error-details --display-cached",
     "distribute": "electron-packager . Electrogram --platform=darwin --arch=x64 --out=releases/ --overwrite --icon=src/assets/images/electrogram  --asar"
   },
-  "author": "One Hungry Mind",
+  "author": "David Ochmann",
   "license": "MIT",
   "devDependencies": {
     "css-loader": "^0.23.1",
@@ -26,17 +26,24 @@
     "webpack": "^1.13.0"
   },
   "dependencies": {
-    "@angular/common": "2.0.0-rc.5",
-    "@angular/compiler": "2.0.0-rc.5",
-    "@angular/core": "2.0.0-rc.5",
-    "@angular/platform-browser": "2.0.0-rc.5",
-    "@angular/platform-browser-dynamic": "2.0.0-rc.5",
+    "@angular/animations": "^4.0.2",
+    "@angular/common": "^4.0.2",
+    "@angular/compiler": "^4.0.2",
+    "@angular/compiler-cli": "^4.0.2",
+    "@angular/core": "^4.0.2",
+    "@angular/forms": "^4.0.2",
+    "@angular/http": "^4.0.2",
+    "@angular/platform-browser": "^4.0.2",
+    "@angular/platform-browser-dynamic": "^4.0.2",
+    "@angular/platform-server": "^4.0.2",
+    "@angular/router": "^4.0.2",
     "es6-shim": "^0.35.1",
     "material-design-lite": "^1.1.3",
     "reflect-metadata": "0.1.3",
     "rxjs": "5.0.0-beta.6",
     "sql.js": "^0.4.0",
     "systemjs": "0.19.27",
+    "typescript": "^2.2.2",
     "zone.js": "^0.6.12"
   }
 }

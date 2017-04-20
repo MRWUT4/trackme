@@ -13,10 +13,21 @@ export class ModifiedService
 	filter:Filter = new Filter(
 	[
 		new FilterElement( 'nonApplicationSupport', list => list.filter( value => !value.match( '/Application Support' ) ) ),
+		new FilterElement( 'nonDSStore', list => list.filter( value => !value.match( '.DS_Store' ) ) ),
 		new FilterElement( 'nonLibrary', list => list.filter( value => !value.match( '/Library' ) ) ),
 		new FilterElement( 'nonEmpty', list => list.filter( value => value != '' ) ),
 		new FilterElement( 'nonFiles', list => list.filter( value => value.split( '/' ).pop().split( '.' ).length > 1 ) )
 	]);
+
+
+	getNulledDate(date:Date):Date
+	{
+		date.setHours( 0 );
+		date.setMinutes( 0 );
+		date.setSeconds( 0 );
+
+		return date;
+	}
 
 
 	getSQLStringSelectAllFromTable(tableID:String):String
@@ -33,23 +44,32 @@ export class ModifiedService
 	}
 
 
-	getModifiedList(): Promise<Modified[]>
+	getModifiedList(date:Date = null, insertOpenFiles:Boolean = true): Promise<Modified[]>
 	{
+		date = date == null ? this.getNulledDate( new Date() ) : date;
+
 		return new Promise(resolve =>
 		{
-			var table:Modified[] = this.localSQLite.export( this.getSQLStringSelectDayFromTable( this.tableID, new Date( 2017, 3, 19 ) ) ).map( Modified );
-			resolve( table[ 0 ] );
+			// var table:any[] = this.localSQLite.export( this.getSQLStringSelectDayFromTable( this.tableID, date ) ).map( Modified );
+			// resolve( table[ 0 ] );
 
-			this.receiveUsername( username =>
-			{
-				this.receiveLastModified( username, list =>
-				{
-					list = this.filter.apply( list );
-					list = this.getModifiedWithDate( list );
+			resolve( [ new Modified( Math.floor( Math.random() * 10000 ), String( Math.random() * 10000 ) ) ] );
 
-					this.localSQLite.insert( this.tableID, list );
-				});
-			});
+			// console.log( table[ 0 ] );
+
+			// if( insertOpenFiles )
+			// {
+			// 	this.receiveUsername( username =>
+			// 	{
+			// 		this.receiveLastModified( username, list =>
+			// 		{
+			// 			list = this.filter.apply( list );
+			// 			list = this.getModifiedWithDate( list );
+			//
+			// 			this.localSQLite.insert( this.tableID, list );
+			// 		});
+			// 	});
+			// }
 		});
 	}
 

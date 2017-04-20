@@ -1,4 +1,14 @@
 form
 {
+  color: #66B2E8;
   margin-bottom: 1em;
+}
+
+input
+{
+  color: #66B2E8;
+  font-size: 1em;
+  width: 4em;
+  text-align: center;
+  border-style: none;
 }

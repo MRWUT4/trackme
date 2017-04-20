@@ -1,6 +1,13 @@
+tr
+{
+  width: 100%;
+  display: block;
+}
+
 td
 {
   padding-right: 1em;
+  min-width: 3em;
 }
 
 .value

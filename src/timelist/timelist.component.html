@@ -1,7 +1,22 @@
-<datepicker></datepicker>
+<div class='wrapper'>
 
-<table>
-  <tbody>
-    <timevalue *ngFor='let modified of modifieds' [time]=modified.time [path]=modified.path></timevalue>
-  </tbody>
-</table>
+  <datepicker
+    (dateChange)='onDateChange($event)'
+  ></datepicker>
+
+  <table>
+    <tbody>
+
+      <timevalue
+
+        *ngFor='var modified of modifieds'
+
+        [time]='modified.time'
+        [path]='modified.path'
+
+      ></timevalue>
+
+    </tbody>
+  </table>
+
+</div>

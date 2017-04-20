@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { Modified } from '../modified/modified';
 import { ModifiedService } from '../modified/modified.service';
 
@@ -12,15 +12,54 @@ import { ModifiedService } from '../modified/modified.service';
 })
 export class DatePickerComponent
 {
-  @Input() date:Date = new Date();
+  private currentDate:Date = new Date();
 
-  get year():Number
+  @Input() date:Date = new Date();
+  @Output() dateChange = new EventEmitter();
+
+
+  get year():number
   {
-    return 2017;
+    return this.date.getFullYear();
   }
 
-  set year(value:Number)
+  set year(value:number)
   {
+    this.date.setFullYear( value );
+    this.sendDateChangeEvent();
+  }
 
+
+  get month():number
+  {
+    return this.date.getMonth() + 1;
+  }
+
+  set month(value:number)
+  {
+    this.date.setMonth( value - 1 );
+    this.sendDateChangeEvent();
+  }
+
+
+  get day():number
+  {
+    return this.date.getDate();
+  }
+
+  set day(value:number)
+  {
+    this.date.setDate( value );
+    this.sendDateChangeEvent();
+  }
+
+
+  sendDateChangeEvent()
+  {
+    if( this.currentDate == null || this.date.getTime() != this.currentDate.getTime() )
+    {
+      this.currentDate.setTime( this.date.getTime() );
+      this.dateChange.next( this.date );
+    }
   }
 }

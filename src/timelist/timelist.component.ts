@@ -12,7 +12,24 @@ import { ModifiedService } from '../modified/modified.service';
 })
 export class TimeListComponent implements OnInit
 {
+	previousTime:String = null;
 	modifieds: Modified[];
+
+
+	getTimeValue(value:number):String
+	{
+		var minutes = Math.floor( value / 1000 / 60 );
+		var stringValue = String( minutes );
+
+		if( this.previousTime == null || this.previousTime != stringValue )
+		{
+			this.previousTime = stringValue;
+			return String( value );
+		}
+		else
+			return '';
+	}
+
 
 	constructor(private modifiedService:ModifiedService){}
 
@@ -21,8 +38,18 @@ export class TimeListComponent implements OnInit
 		this.getModifiedList();
 	}
 
-	getModifiedList():void
+	getModifiedList(date:Date = null, insertOpenFiles:Boolean = true):void
 	{
-		this.modifiedService.getModifiedList().then( modifieds => this.modifieds = modifieds );
+		this.modifiedService.getModifiedList( date, insertOpenFiles ).then( modifieds =>
+		{
+			this.modifieds = modifieds;
+		} );
+	}
+
+
+	onDateChange(date:Date):void
+	{
+		console.log( 'onDateChange' );
+		this.getModifiedList( date, false );
 	}
 }
