@@ -5,12 +5,14 @@ import { FormsModule } from '@angular/forms';
 import { TimeListComponent } from './timelist.component';
 import { TimeValueComponent } from '../timevalue/timevalue.component';
 import { DatePickerComponent } from '../datepicker/datepicker.component';
+import { SuffixPickerComponent } from '../suffixpicker/suffixpicker.component';
 
 @NgModule(
 {
 	declarations:
 	[
 		DatePickerComponent,
+		SuffixPickerComponent,
 		TimeListComponent,
 		TimeValueComponent
 	],

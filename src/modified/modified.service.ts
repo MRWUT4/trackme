@@ -57,21 +57,19 @@ export class ModifiedService
 			// var list = [ new Modified( new Date().getTime(), String( Math.random() * 10000 ) ) ];
 			// resolve( list );
 
-			// console.log( table[ 0 ] );
-
-			if( insertOpenFiles )
-			{
-				this.receiveUsername( username =>
-				{
-					this.receiveLastModified( username, list =>
-					{
-						list = this.filter.apply( list );
-						list = this.getModifiedWithDate( list );
-
-						this.localSQLite.insert( this.tableID, list );
-					});
-				});
-			}
+			// if( insertOpenFiles )
+			// {
+			// 	this.receiveUsername( username =>
+			// 	{
+			// 		this.receiveLastModified( username, list =>
+			// 		{
+			// 			list = this.filter.apply( list );
+			// 			list = this.getModifiedWithDate( list );
+			//
+			// 			this.localSQLite.insert( this.tableID, list );
+			// 		});
+			// 	});
+			// }
 		});
 	}
 

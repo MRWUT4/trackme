@@ -47,6 +47,7 @@ export class TimeListComponent implements OnInit
 		this.modifiedService.getModifiedList( date, insertOpenFiles ).then( modifieds =>
 		{
 			this.modifieds = modifieds;
+			console.log( "update" );
 			this.ngZone.run( () => {} ); // <- Electron template update fix.
 		});
 	}

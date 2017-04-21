@@ -1,0 +1,24 @@
+.wrapper
+{
+  overflow: auto;
+  margin-bottom: 1em;
+}
+
+.picker
+{
+  text-decoration: none;
+  color: #fff;
+  background-color: #66B2E8;
+  border-radius: 25px;
+  margin: .2em;
+  padding: .2em 1em .2em 1em;
+  float: left;
+
+  border-style: none;
+  cursor: pointer;
+  font: inherit;
+}
+
+:checked + picker {
+  background-color: #000;
+}
