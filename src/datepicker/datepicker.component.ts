@@ -2,16 +2,16 @@ import { Component, Input, EventEmitter, Output } from '@angular/core';
 
 @Component(
 {
-	selector: 'datepicker',
+	selector: 'time-list',
 	template: require( './datepicker.component.html' ),
 	styles: [ require( './datepicker.component.css' ) ]
 })
 export class DatePickerComponent
 {
-  private currentDate:Date = new Date();
+	private currentDate:Date = new Date();
 
-  @Input() date:Date = new Date();
-  @Output() dateChange = new EventEmitter();
+  @Input() date:Date;
+	@Output() dateChange = new EventEmitter<Date>();
 
 
   get year():number
@@ -23,6 +23,7 @@ export class DatePickerComponent
   {
     this.date.setFullYear( value );
     this.sendDateChangeEvent();
+		// console.log( "year" );
   }
 
 
@@ -33,7 +34,7 @@ export class DatePickerComponent
 
   set month(value:number)
   {
-    this.date.setMonth( value - 1 );
+    this.date.setMonth( value ) - 1;
     this.sendDateChangeEvent();
   }
 
@@ -54,8 +55,8 @@ export class DatePickerComponent
   {
     if( this.currentDate == null || this.date.getTime() != this.currentDate.getTime() )
     {
-      this.currentDate.setTime( this.date.getTime() );
-      this.dateChange.next( this.date );
+	      this.currentDate.setTime( this.date.getTime() );
+				this.dateChange.emit( this.date );
     }
   }
 }

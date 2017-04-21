@@ -20,7 +20,7 @@ export class ModifiedService
 	]);
 
 
-	getNulledDate(date:Date):Date
+	modDateToNull(date:Date):Date
 	{
 		date.setHours( 0 );
 		date.setMinutes( 0 );
@@ -46,30 +46,32 @@ export class ModifiedService
 
 	getModifiedList(date:Date = null, insertOpenFiles:Boolean = true): Promise<Modified[]>
 	{
-		date = date == null ? this.getNulledDate( new Date() ) : date;
+		date = date == null ?  new Date() : date;
+		date = this.modDateToNull( date );
 
-		return new Promise(resolve =>
+		return new Promise( resolve =>
 		{
-			// var table:any[] = this.localSQLite.export( this.getSQLStringSelectDayFromTable( this.tableID, date ) ).map( Modified );
-			// resolve( table[ 0 ] );
+			var table:any[] = this.localSQLite.export( this.getSQLStringSelectDayFromTable( this.tableID, date ) ).map( Modified );
+			resolve( table[ 0 ] || [] );
 
-			resolve( [ new Modified( Math.floor( Math.random() * 10000 ), String( Math.random() * 10000 ) ) ] );
+			// var list = [ new Modified( new Date().getTime(), String( Math.random() * 10000 ) ) ];
+			// resolve( list );
 
 			// console.log( table[ 0 ] );
 
-			// if( insertOpenFiles )
-			// {
-			// 	this.receiveUsername( username =>
-			// 	{
-			// 		this.receiveLastModified( username, list =>
-			// 		{
-			// 			list = this.filter.apply( list );
-			// 			list = this.getModifiedWithDate( list );
-			//
-			// 			this.localSQLite.insert( this.tableID, list );
-			// 		});
-			// 	});
-			// }
+			if( insertOpenFiles )
+			{
+				this.receiveUsername( username =>
+				{
+					this.receiveLastModified( username, list =>
+					{
+						list = this.filter.apply( list );
+						list = this.getModifiedWithDate( list );
+
+						this.localSQLite.insert( this.tableID, list );
+					});
+				});
+			}
 		});
 	}
 

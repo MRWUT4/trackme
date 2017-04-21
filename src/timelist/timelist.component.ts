@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { Modified } from '../modified/modified';
 import { ModifiedService } from '../modified/modified.service';
-
 
 @Component(
 {
@@ -12,6 +11,9 @@ import { ModifiedService } from '../modified/modified.service';
 })
 export class TimeListComponent implements OnInit
 {
+	public date:Date = new Date();
+	// foo:Number = 20;
+
 	previousTime:String = null;
 	modifieds: Modified[];
 
@@ -31,27 +33,27 @@ export class TimeListComponent implements OnInit
 	}
 
 
-	constructor(private modifiedService:ModifiedService){}
+	constructor(private ngZone:NgZone, private modifiedService:ModifiedService){}
 
 	ngOnInit():void
 	{
-		this.getModifiedList();
+			this.getModifiedList();
 	}
 
 	getModifiedList(date:Date = null, insertOpenFiles:Boolean = true):void
 	{
+		this.modifieds = [];
+
 		this.modifiedService.getModifiedList( date, insertOpenFiles ).then( modifieds =>
 		{
-			modifieds.forEach( modified => console.log( modified.path ) );
-
 			this.modifieds = modifieds;
+			this.ngZone.run( () => {} ); // <- Electron template update fix.
 		});
 	}
 
 
 	onDateChange(date:Date):void
 	{
-		console.log( this, this.modifieds )
 		this.getModifiedList( date, false );
 	}
 }
