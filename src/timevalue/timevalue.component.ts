@@ -8,7 +8,7 @@ import { Component, Input } from '@angular/core';
 })
 export class TimeValueComponent
 {
-	@Input() time:Number = 0;
+	@Input() time:String = '';
 	@Input() path:String = './';
 
 	constructor(){}

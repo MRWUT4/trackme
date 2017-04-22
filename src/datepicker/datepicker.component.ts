@@ -2,7 +2,7 @@ import { Component, Input, EventEmitter, Output } from '@angular/core';
 
 @Component(
 {
-	selector: 'time-list',
+	selector: 'date-picker',
 	template: require( './datepicker.component.html' ),
 	styles: [ require( './datepicker.component.css' ) ]
 })
