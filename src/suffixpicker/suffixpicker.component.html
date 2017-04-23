@@ -1,6 +1,15 @@
 <form class='wrapper'>
-  <label class='picker' *ngFor='let suffix of suffixList'>
-    <input type='checkbox' id={{suffix}} class='checkbox' checked>
-    <span>{{suffix}}</span>
+
+  <label>
+    <span id='all' class='button'>+</span>
+  </label>
+
+  <label>
+    <span id='none' class='button space'>-</span>
+  </label>
+
+  <label *ngFor='let selection of suffixSelectionList'>
+    <input type='checkbox' id={{selection.id}} class='checkbox' [checked]=(selection.selected)>
+    <span>{{selection.id}}</span>
   </label>
 </form>

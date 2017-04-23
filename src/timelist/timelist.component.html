@@ -6,8 +6,9 @@
   ></date-picker>
 
   <suffix-picker
-    (change)='onSuffixSelectionChange($event)'
-    [suffixList]='suffixList'
+    (change)='onSuffixPickerChange($event)'
+    (click)='onSuffixPickerClick($event)'
+    [suffixSelectionList]='suffixSelectionList'
   ></suffix-picker>
 
   <table>

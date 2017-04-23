@@ -14,3 +14,8 @@ td
 {
   word-break: break-all;
 }
+
+span
+{
+  color: #ddd;
+}

@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Selection } from './selection';
 
 @Component(
 {
@@ -8,5 +9,5 @@ import { Component, Input } from '@angular/core';
 })
 export class SuffixPickerComponent
 {
-	@Input() suffixList:String[];
+	@Input() suffixSelectionList:Selection[];
 }

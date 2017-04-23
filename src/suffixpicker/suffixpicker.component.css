@@ -23,7 +23,19 @@ span
   background-color: #66B2E8;
 }
 
+
 input
 {
   display: none;
+}
+
+.button
+{
+  text-align: center;
+  min-width: 1.2em;
+}
+
+.space
+{
+    margin-right: .6em;
 }

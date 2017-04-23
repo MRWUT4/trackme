@@ -12,6 +12,9 @@ import { Selection } from '../suffixpicker/selection';
 })
 export class TimeListComponent implements OnInit
 {
+	static BUTTON_ID_ALL:String = 'all';
+	static BUTTON_ID_NONE:String = 'none';
+
 	public date:Date = new Date();
 
 	// previousTime:String = null;
@@ -28,25 +31,25 @@ export class TimeListComponent implements OnInit
 			this.getModifiedList();
 	}
 
-	updateRendering()
+	render()
 	{
 		this.ngZone.run( () => {} ); // <- Electron template update fix.
 	}
 
 
 	/** Service handling. */
-	getModifiedList(date:Date = null, insertOpenFiles:Boolean = true):void
+	getModifiedList(date:Date = null):void
 	{
 		this.modifieds = [];
 
-		this.modifiedService.getModifiedList( date, insertOpenFiles ).then( modifieds =>
+		this.modifiedService.getModifiedList( date ).then( modifieds =>
 		{
 			this.modifieds = modifieds;
 			this.suffixList = this.getSuffixList( this.modifieds );
 			this.suffixSelectionList = this.getSuffixSelectionList( this.suffixList );
 
 			this.updateFilteredModifiedList();
-			this.updateRendering();
+			this.render();
 		});
 	}
 
@@ -72,7 +75,7 @@ export class TimeListComponent implements OnInit
 	/** DatePicker handling. */
 	onDateChange(date:Date):void
 	{
-		this.getModifiedList( date, false );
+		this.getModifiedList( date );
 	}
 
 
@@ -104,13 +107,30 @@ export class TimeListComponent implements OnInit
 		return list.find( element => element.id == id );
 	}
 
-	onSuffixSelectionChange(event:any)
+	onSuffixPickerChange(event:any)
 	{
 		let checkbox = event.target;
 
 		let suffixSelection = this.getSelectionById( this.suffixSelectionList, checkbox.id )
 		suffixSelection.selected = checkbox.checked;
 
+		this.updateFilteredModifiedList();
+	}
+
+	onSuffixPickerClick(event:any)
+	{
+		switch( event.target.id )
+		{
+			case TimeListComponent.BUTTON_ID_ALL:
+				this.suffixSelectionList.forEach( selection => selection.selected = true );
+				break;
+
+			case TimeListComponent.BUTTON_ID_NONE:
+				this.suffixSelectionList.forEach( selection => selection.selected = false );
+				break;
+		}
+
+		this.suffixSelectionList = this.suffixSelectionList;
 		this.updateFilteredModifiedList();
 	}
 
@@ -122,7 +142,7 @@ export class TimeListComponent implements OnInit
 
 		this.modifiedsFiltered = this.modClearRepeatingPathValues( modifieds );
 
-		this.updateRendering();
+		this.render();
 	}
 
 	getClonedModifiedList(modifieds:Modified[]):Modified[]

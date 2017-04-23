@@ -8,7 +8,7 @@ import { LocalSQLite } from '../localsqlite/localsqlite';
 export class ModifiedService
 {
 	tableID:String = 'modified';
-	localSQLite:LocalSQLite = new LocalSQLite( 'trackme' );
+	localSQLite:LocalSQLite = new LocalSQLite( 'trackme', [ 'path', 'time' ] );
 
 	filter:Filter = new Filter(
 	[
@@ -44,33 +44,40 @@ export class ModifiedService
 	}
 
 
-	getModifiedList(date:Date = null, insertOpenFiles:Boolean = true): Promise<Modified[]>
+	getModifiedList(date:Date = null): Promise<Modified[]>
 	{
 		date = date == null ?  new Date() : date;
 		date = this.modDateToNull( date );
+
+		this.startSaveModifiedLoop();
 
 		return new Promise( resolve =>
 		{
 			var table:any[] = this.localSQLite.export( this.getSQLStringSelectDayFromTable( this.tableID, date ) ).map( Modified );
 			resolve( table[ 0 ] || [] );
-
-			// var list = [ new Modified( new Date().getTime(), String( Math.random() * 10000 ) ) ];
-			// resolve( list );
-
-			// if( insertOpenFiles )
-			// {
-			// 	this.receiveUsername( username =>
-			// 	{
-			// 		this.receiveLastModified( username, list =>
-			// 		{
-			// 			list = this.filter.apply( list );
-			// 			list = this.getModifiedWithDate( list );
-			//
-			// 			this.localSQLite.insert( this.tableID, list );
-			// 		});
-			// 	});
-			// }
 		});
+	}
+
+	startSaveModifiedLoop():void
+	{
+		let onMinute:number = 1000 * 60;
+
+		let execute = () =>
+		{
+			this.receiveUsername( username =>
+			{
+				this.receiveLastModified( username, list =>
+				{
+					list = this.filter.apply( list );
+					list = this.getModifiedWithDate( list );
+
+					this.localSQLite.insert( this.tableID, list );
+				});
+			});
+		}
+
+		setInterval( execute, onMinute );
+		execute();
 	}
 
 	getModifiedWithDate(list):Modified[]

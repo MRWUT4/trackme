@@ -97,15 +97,15 @@ export class LocalSQLite
     return sqlString;
   }
 
-  sortByProperty(a:ValuePair, b:ValuePair):number
-  {
-    var valueA = a.property.toUpperCase();
-    var valueB = b.property.toUpperCase();
+  // sortByProperty(a:ValuePair, b:ValuePair):number
+  // {
+  //   var valueA = a.property.toUpperCase();
+  //   var valueB = b.property.toUpperCase();
+  //
+  //   return valueA > valueB ? 1 : valueA < valueB ? -1 : 0 ;
+  // }
 
-    return valueA > valueB ? 1 : valueA < valueB ? -1 : 0 ;
-  }
-
-  getDataTableFromObjectList(list:Object[]):Array<any>
+  getDataTableFromObjectList(list:Object[], tableInteface:string[]):Array<any>
   {
     var result = [];
 
@@ -113,15 +113,15 @@ export class LocalSQLite
     {
       var pairs:ValuePair[] = [];
 
-      for( var property in element )
+      tableInteface.forEach( property =>
       {
         var value = element[ property ];
         var pair = new ValuePair( property, value );
 
         pairs.push( pair );
-      }
+      });
 
-      pairs = pairs.sort( this.sortByProperty );
+      // pairs = pairs.sort( this.sortByProperty );
 
       result.push( pairs );
     });
@@ -134,13 +134,13 @@ export class LocalSQLite
    * Public interface.
    */
 
-  constructor(private name:String)
+  constructor(private name:String, private tableInfterface:string[])
   {
     var db = this.db;
 
     this.getSQLTableExists = this.curryGetSQLTableExists( db );
     this.save = this.currySave( db, this.path );
-    this.insert = this.curryInsert( db );
+    this.insert = this.curryInsert( db, this.tableInfterface );
     this.export = this.curryExport( db );
   }
 
@@ -205,15 +205,15 @@ export class LocalSQLite
     }
   }
 
-  curryInsert(db:any):Function
+  curryInsert(db:any, tableInteface:string[]):Function
   {
     return (tableID:String, list:Object[]):void =>
     {
-      var table = this.getDataTableFromObjectList( list );
+      var table = this.getDataTableFromObjectList( list, tableInteface );
       var tableExists = this.getSQLTableExists( tableID );
       var createTable = tableExists ? '' : this.getSQLStringCreateTable( tableID, table[ 0 ] );
       var insertListObjectData = this.getSQLStringInsertListObjectData( tableID, table );
-
+      
       var sqlString = `${ createTable }\n${ insertListObjectData }`;
       db.run( sqlString );
 
