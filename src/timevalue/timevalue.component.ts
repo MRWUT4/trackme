@@ -12,13 +12,19 @@ export class TimeValueComponent
 
 	@Input() time:String = '';
 	@Input() path:String = './';
+	@Input() distance:Number = 0;
 
+
+	get distanceEm():String
+	{
+		return this.distance + 'em';
+	}
 
 	get folder():String
 	{
 		var split = this.path.split( '/' );
-		var folders = split.slice( split.length - this.folderDepth, -1 ).join( '/' ) + '/';
-		var prefix = '... /';
+		var folders = split.slice( split.length - this.folderDepth, -1 ).join( ' / ' ) + ' / ';
+		var prefix = '... ';
 
 		return prefix + folders;
 	}

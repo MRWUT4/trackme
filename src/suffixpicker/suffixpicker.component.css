@@ -10,7 +10,7 @@ span
   color: #fff;
   background-color: #ddd;
   border-radius: 25px;
-  margin: .2em;
+  margin: .2em .4em .2em 0em;
   padding: .2em 1em .2em 1em;
   float: left;
 
@@ -37,5 +37,5 @@ input
 
 .space
 {
-    margin-right: .6em;
+    margin-right: .8em;
 }

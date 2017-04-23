@@ -14,6 +14,7 @@ export class ModifiedService
 	[
 		new FilterElement( 'nonApplicationSupport', list => list.filter( value => !value.match( '/Application Support' ) ) ),
 		new FilterElement( 'nonDSStore', list => list.filter( value => !value.match( '.DS_Store' ) ) ),
+		new FilterElement( 'nonSQLite', list => list.filter( value => !value.match( '.sqlite' ) ) ),
 		new FilterElement( 'nonLibrary', list => list.filter( value => !value.match( '/Library' ) ) ),
 		new FilterElement( 'nonEmpty', list => list.filter( value => value != '' ) ),
 		new FilterElement( 'nonFiles', list => list.filter( value => value.split( '/' ).pop().split( '.' ).length > 1 ) )

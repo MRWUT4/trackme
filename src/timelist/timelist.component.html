@@ -16,6 +16,7 @@
 
       <timevalue
         *ngFor='let modified of modifiedsFiltered'
+        [distance]='modified.distance'
         [time]='modified.clock'
         [path]='modified.path'
       ></timevalue>

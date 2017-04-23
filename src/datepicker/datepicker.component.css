@@ -1,14 +1,24 @@
 form
 {
   color: #66B2E8;
-  margin-bottom: 1em;
+  margin-bottom: .5em;
+  font-size: 2em;
 }
 
 input
 {
   color: #66B2E8;
   font-size: 1em;
-  width: 4em;
-  text-align: center;
+  /*width: 4em;*/
   border-style: none;
+}
+
+input:focus
+{
+  outline: none;
+}
+
+.month
+{
+  text-align: center;
 }

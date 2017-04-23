@@ -2,6 +2,8 @@ export class Modified
 {
 	private _clock:String;
 
+	public distance:Number = 0;
+
 
 	constructor(
 

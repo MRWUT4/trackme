@@ -7,4 +7,6 @@ table
 {
   width: 100%;
   overflow: scroll;
+  border-spacing: 0px;
+  margin-left: 1em;
 }

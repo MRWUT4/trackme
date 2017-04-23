@@ -54,21 +54,37 @@ export class TimeListComponent implements OnInit
 	}
 
 	/** TimeValue handling. */
-	modClearRepeatingPathValues(modifieds:Modified[]):Modified[]
+	modClearRepeatingClockValues(modifieds:Modified[]):Modified[]
 	{
 		let previousMinutes = Number.NaN;
 
-		modifieds.forEach( (modified, index) =>
+		modifieds.forEach( (current, index) =>
 		{
-			var minutes = modified.minutes;
+			var previous = modifieds[ index - 1 ];
 
-			if( index == 0 || previousMinutes != minutes )
-				previousMinutes = minutes;
-			else
-				modified.clock = '';
+			if( previous && previous.distance == 0 && current.distance == 0  && index != modifieds.length - 1 )
+				current.clock = '';
 		});
 
 		return modifieds;
+	}
+
+	modTableRowDistance(modifieds:Modified[]):Modified[]
+	{
+		modifieds.forEach( (current, index) =>
+		{
+			let previous = modifieds[ index - 1 ];
+
+			if( previous )
+				previous.distance = Math.min( 4, this.getModifiedDistance( current, previous ) );
+		});
+
+		return modifieds;
+	}
+
+	getModifiedDistance(current:Modified, previous:Modified):number
+	{
+		return Math.floor( ( current.time - previous.time ) / 1000000 );
 	}
 
 
@@ -139,8 +155,9 @@ export class TimeListComponent implements OnInit
 	{
 		let modifieds = this.getClonedModifiedList( this.modifieds );
 		modifieds = this.getFilteredModifiedList( modifieds, this.suffixSelectionList );
-
-		this.modifiedsFiltered = this.modClearRepeatingPathValues( modifieds );
+		modifieds = this.getRemovePathDuplicates( modifieds );
+		this.modifiedsFiltered = this.modTableRowDistance( modifieds );
+		this.modifiedsFiltered = this.modClearRepeatingClockValues( modifieds );
 
 		this.render();
 	}
@@ -153,5 +170,20 @@ export class TimeListComponent implements OnInit
 	getFilteredModifiedList(modifieds:Modified[], filters:Selection[]):Modified[]
 	{
 		return modifieds.filter( modified => this.getSelectionById( this.suffixSelectionList, modified.suffix ).selected );
+	}
+
+	getRemovePathDuplicates(modifieds:Modified[]):Modified[]
+	{
+		let result:Modified[] = [];
+
+		modifieds.forEach( (modified, index) =>
+		{
+			let previous = modifieds[ index - 1 ];
+
+			if( !previous || index == modifieds.length - 1 || modified.path != previous.path )
+				result.push( modified );
+		});
+
+		return result;
 	}
 }
