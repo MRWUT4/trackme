@@ -4,6 +4,18 @@ import { ValuePair } from './valuepair';
 let SQL = require( 'sql.js' );
 
 
+export class Column
+{
+  constructor(
+
+    public name:string,
+    public type:string
+
+  ){}
+}
+
+
+
 export class LocalSQLite
 {
   private _db:any;
@@ -13,6 +25,8 @@ export class LocalSQLite
 
   public insert:Function;
   public export:Function;
+  public setup:Function;
+  public createTableIfItDoesntExist:Function;
 
 
   /*
@@ -59,18 +73,15 @@ export class LocalSQLite
     }
   }
 
-  getSQLStringCreateTable(tableID:String, valuePairs:ValuePair[]):String
+  getSQLStringCreateTable(tableID:String, tableInterface:Column[]):String
   {
     var fields:String = '';
 
-    valuePairs.forEach( (valuePair, index) =>
+    tableInterface.forEach( (column, index) =>
     {
         var prefix = index == 0 ? '' : ', ';
-        var type = this.getSQLType( valuePair.value );
-
-        fields += prefix + valuePair.property + ' ' + type;
+        fields += prefix + column.name + ' ' + column.type;
     });
-
 
     var sqlString = `CREATE TABLE ${ tableID } ( ${ fields } );`;
 
@@ -105,7 +116,7 @@ export class LocalSQLite
   //   return valueA > valueB ? 1 : valueA < valueB ? -1 : 0 ;
   // }
 
-  getDataTableFromObjectList(list:Object[], tableInteface:string[]):Array<any>
+  getDataTableFromObjectList(list:Object[], tableInteface:Column[]):Array<any>
   {
     var result = [];
 
@@ -113,10 +124,10 @@ export class LocalSQLite
     {
       var pairs:ValuePair[] = [];
 
-      tableInteface.forEach( property =>
+      tableInteface.forEach( column =>
       {
-        var value = element[ property ];
-        var pair = new ValuePair( property, value );
+        var value = element[ column.name ];
+        var pair = new ValuePair( column.name, value );
 
         pairs.push( pair );
       });
@@ -134,21 +145,25 @@ export class LocalSQLite
    * Public interface.
    */
 
-  constructor(private name:String, private tableInfterface:string[])
+  constructor(private name:String, private tableInfterface:Column[])
   {
     var db = this.db;
 
     this.getSQLTableExists = this.curryGetSQLTableExists( db );
+    this.setup = this.currySetup( db );
     this.save = this.currySave( db, this.path );
     this.insert = this.curryInsert( db, this.tableInfterface );
-    this.export = this.curryExport( db );
+    this.export = this.curryExport( db, this.tableInfterface );
+    this.createTableIfItDoesntExist = this.curryCreateTableIfItDoesntExist( db );
   }
 
 
-  curryExport(db:any)
+  curryExport(db:any, tableInterface:Column[])
   {
-    return (sqlString:String) =>
+    return (tableID:String, sqlString:String) =>
     {
+      this.createTableIfItDoesntExist( tableID, tableInterface );
+
       return {
 
         map: (templateConstuctor:any) =>
@@ -183,6 +198,14 @@ export class LocalSQLite
   }
 
 
+  currySetup(db:any):Function
+  {
+    return (tableID:String, list:Object[]):void =>
+    {
+      var tableExists = this.getSQLTableExists( tableID );
+    }
+  }
+
   currySave(db:any, path:string):Function
   {
     return ():void =>
@@ -205,16 +228,30 @@ export class LocalSQLite
     }
   }
 
-  curryInsert(db:any, tableInteface:string[]):Function
+  curryInsert(db:any, tableInteface:Column[]):Function
   {
     return (tableID:String, list:Object[]):void =>
     {
+      this.createTableIfItDoesntExist( tableID, tableInteface );
+
       var table = this.getDataTableFromObjectList( list, tableInteface );
-      var tableExists = this.getSQLTableExists( tableID );
-      var createTable = tableExists ? '' : this.getSQLStringCreateTable( tableID, table[ 0 ] );
       var insertListObjectData = this.getSQLStringInsertListObjectData( tableID, table );
-      
-      var sqlString = `${ createTable }\n${ insertListObjectData }`;
+
+      var sqlString = `${ insertListObjectData }`;
+      db.run( sqlString );
+
+      this.save();
+    }
+  }
+
+  curryCreateTableIfItDoesntExist(db:any):Function
+  {
+    return (tableID:String, tableInterface:Column[]) =>
+    {
+      var tableExists = this.getSQLTableExists( tableID );
+      var createTable = tableExists ? '' : this.getSQLStringCreateTable( tableID , tableInterface );
+
+      var sqlString = `${ createTable }`;
       db.run( sqlString );
 
       this.save();

@@ -1,7 +1,7 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { Modified } from '../modified/modified';
 import { ModifiedService } from '../modified/modified.service';
-import { Selection } from '../suffixpicker/selection';
+import { Selection } from '../suffixselection/selection';
 
 @Component(
 {
@@ -52,6 +52,7 @@ export class TimeListComponent implements OnInit
 			this.render();
 		});
 	}
+
 
 	/** TimeValue handling. */
 	modClearRepeatingClockValues(modifieds:Modified[]):Modified[]
@@ -123,32 +124,6 @@ export class TimeListComponent implements OnInit
 		return list.find( element => element.id == id );
 	}
 
-	onSuffixPickerChange(event:any)
-	{
-		let checkbox = event.target;
-
-		let suffixSelection = this.getSelectionById( this.suffixSelectionList, checkbox.id )
-		suffixSelection.selected = checkbox.checked;
-
-		this.updateFilteredModifiedList();
-	}
-
-	onSuffixPickerClick(event:any)
-	{
-		switch( event.target.id )
-		{
-			case TimeListComponent.BUTTON_ID_ALL:
-				this.suffixSelectionList.forEach( selection => selection.selected = true );
-				break;
-
-			case TimeListComponent.BUTTON_ID_NONE:
-				this.suffixSelectionList.forEach( selection => selection.selected = false );
-				break;
-		}
-
-		this.suffixSelectionList = this.suffixSelectionList;
-		this.updateFilteredModifiedList();
-	}
 
 	/** Filter handling. */
 	updateFilteredModifiedList():void

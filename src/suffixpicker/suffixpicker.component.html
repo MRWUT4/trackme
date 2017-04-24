@@ -1,15 +1,18 @@
 <form class='wrapper'>
 
   <label>
-    <span id='all' class='button'>+</span>
+    <span id='all' class='button' (click)='onClick($event)'>+</span>
   </label>
 
   <label>
-    <span id='none' class='button space'>-</span>
+    <span id='none' class='button space' (click)='onClick($event)'>-</span>
   </label>
 
   <label *ngFor='let selection of suffixSelectionList'>
-    <input type='checkbox' id={{selection.id}} class='checkbox' [checked]=(selection.selected)>
+    <input type='checkbox' id={{selection.id}} class='checkbox' [checked]=(selection.selected) (change)='onChange($event)'>
     <span>{{selection.id}}</span>
   </label>
 </form>
+
+<!-- (change)='onSuffixPickerChange($event)'
+(click)='onSuffixPickerClick($event)' -->

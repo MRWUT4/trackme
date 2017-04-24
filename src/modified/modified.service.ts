@@ -2,19 +2,24 @@ import { Injectable } from '@angular/core';
 import { Modified } from './modified';
 import { spawn } from 'child_process';
 import { Filter, FilterElement } from '../filter/Filter';
-import { LocalSQLite } from '../localsqlite/localsqlite';
+import { LocalSQLite, Column } from '../localsqlite/localsqlite';
 
 @Injectable()
 export class ModifiedService
 {
 	tableID:String = 'modified';
-	localSQLite:LocalSQLite = new LocalSQLite( 'trackme', [ 'path', 'time' ] );
+	localSQLite:LocalSQLite = new LocalSQLite( 'trackme',
+	[
+		new Column( 'path', 'text' ),
+		new Column( 'time', 'int' )
+	]);
 
 	filter:Filter = new Filter(
 	[
 		new FilterElement( 'nonApplicationSupport', list => list.filter( value => !value.match( '/Application Support' ) ) ),
 		new FilterElement( 'nonDSStore', list => list.filter( value => !value.match( '.DS_Store' ) ) ),
 		new FilterElement( 'nonSQLite', list => list.filter( value => !value.match( '.sqlite' ) ) ),
+		new FilterElement( 'nonMeta', list => list.filter( value => !value.match( './' ) ) ),
 		new FilterElement( 'nonLibrary', list => list.filter( value => !value.match( '/Library' ) ) ),
 		new FilterElement( 'nonEmpty', list => list.filter( value => value != '' ) ),
 		new FilterElement( 'nonFiles', list => list.filter( value => value.split( '/' ).pop().split( '.' ).length > 1 ) )
@@ -45,7 +50,7 @@ export class ModifiedService
 	}
 
 
-	getModifiedList(date:Date = null): Promise<Modified[]>
+	getModifiedList(date:Date = null):Promise<Modified[]>
 	{
 		date = date == null ?  new Date() : date;
 		date = this.modDateToNull( date );
@@ -54,7 +59,7 @@ export class ModifiedService
 
 		return new Promise( resolve =>
 		{
-			var table:any[] = this.localSQLite.export( this.getSQLStringSelectDayFromTable( this.tableID, date ) ).map( Modified );
+			var table:any[] = this.localSQLite.export( this.tableID, this.getSQLStringSelectDayFromTable( this.tableID, date ) ).map( Modified );
 			resolve( table[ 0 ] || [] );
 		});
 	}
