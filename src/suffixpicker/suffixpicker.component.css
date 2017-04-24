@@ -35,6 +35,11 @@ input
   min-width: 1.2em;
 }
 
+.button:active
+{
+  background-color: #eee;
+}
+
 .space
 {
     margin-right: .8em;

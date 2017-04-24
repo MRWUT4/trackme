@@ -9,7 +9,8 @@ export class Column
   constructor(
 
     public name:string,
-    public type:string
+    public type:string,
+    public primary:Boolean = false
 
   ){}
 }
@@ -24,6 +25,7 @@ export class LocalSQLite
   private save:Function;
 
   public insert:Function;
+  public run:Function;
   public export:Function;
   public setup:Function;
   public createTableIfItDoesntExist:Function;
@@ -57,22 +59,6 @@ export class LocalSQLite
   }
 
 
-  getSQLType(value:any)
-  {
-    var type = typeof( value );
-
-    switch( type )
-    {
-      case 'number':
-
-        var isInteger = value % 1 == 0;
-        return isInteger ? 'int' : 'float';
-
-      case 'string':
-        return 'text'
-    }
-  }
-
   getSQLStringCreateTable(tableID:String, tableInterface:Column[]):String
   {
     var fields:String = '';
@@ -83,9 +69,23 @@ export class LocalSQLite
         fields += prefix + column.name + ' ' + column.type;
     });
 
-    var sqlString = `CREATE TABLE ${ tableID } ( ${ fields } );`;
+    var primary:String = `,PRIMARY KEY( ${ this.getPrimaryList( tableInterface ) } )`;
+    var sqlString = `CREATE TABLE ${ tableID } ( ${ fields } ${ primary } );`;
 
     return sqlString;
+  }
+
+  getPrimaryList(tableInterface:Column[]):String
+  {
+    let result = [];
+
+    tableInterface.forEach( column =>
+    {
+      if( column.primary )
+        result.push( column.name );
+    })
+
+    return result.join( ',' );
   }
 
   getSQLStringInsertListObjectData(tableID:String, list:any[]):String
@@ -145,15 +145,16 @@ export class LocalSQLite
    * Public interface.
    */
 
-  constructor(private name:String, private tableInfterface:Column[])
+  constructor(private name:String, private tableInterface:Column[])
   {
     var db = this.db;
 
     this.getSQLTableExists = this.curryGetSQLTableExists( db );
     this.setup = this.currySetup( db );
     this.save = this.currySave( db, this.path );
-    this.insert = this.curryInsert( db, this.tableInfterface );
-    this.export = this.curryExport( db, this.tableInfterface );
+    this.insert = this.curryInsert( db, this.tableInterface );
+    this.export = this.curryExport( db, this.tableInterface );
+    this.run = this.curryRun( db, this.tableInterface );
     this.createTableIfItDoesntExist = this.curryCreateTableIfItDoesntExist( db );
   }
 
@@ -197,6 +198,16 @@ export class LocalSQLite
     }
   }
 
+  curryRun(db:any, tableInteface:Column[]):Function
+  {
+    return (tableID:String, sqlString:String) =>
+    {
+      this.createTableIfItDoesntExist( tableID, tableInteface );
+
+      db.run( sqlString );
+      this.save();
+    }
+  }
 
   currySetup(db:any):Function
   {
@@ -238,8 +249,8 @@ export class LocalSQLite
       var insertListObjectData = this.getSQLStringInsertListObjectData( tableID, table );
 
       var sqlString = `${ insertListObjectData }`;
-      db.run( sqlString );
 
+      db.run( sqlString );
       this.save();
     }
   }

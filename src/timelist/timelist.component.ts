@@ -121,7 +121,7 @@ export class TimeListComponent implements OnInit
 
 	getSelectionById(list:Selection[], id:String)
 	{
-		return list.find( element => element.id == id );
+		return list.find( element => element.value == id );
 	}
 
 
@@ -133,6 +133,8 @@ export class TimeListComponent implements OnInit
 		modifieds = this.getRemovePathDuplicates( modifieds );
 		this.modifiedsFiltered = this.modTableRowDistance( modifieds );
 		this.modifiedsFiltered = this.modClearRepeatingClockValues( modifieds );
+
+		// TODO: Filter duplicate elements between distances > 0;
 
 		this.render();
 	}

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { Selection } from '../suffixselection/selection';
 import { SuffixSelectionService } from '../suffixselection/suffixselection.service';
 
@@ -9,42 +9,68 @@ import { SuffixSelectionService } from '../suffixselection/suffixselection.servi
 	styles: [ require( './suffixpicker.component.css' ) ],
 	providers: [ SuffixSelectionService ]
 })
-export class SuffixPickerComponent
+export class SuffixPickerComponent implements OnInit
 {
 	static BUTTON_ID_ALL:String = 'all';
 	static BUTTON_ID_NONE:String = 'none';
 
-	@Input() suffixSelectionList:Selection[];
+	private _suffixSelectionList:Selection[];
+
+	// @Input() suffixSelectionList:Selection[];
 	@Output() change = new EventEmitter();
+
+
+
+	get suffixSelectionList():Selection[]
+	{
+		return this._suffixSelectionList;
+	}
+
+	@Input( 'suffixSelectionList' )
+	set suffixSelectionList(value:Selection[])
+	{
+		this._suffixSelectionList = value;
+		// this.setSelectionList();
+		this.getSelectionList();
+	}
+
 
 
 	constructor(private suffixSelectionService:SuffixSelectionService){}
 
 	ngOnInit():void
 	{
-			this.getSelectedList();
+			this.getSelectionList();
 	}
 
 
-	getSelectedList()
+	getSelectionList()
 	{
 		this.suffixSelectionService.getSelectionList().then( selections =>
 		{
-			console.log( selections );
-			// this.modifieds = modifieds;
-			// this.suffixList = this.getSuffixList( this.modifieds );
-			// this.suffixSelectionList = this.getSuffixSelectionList( this.suffixList );
-			//
-			// this.updateFilteredModifiedList();
-			// this.render();
+			this.transferSelectionsFromTo( selections, this._suffixSelectionList );
+			this.change.emit();
 		});
 	}
 
-	setSelectedList()
+	transferSelectionsFromTo(updated:Selections[], current:Selection[]):void
 	{
-		let list = this.suffixSelectionList.filter( selection => selection.selected );
-		this.suffixSelectionService.setSelectionList( list );
+		if( current )
+		{
+			current.forEach( selection =>
+			{
+				let value = this.getSelectionByValue( updated, selection.value );
 
+				if( value )
+					selection.selected = value.selected;
+			});
+		}
+	}
+
+	setSelectionList()
+	{
+		// let list = this.suffixSelectionList.filter( selection => selection.selected );
+		this.suffixSelectionService.setSelectionList( this.suffixSelectionList );
 		this.change.emit();
 	}
 
@@ -53,10 +79,10 @@ export class SuffixPickerComponent
 	{
 			let checkbox = event.target;
 
-			let suffixSelection = this.getSelectionById( this.suffixSelectionList, checkbox.id )
+			let suffixSelection = this.getSelectionByValue( this.suffixSelectionList, checkbox.id )
 			suffixSelection.selected = checkbox.checked;
 
-			this.setSelectedList();
+			this.setSelectionList();
 	}
 
 	onClick(event:any)
@@ -73,11 +99,11 @@ export class SuffixPickerComponent
 		}
 
 		// this.suffixSelectionList = this.suffixSelectionList;
-		this.setSelectedList();
+		this.setSelectionList();
 	}
 
-	getSelectionById(list:Selection[], id:String)
+	getSelectionByValue(list:Selection[], value:String)
 	{
-		return list.find( element => element.id == id );
+		return list.find( element => element.value == value );
 	}
 }

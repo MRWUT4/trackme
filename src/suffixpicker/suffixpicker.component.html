@@ -9,8 +9,8 @@
   </label>
 
   <label *ngFor='let selection of suffixSelectionList'>
-    <input type='checkbox' id={{selection.id}} class='checkbox' [checked]=(selection.selected) (change)='onChange($event)'>
-    <span>{{selection.id}}</span>
+    <input type='checkbox' id={{selection.value}} class='checkbox' [checked]=(selection.selected) (change)='onChange($event)'>
+    <span>{{selection.value}}</span>
   </label>
 </form>
 
