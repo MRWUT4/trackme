@@ -10,6 +10,7 @@ td
 {
   padding-right: 1em;
   min-width: 3em;
+  cursor: default; 
 }
 
 .value

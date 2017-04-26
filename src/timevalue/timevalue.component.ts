@@ -9,15 +9,16 @@ import { Component, Input } from '@angular/core';
 export class TimeValueComponent
 {
 	public folderDepth:number = 4;
+	public distanceMultiplier:number = .5;
 
 	@Input() time:String = '';
 	@Input() path:String = './';
-	@Input() distance:Number = 0;
+	@Input() distance:number = 0;
 
 
 	get distanceEm():String
 	{
-		return this.distance + 'em';
+		return Math.ceil( this.distance * this.distanceMultiplier) + 'em';
 	}
 
 	get folder():String

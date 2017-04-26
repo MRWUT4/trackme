@@ -53,7 +53,7 @@ export class SuffixPickerComponent implements OnInit
 		});
 	}
 
-	transferSelectionsFromTo(updated:Selections[], current:Selection[]):void
+	transferSelectionsFromTo(updated:Selection[], current:Selection[]):void
 	{
 		if( current )
 		{

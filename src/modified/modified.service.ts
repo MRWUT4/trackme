@@ -7,6 +7,8 @@ import { LocalSQLite, Column } from '../localsqlite/localsqlite';
 @Injectable()
 export class ModifiedService
 {
+	static MODIFIED_INTERVAL;
+
 	tableID:String = 'modified';
 	localSQLite:LocalSQLite = new LocalSQLite( 'trackme',
 	[
@@ -18,6 +20,8 @@ export class ModifiedService
 	[
 		new FilterElement( 'nonApplicationSupport', list => list.filter( value => !value.match( '/Application Support' ) ) ),
 		new FilterElement( 'nonDSStore', list => list.filter( value => !value.match( '.DS_Store' ) ) ),
+		new FilterElement( 'nonDSStore', list => list.filter( value => !value.match( '.bash_history' ) ) ),
+		new FilterElement( 'nonDSStore', list => list.filter( value => !value.match( '.bash_sessions' ) ) ),
 		new FilterElement( 'nonSQLite', list => list.filter( value => !value.match( '.sqlite' ) ) ),
 		new FilterElement( 'nonLibrary', list => list.filter( value => !value.match( '/Library' ) ) ),
 		new FilterElement( 'nonEmpty', list => list.filter( value => value != '' ) ),
@@ -65,24 +69,28 @@ export class ModifiedService
 
 	startSaveModifiedLoop():void
 	{
-		let onMinute:number = 1000 * 60;
-
-		let execute = () =>
+		if( ModifiedService.MODIFIED_INTERVAL == undefined )
 		{
-			this.receiveUsername( username =>
+			let everyMinute:number = 1000 * 60;
+
+			let execute = () =>
 			{
-				this.receiveLastModified( username, list =>
+				this.receiveUsername( username =>
 				{
-					list = this.filter.apply( list );
-					list = this.getModifiedWithDate( list );
+					this.receiveLastModified( username, list =>
+					{
+						list = this.filter.apply( list );
+						list = this.getModifiedWithDate( list );
 
-					this.localSQLite.insert( this.tableID, list );
+						this.localSQLite.insert( this.tableID, list );
+					});
 				});
-			});
-		}
+			}
 
-		setInterval( execute, onMinute );
-		execute();
+			ModifiedService.MODIFIED_INTERVAL = setInterval( execute, everyMinute );
+
+			execute();
+		}
 	}
 
 	getModifiedWithDate(list):Modified[]
