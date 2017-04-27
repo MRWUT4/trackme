@@ -113,7 +113,7 @@ export class TimeListComponent implements OnInit
 	/** Modify timeline values. */
 	modClearRepeatingPathValuesInGroup(modifieds:Modified[]):Modified[]
 	{
-		let groups = this.getModifiedsGroupedByCondition( modifieds, ( a, b ) => a.distance == 0 );
+		let groups = this.getModifiedsGroupedByCondition( modifieds, ( a, b ) => b.distance == 0 );
 
 		groups.forEach( (group, index) =>
 		{
@@ -222,7 +222,7 @@ export class TimeListComponent implements OnInit
 		{
 			let last = section[ section.length - 1 ];
 
-			if( last == undefined || condition( last, modified ) )
+			if( !last || condition( last, modified ) )
 				section.push( modified );
 			else
 			{
