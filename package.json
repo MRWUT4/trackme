@@ -1,18 +1,26 @@
 {
   "name": "trackme",
   "version": "0.0.1",
-  "description": "",
+  "description": "File tracker.",
   "main": "main.js",
   "scripts": {
     "start": "electron main.js",
     "build": "webpack --progress --profile --colors --display-error-details --display-cached",
     "watch": "webpack --watch --progress --profile --colors --display-error-details --display-cached",
-    "distribute": "electron-packager . Electrogram --platform=darwin --arch=x64 --out=releases/ --overwrite --icon=src/assets/images/electrogram  --asar"
+    "distribute": "electron-packager . trackme --platform=darwin --arch=x64 --out=releases/ --overwrite --asar",
+    "postinstall": "install-app-deps"
+  },
+  "build": {
+    "appId": "de.davidochmann.trackme",
+    "mac": {
+      "category": "Utility"
+    }
   },
   "author": "David Ochmann",
   "license": "MIT",
   "devDependencies": {
     "css-loader": "^0.23.1",
+    "electron-builder": "^17.1.1",
     "electron-packager": "^7.0.1",
     "electron-prebuilt": "^1.0.1",
     "electron-reload": "^0.3.0",

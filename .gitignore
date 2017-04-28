@@ -2,6 +2,7 @@ node_modules
 typings
 build
 releases
+dist
 
 .DS_Store
 .idea/

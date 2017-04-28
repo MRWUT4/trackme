@@ -6,6 +6,7 @@ import { TimeListComponent } from './timelist.component';
 import { TimeValueComponent } from '../timevalue/timevalue.component';
 import { DatePickerComponent } from '../datepicker/datepicker.component';
 import { SuffixPickerComponent } from '../suffixpicker/suffixpicker.component';
+import { ReplaceNullPipe } from '../pipes/replacenull.pipe';
 
 @NgModule(
 {
@@ -14,7 +15,8 @@ import { SuffixPickerComponent } from '../suffixpicker/suffixpicker.component';
 		DatePickerComponent,
 		SuffixPickerComponent,
 		TimeListComponent,
-		TimeValueComponent
+		TimeValueComponent,
+		ReplaceNullPipe
 	],
 	imports:
 	[

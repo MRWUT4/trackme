@@ -15,20 +15,26 @@ export class TimeListComponent implements OnInit
 	static BUTTON_ID_ALL:String = 'all';
 	static BUTTON_ID_NONE:String = 'none';
 
+	// public date:Date = new Date( 017, 3, 20 );
 	public date:Date = new Date();
 
-	// previousTime:String = null;
-	modifieds:Modified[];
-	modifiedsFiltered:Modified[];
-	suffixList:String[];
-	suffixSelectionList:Selection[];
+	public getTimeWithResolution:Function;
+	public getModifiedDistance:Function;
+
+	public resolution:number = 10;
+	public modifieds:Modified[];
+	public modifiedsFiltered:Modified[];
+	public suffixList:String[];
+	public suffixSelectionList:Selection[];
 
 
 	constructor(private ngZone:NgZone, private modifiedService:ModifiedService){}
 
 	ngOnInit():void
 	{
-			this.getModifiedList();
+			this.getModifiedList( this.date );
+			this.getTimeWithResolution = ( time:number ) => { return this.getMinuteResolution( time, this.resolution ) };
+			this.getModifiedDistance = this.curryGetModifiedDistance( this.resolution );
 	}
 
 	render()
@@ -96,6 +102,7 @@ export class TimeListComponent implements OnInit
 	updateFilteredModifiedList():void
 	{
 		let modifieds = this.getClonedModifiedList( this.modifieds );
+		modifieds = this.modTimeResolution( modifieds );
 		modifieds = this.getFilteredModifiedList( modifieds, this.suffixSelectionList );
 		modifieds = this.modTableRowDistance( modifieds );
 		modifieds = this.modClearRepeatingPathValuesInGroup( modifieds );
@@ -104,16 +111,30 @@ export class TimeListComponent implements OnInit
 
 		this.modifiedsFiltered = modifieds;
 
-		// TODO: Filter duplicate elements between distances > 0;
-
 		this.render();
 	}
 
 
 	/** Modify timeline values. */
+	modTimeResolution(modifieds:Modified[]):Modified[]
+	{
+		modifieds.forEach( modified => modified.time = this.getTimeWithResolution( modified.time ) );
+		return modifieds;
+	}
+
+	getMinuteResolution(time:number, resolution:number = 1):number
+	{
+		return  Math.round( time / 1000 / 60 / resolution ) * resolution * 1000 * 60;
+	}
+
+	getTimeAsMinutes(time:number):number
+	{
+		return Math.floor( ( time / 1000 ) / 60 );
+	}
+
 	modClearRepeatingPathValuesInGroup(modifieds:Modified[]):Modified[]
 	{
-		let groups = this.getModifiedsGroupedByCondition( modifieds, ( a, b ) => b.distance == 0 );
+		let groups = this.getModifiedsGroupedByCondition( modifieds, ( a, b ) => b.distance > 0 );
 
 		groups.forEach( (group, index) =>
 		{
@@ -131,15 +152,16 @@ export class TimeListComponent implements OnInit
 
 	modClearRepeatingClockValues(modifieds:Modified[]):Modified[]
 	{
-		let previousMinutes = Number.NaN;
+		let groups = this.getModifiedsGroupedByCondition( modifieds, ( a, b ) => a.distance > 0 );
 
-		modifieds.forEach( (current, index) =>
+		groups.forEach( group =>
 		{
-			var previous = modifieds[ index - 1 ];
-
-			if( previous && previous.distance == 0 && current.distance == 0  && index != modifieds.length - 1 )
-				current.clock = '';
-		});
+			group.forEach( (element, index) =>
+			{
+				if( index != 0 && index != group.length - 1 )
+					element.clock = '';
+			});
+		})
 
 		return modifieds;
 	}
@@ -151,24 +173,20 @@ export class TimeListComponent implements OnInit
 			let previous = modifieds[ index - 1 ];
 
 			if( previous )
-			{
-				previous.distance = Math.max( 0, Math.min( 4, this.getModifiedDistance( current, previous ) ) );
-			}
+				previous.distance = Math.max( 0, Math.min( 5, this.getModifiedDistance( current, previous ) * .1 ) );
 		});
 
 		return modifieds;
 	}
 
 
-	getModifiedDistance(current:Modified, previous:Modified):number
+	curryGetModifiedDistance(resolution:number = 1):Function
 	{
-		var value = ( this.getTimeAsMinutes( current.time ) - ( this.getTimeAsMinutes( previous.time ) + 1 ) );
-		return value;
-	}
-
-	getTimeAsMinutes(time:number):number
-	{
-		return Math.floor( ( time / 1000 ) / 60 );
+		return (current:Modified, previous:Modified):number =>
+		{
+			var value = ( this.getTimeAsMinutes( current.time ) - ( this.getTimeAsMinutes( previous.time ) + resolution ) );
+			return value;
+		}
 	}
 
 	getClonedModifiedList(modifieds:Modified[]):Modified[]
@@ -222,13 +240,13 @@ export class TimeListComponent implements OnInit
 		{
 			let last = section[ section.length - 1 ];
 
-			if( !last || condition( last, modified ) )
-				section.push( modified );
-			else
+			if( last && condition( last, modified ) )
 			{
 				section = [];
 				list.push( section );
 			}
+
+			section.push( modified );
 		})
 
 		return list;

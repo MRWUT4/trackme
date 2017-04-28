@@ -26,6 +26,7 @@ export class Modified
 
 	get suffix():String
 	{
+		/*
 		let file:String = this.path.split( '/' ).pop();
 
 		let list:any[] = file.split( '.' );
@@ -34,7 +35,9 @@ export class Modified
 		let value:String = list.join( '.' );
 
 		return value;
-		// return .split( '.' ).pop();
+		/*/
+		return this.path.split( '/' ).pop().split( '.' ).pop();
+		//*/
 	}
 
 	get minutes():number

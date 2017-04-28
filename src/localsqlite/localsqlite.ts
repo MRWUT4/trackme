@@ -1,8 +1,9 @@
 import * as fs from 'fs';
 import { ValuePair } from './valuepair';
-// import * as SQL from 'sql.js';
-let SQL = require( 'sql.js' );
 
+import { remote } from 'electron';
+// import * as SQL from 'sql.js';
+const SQL = require( 'sql.js' );
 
 export class Column
 {
@@ -37,7 +38,12 @@ export class LocalSQLite
 
   get path():string
   {
-    return this.name + '.sqlite';
+    // let string = './' + this.name + '.sqlite';
+
+    let appPath = remote.app.getAppPath();
+    let string = appPath.split( '/' ).slice( 0, -1 ).join( '/' ) + '/' + this.name + '.sqlite';
+
+    return string;
   }
 
   get db():any
@@ -72,6 +78,8 @@ export class LocalSQLite
     var primary:String = `,PRIMARY KEY( ${ this.getPrimaryList( tableInterface ) } )`;
     var sqlString = `CREATE TABLE ${ tableID } ( ${ fields } ${ primary } );`;
 
+    console.log( sqlString );
+
     return sqlString;
   }
 
@@ -104,6 +112,8 @@ export class LocalSQLite
 
       sqlString += `INSERT INTO ${ tableID } VALUES ( ${ values } );\n`;
     })
+
+    console.log( sqlString );
 
     return sqlString;
   }
