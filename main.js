@@ -7,9 +7,11 @@ const Menu = electron.Menu;
 // let menuTemplate = require('./menuTemplate');
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
+const isProd = process.execPath.search( 'electron-prebuilt' ) === -1;
 
 // Allows for live-reload while developing the app
-require('electron-reload')(__dirname + '/build');
+if( !isProd )
+  require('electron-reload')(__dirname + '/build');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -17,11 +19,12 @@ let mainWindow, menu, dockMenu;
 
 let createWindow = () =>
 {
+
   // Create the browser window.
   mainWindow = new BrowserWindow(
   {
-    width: 1200,
-    height: 600,
+    width: isProd ? 800 : 1200,
+    height: 600
     // titleBarStyle: 'hidden'
   });
 
@@ -29,7 +32,8 @@ let createWindow = () =>
   mainWindow.loadURL('file://' + __dirname + '/index.html');
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  if( !isProd )
+    mainWindow.webContents.openDevTools();
 
   // Emitted when the window is closed.
   mainWindow.on('closed', () =>

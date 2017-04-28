@@ -13,7 +13,7 @@ export class ModifiedService
 	localSQLite:LocalSQLite = new LocalSQLite( 'trackme',
 	[
 		new Column( 'path', 'text' ),
-		new Column( 'time', 'int', true )
+		new Column( 'time', 'int'  )
 	]);
 
 	filter:Filter = new Filter(

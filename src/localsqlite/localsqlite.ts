@@ -40,8 +40,11 @@ export class LocalSQLite
   {
     // let string = './' + this.name + '.sqlite';
 
-    let appPath = remote.app.getAppPath();
-    let string = appPath.split( '/' ).slice( 0, -1 ).join( '/' ) + '/' + this.name + '.sqlite';
+    // let appPath = remote.app.getAppPath();
+    // let string = appPath.split( '/' ).slice( 0, -1 ).join( '/' ) + '/' + this.name + '.sqlite';
+
+    let appData = remote.app.getPath( 'appData' );
+    let string = `${ appData }/${ this.name }/Databases.sqlite`;
 
     return string;
   }
@@ -75,10 +78,10 @@ export class LocalSQLite
         fields += prefix + column.name + ' ' + column.type;
     });
 
-    var primary:String = `,PRIMARY KEY( ${ this.getPrimaryList( tableInterface ) } )`;
-    var sqlString = `CREATE TABLE ${ tableID } ( ${ fields } ${ primary } );`;
 
-    console.log( sqlString );
+    var primaryList:String = this.getPrimaryList( tableInterface );
+    var primary:String = primaryList != '' ? `, PRIMARY KEY( ${ primaryList } )` : '';
+    var sqlString = `CREATE TABLE ${ tableID } ( ${ fields } ${ primary } );`;
 
     return sqlString;
   }
@@ -112,8 +115,6 @@ export class LocalSQLite
 
       sqlString += `INSERT INTO ${ tableID } VALUES ( ${ values } );\n`;
     })
-
-    console.log( sqlString );
 
     return sqlString;
   }
