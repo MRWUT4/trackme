@@ -1,5 +1,6 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { Modified } from '../modified/modified';
+import { GroupModified } from '../modified/groupmodified';
 import { ModifiedService } from '../modified/modified.service';
 import { Selection } from '../suffixselection/selection';
 
@@ -26,12 +27,7 @@ export class TimeListComponent implements OnInit
 	public modifiedsFiltered:Modified[];
 	public suffixList:String[];
 	public suffixSelectionList:Selection[];
-
-
-	get modifiedsDistanceGrouped():any[]
-	{
-		return this.getModifiedsGroupedByCondition( this.modifiedsFiltered || [], ( a, b ) => b.distance > 0 );
-	}
+	public modifiedsDistanceGrouped:any[];
 
 
 	constructor(private ngZone:NgZone, private modifiedService:ModifiedService){}
@@ -75,7 +71,6 @@ export class TimeListComponent implements OnInit
 
 	onSuffixPickerChange():void
 	{
-		console.log( 'onSuffixPickerChange' );
 		this.updateFilteredModifiedList();
 	}
 
@@ -122,7 +117,6 @@ export class TimeListComponent implements OnInit
 		modifieds = this.modTableRowDistance( modifieds );
 		modifieds = this.modClearRepeatingClockValues( modifieds );
 
-		console.log( 'updateFilteredModifiedList' );
 		this.modifiedsFiltered = modifieds;
 
 		this.render();
@@ -148,7 +142,7 @@ export class TimeListComponent implements OnInit
 
 	modClearRepeatingPathValuesInGroup(modifieds:Modified[]):Modified[]
 	{
-		let groups = this.getModifiedsGroupedByCondition( modifieds, ( a, b ) => b.distance > 0 );
+		let groups = GroupModified.byCondition( modifieds, ( a, b ) => b.distance > 0 );
 
 		groups.forEach( (group, index) =>
 		{
@@ -166,7 +160,7 @@ export class TimeListComponent implements OnInit
 
 	modClearRepeatingClockValues(modifieds:Modified[]):Modified[]
 	{
-		let groups = this.getModifiedsGroupedByCondition( modifieds, ( a, b ) => a.distance > 0 );
+		let groups = GroupModified.byDistance( modifieds );
 
 		groups.forEach( group =>
 		{
@@ -221,7 +215,7 @@ export class TimeListComponent implements OnInit
 		{
 			let previous = modifieds[ index - 1 ];
 
-			if( !previous /*|| index == modifieds.length - 1*/ || modified.path != previous.path )
+			if( !previous || modified.path != previous.path )
 				result.push( modified );
 		});
 
@@ -243,27 +237,6 @@ export class TimeListComponent implements OnInit
 		});
 
 		return modifieds;
-	}
-
-	getModifiedsGroupedByCondition(modifieds:Modified[], condition:Function):any[]
-	{
-		var list = [ [] ];
-		var section = list[ 0 ];
-
-		modifieds.forEach( modified =>
-		{
-			let last = section[ section.length - 1 ];
-
-			if( last && condition( last, modified ) )
-			{
-				section = [];
-				list.push( section );
-			}
-
-			section.push( modified );
-		})
-
-		return list;
 	}
 
 	getUngroupedList(groups:any[]):any[]
