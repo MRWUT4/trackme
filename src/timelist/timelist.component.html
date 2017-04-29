@@ -5,9 +5,13 @@
     [date]='date'
   ></date-picker>
 
+  <circle-diagram-day
+    [modifiedsGrouped]='modifiedsDistanceGrouped'
+  ></circle-diagram-day>
+
   <suffix-picker
-    (change)='updateFilteredModifiedList()'
-    [(suffixSelectionList)]='suffixSelectionList'
+    (change)='onSuffixPickerChange()'
+    [suffixSelectionList]='suffixSelectionList'
   ></suffix-picker>
 
   <table>

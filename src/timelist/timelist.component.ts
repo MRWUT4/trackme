@@ -28,7 +28,14 @@ export class TimeListComponent implements OnInit
 	public suffixSelectionList:Selection[];
 
 
+	get modifiedsDistanceGrouped():any[]
+	{
+		return this.getModifiedsGroupedByCondition( this.modifiedsFiltered || [], ( a, b ) => b.distance > 0 );
+	}
+
+
 	constructor(private ngZone:NgZone, private modifiedService:ModifiedService){}
+
 
 	ngOnInit():void
 	{
@@ -64,6 +71,12 @@ export class TimeListComponent implements OnInit
 	onDateChange(date:Date):void
 	{
 		this.getModifiedList( date );
+	}
+
+	onSuffixPickerChange():void
+	{
+		console.log( 'onSuffixPickerChange' );
+		this.updateFilteredModifiedList();
 	}
 
 
@@ -109,6 +122,7 @@ export class TimeListComponent implements OnInit
 		modifieds = this.modTableRowDistance( modifieds );
 		modifieds = this.modClearRepeatingClockValues( modifieds );
 
+		console.log( 'updateFilteredModifiedList' );
 		this.modifiedsFiltered = modifieds;
 
 		this.render();
