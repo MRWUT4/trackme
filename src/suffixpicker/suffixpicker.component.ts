@@ -49,9 +49,8 @@ export class SuffixPickerComponent implements OnInit
 		this.suffixSelectionService.getSelectionList().then( selections =>
 		{
 			this.transferSelectionsFromTo( selections, this._suffixSelectionList );
+			this.change.emit();
 		});
-
-		this.change.emit();
 	}
 
 	transferSelectionsFromTo(updated:Selection[], current:Selection[]):void
@@ -62,7 +61,7 @@ export class SuffixPickerComponent implements OnInit
 			{
 				let value = this.getSelectionByValue( updated, selection.value );
 
-				if( value && selection.selected != value.selected )
+				if( value )
 					selection.selected = value.selected;
 			});
 		}

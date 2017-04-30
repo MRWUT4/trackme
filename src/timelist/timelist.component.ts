@@ -16,15 +16,15 @@ export class TimeListComponent implements OnInit
 	static BUTTON_ID_ALL:String = 'all';
 	static BUTTON_ID_NONE:String = 'none';
 
-	// public date:Date = new Date( 017, 3, 20 );
-	public date:Date = new Date();
+	public date:Date = new Date( 2017, 3, 29 );
+	// public date:Date = new Date();
 
 	public getTimeWithResolution:Function;
 	public getModifiedDistance:Function;
 
 	public resolution:number = 10;
 	public modifieds:Modified[];
-	public modifiedsFiltered:Modified[];
+	public modifiedsFiltered:Modified[] = [];
 	public suffixList:String[];
 	public suffixSelectionList:Selection[];
 	public modifiedsDistanceGrouped:any[];
@@ -109,15 +109,15 @@ export class TimeListComponent implements OnInit
 	/** Filter handling. */
 	updateFilteredModifiedList():void
 	{
-		let modifieds = this.getClonedModifiedList( this.modifieds );
-		modifieds = this.modTimeResolution( modifieds );
-		modifieds = this.getFilteredModifiedList( modifieds, this.suffixSelectionList );
-		modifieds = this.modTableRowDistance( modifieds );
-		modifieds = this.modClearRepeatingPathValuesInGroup( modifieds );
-		modifieds = this.modTableRowDistance( modifieds );
-		modifieds = this.modClearRepeatingClockValues( modifieds );
+		let modifiedsFiltered = this.getClonedModifiedList( this.modifieds );
+		modifiedsFiltered = this.modTimeResolution( modifiedsFiltered );
+		modifiedsFiltered = this.getFilteredModifiedList( modifiedsFiltered, this.suffixSelectionList );
+		modifiedsFiltered = this.modTableRowDistance( modifiedsFiltered );
+		modifiedsFiltered = this.modClearRepeatingPathValuesInGroup( modifiedsFiltered );
+		modifiedsFiltered = this.modTableRowDistance( modifiedsFiltered );
+		modifiedsFiltered = this.modClearRepeatingClockValues( modifiedsFiltered );
 
-		this.modifiedsFiltered = modifieds;
+		this.modifiedsFiltered = modifiedsFiltered;
 
 		this.render();
 	}
@@ -142,20 +142,12 @@ export class TimeListComponent implements OnInit
 
 	modClearRepeatingPathValuesInGroup(modifieds:Modified[]):Modified[]
 	{
-		let groups = GroupModified.byCondition( modifieds, ( a, b ) => b.distance > 0 );
+		let groups = GroupModified.byDistance( modifieds );
+		let list = groups.map( group => this.getRemovePathDuplicates( group ) );
 
-		groups.forEach( (group, index) =>
-		{
-			group = this.getElementsSortedByProperty( group, 'path' );
-			group = this.getRemovePathDuplicates( group );
-			group = this.getElementsSortedByProperty( group, 'time' );
+		let result = this.getUngroupedList( list );
 
-			groups[ index ] = group;
-		});
-
-		let list = this.getUngroupedList( groups );
-
-		return list;
+		return result;
 	}
 
 	modClearRepeatingClockValues(modifieds:Modified[]):Modified[]
@@ -211,15 +203,18 @@ export class TimeListComponent implements OnInit
 	{
 		let result:Modified[] = [];
 
+		// let getIsInList = ( list, search ) => list.find( modified => modified.path == search.path );
+
 		modifieds.forEach( (modified, index) =>
 		{
-			let previous = modifieds[ index - 1 ];
-
-			if( !previous || modified.path != previous.path )
+			if( !result.find( element => element.path == modified.path ) )
 				result.push( modified );
-		});
 
-		let previous = null;
+			// let previous = modifieds[ index - 1 ];
+			//
+			// if( !previous || modified.path != previous.path )
+			// 	result.push( modified );
+		});
 
 		return result;
 	}

@@ -10,10 +10,10 @@ import { GroupModified } from '../modified/groupmodified';
 })
 export class CircleDiagramDay
 {
-  @Input() diameter:number = 150;
+  @Input() diameter:number = 100;
   @Input() modifieds:any[]
-  @Input() hourStart:number = 6;
-  @Input() hourEnd:number = 18;
+  @Input() hourStart:number = 0;
+  @Input() hourEnd:number = 12;
 
   @ViewChild( 'canvasElement' ) canvasReference;
 
@@ -32,6 +32,7 @@ export class CircleDiagramDay
   ngOnChanges()
   {
     let gap = .3;
+    let d = .1;
     let ctx = this.setupCanvas( this.canvasReference );
 
     this.drawCircle = this.curryDrawCircle( ctx );
@@ -40,27 +41,29 @@ export class CircleDiagramDay
 
     if( this.modifieds && this.modifieds.length > 0 )
     {
-      let modifiedsSplitByHour = GroupModified.byHour( this.modifieds, this.hourStart, this.hourEnd );
-      let modifiedsSplitGrouped = modifiedsSplitByHour.map( modifieds => GroupModified.byDistance( modifieds ) );
+      // let modifiedsSplitByHour = GroupModified.byHour( this.modifieds, this.hourStart, this.hourEnd );
+      // let modifiedsSplitGrouped = modifiedsSplitByHour.map( modifieds => GroupModified.byDistance( modifieds ) );
 
+      let modifiedGroupedByDistance = GroupModified.byDistance( this.modifieds );
 
       this.clearCanvas( ctx, this.diameter );
 
       this.drawCircle( this.diameter,  1, this.colorInactive );
-      this.drawTimeSlots( modifiedsSplitGrouped[ 0 ], this.diameter, 1, this.colorActive );
+      // this.drawTimeSlots( modifiedsSplitGrouped[ 1 ], this.diameter, 1, this.colorActive );
+      this.drawTimeSlots( modifiedGroupedByDistance, this.diameter, 1, this.colorActive );
       this.drawCircle( this.diameter, 1 - gap, this.colorBackground );
 
-      this.drawCircle( this.diameter, 1 - gap - .1, this.colorInactive );
-      this.drawTimeSlots( modifiedsSplitGrouped[ 1 ], this.diameter, 1 - gap - .1, this.colorActive );
-      this.drawCircle( this.diameter, 1 - gap * 2 - .1, this.colorBackground );
+      // this.drawCircle( this.diameter, 1 - gap - d, this.colorInactive );
+      // this.drawTimeSlots( modifiedsSplitGrouped[ 0 ], this.diameter, 1 - gap - d, this.colorActive );
+      // this.drawCircle( this.diameter, 1 - gap * 2 - d, this.colorBackground );
     }
     else
     {
       this.drawCircle( this.diameter,  1, this.colorInactive );
       this.drawCircle( this.diameter, 1 - gap, this.colorBackground );
 
-      this.drawCircle( this.diameter, 1 - gap - .1, this.colorInactive );
-      this.drawCircle( this.diameter, 1 - gap * 2 - .1, this.colorBackground );
+      // this.drawCircle( this.diameter, 1 - gap - d, this.colorInactive );
+      // this.drawCircle( this.diameter, 1 - gap * 2 - d, this.colorBackground );
     }
   }
 
@@ -104,9 +107,9 @@ export class CircleDiagramDay
       {
         if( modifieds.length > 0 )
         {
-          let fiveMinutes = 1000 * 60 * 5;
+          let tenMinutes = 1000 * 60 * 10;
           let first = this.getTimeToAngle( modifieds[ 0 ].time );
-          let last = this.getTimeToAngle( modifieds[ modifieds.length - 1 ].time + fiveMinutes );
+          let last = this.getTimeToAngle( modifieds[ modifieds.length - 1 ].time + tenMinutes );
 
           this.drawCircle( diameter, scale, color, first, last );
         }

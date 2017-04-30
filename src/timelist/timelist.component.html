@@ -24,6 +24,10 @@
         [path]='modified.path'
       ></timevalue>
 
+      <div *ngIf='modifiedsFiltered.length == 0'>
+        There are currently no entries for this date.
+      </div>
+
     </tbody>
   </table>
 

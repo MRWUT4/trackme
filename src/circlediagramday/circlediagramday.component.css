@@ -1,5 +1,45 @@
 canvas
 {
-  margin-bottom: 1em;
-  margin-right: 1em;
+  /*margin-bottom: 1em;
+  margin-right: 1em;*/
+}
+
+.container
+{
+  margin-top: 1em;
+  margin-bottom: 2em;
+  position: relative;
+  display: inline-block;
+}
+
+span
+{
+  font-size: .8em;
+  position: absolute;
+  text-align: center;
+  color: #ddd;
+}
+
+.top
+{
+  left: 45%;
+  top: -18%;
+}
+
+.bottom
+{
+  top: 105%;
+  left: 45%;
+}
+
+.left
+{
+  top: 45%;
+  left: -20%;
+}
+
+.right
+{
+  top: 45%;
+  left: 104%;
 }
