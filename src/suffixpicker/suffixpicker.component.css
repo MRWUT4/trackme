@@ -1,6 +1,8 @@
-.wrapper
+:host
 {
+  display: inline-block;
   overflow: auto;
+  margin-top: 1em;
   margin-bottom: 1em;
 }
 
@@ -24,7 +26,8 @@ span
   font: inherit;
 }
 
-:checked + span {
+:checked + span
+{
   background-color: #66B2E8;
 }
 

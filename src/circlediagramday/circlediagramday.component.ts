@@ -120,7 +120,7 @@ export class CircleDiagramDay
   getTimeToAngle(time:number):number
   {
     let date = new Date( time );
-    let radians = ( ( date.getHours() + date.getMinutes() / 60 ) / 12 ) * Math.PI * 2;
+    let radians = ( ( date.getHours() + date.getMinutes() / 60 ) / 24 ) * Math.PI * 2;
     radians += Math.PI * 1.5;
 
     return radians;

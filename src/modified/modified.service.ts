@@ -88,7 +88,6 @@ export class ModifiedService
 			}
 
 			ModifiedService.MODIFIED_INTERVAL = setInterval( execute, everyMinute );
-
 			execute();
 		}
 	}

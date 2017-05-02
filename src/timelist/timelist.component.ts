@@ -16,8 +16,8 @@ export class TimeListComponent implements OnInit
 	static BUTTON_ID_ALL:String = 'all';
 	static BUTTON_ID_NONE:String = 'none';
 
-	public date:Date = new Date( 2017, 3, 29 );
-	// public date:Date = new Date();
+	// public date:Date = new Date( 2017, 3, 29 );
+	public date:Date = new Date();
 
 	public getTimeWithResolution:Function;
 	public getModifiedDistance:Function;

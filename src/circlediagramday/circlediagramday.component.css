@@ -4,10 +4,11 @@ canvas
   margin-right: 1em;*/
 }
 
-.container
+:host
 {
   margin-top: 1em;
-  margin-bottom: 2em;
+  margin-bottom: 1em;
+  margin-right: 2em;
   position: relative;
   display: inline-block;
 }
@@ -35,11 +36,11 @@ span
 .left
 {
   top: 45%;
-  left: -20%;
+  left: -22%;
 }
 
 .right
 {
   top: 45%;
-  left: 104%;
+  left: 105%;
 }

@@ -13,6 +13,12 @@ input
   /*width: 4em;*/
   font-weight: bold;
   border-style: none;
+  text-align: center;
+}
+
+label
+{
+  text-align: center;
 }
 
 input:focus

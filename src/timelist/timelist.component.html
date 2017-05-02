@@ -5,9 +5,15 @@
     [date]='date'
   ></date-picker>
 
-  <circle-diagram-day
-    [modifieds]='modifiedsFiltered'
-  ></circle-diagram-day>
+  <div class='head'>
+    <circle-diagram-day
+      [modifieds]='modifiedsFiltered'
+    ></circle-diagram-day>
+
+    <progress-text
+      [modifieds]='modifiedsFiltered'
+    ></progress-text>
+  </div>
 
   <suffix-picker
     (change)='onSuffixPickerChange()'
