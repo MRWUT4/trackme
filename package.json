@@ -1,13 +1,13 @@
 {
   "name": "trackme",
-  "version": "0.0.2",
+  "version": "0.0.2-0",
   "description": "File tracker.",
   "main": "main.js",
   "scripts": {
     "start": "electron main.js",
     "build": "webpack --progress --profile --colors --display-error-details --display-cached",
     "watch": "webpack --watch --progress --profile --colors --display-error-details --display-cached",
-    "distribute": "npm run build && electron-packager . trackme --platform=darwin --arch=x64 --out=releases/ --overwrite --icon=src/assets/trackme.icns --asar",
+    "distribute": "npm version patch --force && npm run build && electron-packager . trackme --platform=darwin --arch=x64 --out=releases/ --overwrite --icon=src/assets/trackme.icns --asar",
     "postinstall": "install-app-deps"
   },
   "build": {
