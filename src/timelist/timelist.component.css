@@ -1,6 +1,7 @@
-.wrapper
+:host
 {
-  padding: 2em;
+  padding: 3em;
+  display: inline-block;
 }
 
 table

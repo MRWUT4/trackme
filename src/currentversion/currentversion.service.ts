@@ -13,31 +13,19 @@ export class CurrentVersionService
 
   constructor (private http: Http){}
 
-  getCurrentVersion():Promise<String>
+  getCurrentVersion():Observable<String>
   {
-    return new Promise( resolve =>
-    {
-      let url = this.currentVersionURL + this.currentVersionPHP;
-      console.log( 'getCurrentVersion', url )
-
-      this.http.get( url ).map( this.mapRequestDate ).catch( this.handleError );
-    });
+    let url = this.currentVersionURL + this.currentVersionPHP;
+    return this.http.get( url ).map( this.mapRequestDate ).catch( this.handleError );
   }
 
   mapRequestDate(response:Response)
   {
-    let body = response.json();
-
-    console.log( body );
-
-    return body.data || {};
+    return response.text() || {};
   }
 
   private handleError (error: Response | any)
   {
-    console.log( error );
     return Observable.throw( error.message );
   }
-
-  // handleError(error: Response | any){}
 }

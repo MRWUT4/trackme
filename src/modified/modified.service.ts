@@ -4,6 +4,8 @@ import { spawn } from 'child_process';
 import { Filter, FilterElement } from '../filter/Filter';
 import { LocalSQLite, Column } from '../localsqlite/localsqlite';
 
+import * as os from 'os';
+
 @Injectable()
 export class ModifiedService
 {
@@ -77,6 +79,8 @@ export class ModifiedService
 			{
 				this.receiveUsername( username =>
 				{
+					console.log( username );
+
 					this.receiveLastModified( username, list =>
 					{
 						list = this.filter.apply( list );
@@ -115,6 +119,7 @@ export class ModifiedService
 		{
 			var string = data.toString();
 			var list = string.split( '\n' );
+			list.pop();
 
 			callback( list );
 
@@ -128,9 +133,16 @@ export class ModifiedService
 	{
 		const whoami = spawn( 'whoami' );
 
+		let string = '';
+
 		whoami.stdout.on( 'data', data =>
 		{
-			var username = data.toString().replace( "\n", "" ).replace( " ", "" );
+			string += data.toString();
+		});
+
+		whoami.on( 'close', code =>
+		{
+			var username = string.replace( "\n", "" ).replace( " ", "" );
 			callback( username );
 		});
 	}

@@ -1,0 +1,11 @@
+<div class='parent' *ngIf="hasNewVersion">
+
+  <div class='child close' (click)='onCloseClick()'>×</div>
+
+  <span class='child big'>
+      A new version of trackme is available.
+      <br>
+      <a href='#' (click)='onDownloadClick()'>download</a>
+  </span>
+
+</div>

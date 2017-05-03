@@ -1,40 +1,36 @@
-<div class='wrapper'>
+<date-picker
+  (dateChange)='onDateChange($event)'
+  [date]='date'
+></date-picker>
 
-  <date-picker
-    (dateChange)='onDateChange($event)'
-    [date]='date'
-  ></date-picker>
+<div class='head'>
+  <circle-diagram-day
+    [modifieds]='modifiedsFiltered'
+  ></circle-diagram-day>
 
-  <div class='head'>
-    <circle-diagram-day
-      [modifieds]='modifiedsFiltered'
-    ></circle-diagram-day>
-
-    <progress-text
-      [modifieds]='modifiedsFiltered'
-    ></progress-text>
-  </div>
-
-  <suffix-picker
-    (change)='onSuffixPickerChange()'
-    [suffixSelectionList]='suffixSelectionList'
-  ></suffix-picker>
-
-  <table>
-    <tbody>
-
-      <timevalue
-        *ngFor='let modified of modifiedsFiltered'
-        [distance]='modified.distance'
-        [time]='modified.clock'
-        [path]='modified.path'
-      ></timevalue>
-
-      <div *ngIf='modifiedsFiltered.length == 0'>
-        There are currently no entries for this date.
-      </div>
-
-    </tbody>
-  </table>
-
+  <progress-text
+    [modifieds]='modifiedsFiltered'
+  ></progress-text>
 </div>
+
+<suffix-picker
+  (change)='onSuffixPickerChange()'
+  [suffixSelectionList]='suffixSelectionList'
+></suffix-picker>
+
+<table>
+  <tbody>
+
+    <timevalue
+      *ngFor='let modified of modifiedsFiltered'
+      [distance]='modified.distance'
+      [time]='modified.clock'
+      [path]='modified.path'
+    ></timevalue>
+
+    <div *ngIf='modifiedsFiltered.length == 0'>
+      There are currently no entries for this date.
+    </div>
+
+  </tbody>
+</table>

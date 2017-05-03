@@ -5,12 +5,14 @@ import { NgModule } from '@angular/core';
 
 import { TimeListModule } from '../timelist/timelist.module';
 import { AppComponent } from './app.component';
+import { CurrentVersionComponent } from '../currentversion/currentversion.component';
 
 @NgModule(
 {
 	declarations:
 	[
-		AppComponent
+		AppComponent,
+		CurrentVersionComponent
 	],
 	imports:
 	[
