@@ -17,6 +17,7 @@ export class TimeListComponent implements OnInit
 	static BUTTON_ID_NONE:String = 'none';
 
 	// public date:Date = new Date( 2017, 3, 29 );
+	// public date:Date = new Date( 2017, 4, 5 );
 	public date:Date = new Date();
 
 	public getTimeWithResolution:Function;
@@ -35,9 +36,10 @@ export class TimeListComponent implements OnInit
 
 	ngOnInit():void
 	{
-			this.getModifiedList( this.date );
 			this.getTimeWithResolution = ( time:number ) => { return this.getMinuteResolution( time, this.resolution ) };
 			this.getModifiedDistance = this.curryGetModifiedDistance( this.resolution );
+
+			this.getModifiedList( this.date );
 	}
 
 	render()
@@ -51,7 +53,7 @@ export class TimeListComponent implements OnInit
 	{
 		this.modifieds = [];
 
-		this.modifiedService.getModifiedList( date ).then( modifieds =>
+		this.modifiedService.getModifiedList( date ).subscribe( modifieds =>
 		{
 			this.modifieds = modifieds;
 			this.suffixList = this.getSuffixList( this.modifieds );
@@ -66,6 +68,7 @@ export class TimeListComponent implements OnInit
 	/** DatePicker handling. */
 	onDateChange(date:Date):void
 	{
+		console.log( 'onDateChange' );
 		this.getModifiedList( date );
 	}
 

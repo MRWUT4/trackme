@@ -13,24 +13,26 @@
   ></progress-text>
 </div>
 
-<suffix-picker
-  (change)='onSuffixPickerChange()'
-  [suffixSelectionList]='suffixSelectionList'
-></suffix-picker>
+<div *ngIf='modifiedsFiltered.length > 0'>
+  <suffix-picker
+    (change)='onSuffixPickerChange()'
+    [suffixSelectionList]='suffixSelectionList'
+  ></suffix-picker>
 
-<table>
-  <tbody>
+  <table>
+    <tbody>
 
-    <timevalue
-      *ngFor='let modified of modifiedsFiltered'
-      [distance]='modified.distance'
-      [time]='modified.clock'
-      [path]='modified.path'
-    ></timevalue>
+      <timevalue
+        *ngFor='let modified of modifiedsFiltered'
+        [distance]='modified.distance'
+        [time]='modified.clock'
+        [path]='modified.path'
+      ></timevalue>
 
-    <div *ngIf='modifiedsFiltered.length == 0'>
-      There are currently no entries for this date.
-    </div>
+    </tbody>
+  </table>
+</div>
 
-  </tbody>
-</table>
+<div class='relative' *ngIf='modifiedsFiltered.length == 0'>
+  <img class='spinner' src='src/assets/spinner.gif'>
+</div>

@@ -8,6 +8,10 @@
 {
   display: table-cell;
   vertical-align: middle;
-  color: #66B2E8;
   font-size: 1.5em;
+}
+
+span
+{
+  color: #66B2E8;
 }

@@ -1,1 +1,5 @@
-You've worked for {{totalTime | numberToText }} on:
+
+<span *ngIf="totalTime > 0; else nodata">You've worked for {{totalTime | numberToText }} on:</span>
+<ng-template #nodata>
+  <span>No data available. Please come back later.</span>
+</ng-template>

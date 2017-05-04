@@ -36,7 +36,6 @@ export class CurrentVersionComponent implements OnInit
     this.currentVersionService.getCurrentVersion().subscribe( (json:any) =>
     {
       this.showBannerIfNewVersionIsAvailable( json );
-
       this.openDownloadURL = this.curryOpenDownloadURL( json.url );
 
       this.render();
@@ -49,7 +48,7 @@ export class CurrentVersionComponent implements OnInit
     this.hasNewVersion = isProd && remote.app.getVersion() != json.version;
   }
 
-  curryOpenDownloadURL(url:String):Function
+  curryOpenDownloadURL(url:string):Function
   {
     return () =>
     {

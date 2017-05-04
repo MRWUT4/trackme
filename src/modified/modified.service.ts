@@ -3,12 +3,14 @@ import { Modified } from './modified';
 import { spawn } from 'child_process';
 import { Filter, FilterElement } from '../filter/Filter';
 import { LocalSQLite, Column } from '../localsqlite/localsqlite';
+import { Observable } from 'rxjs/Observable';
 
 import * as os from 'os';
 
 @Injectable()
 export class ModifiedService
 {
+	static USERNAME:string;
 	static MODIFIED_INTERVAL;
 
 	tableID:String = 'modified';
@@ -55,45 +57,55 @@ export class ModifiedService
 	}
 
 
-	getModifiedList(date:Date = null):Promise<Modified[]>
+	getModifiedList(date:Date = null):Observable<Modified[]>
 	{
 		date = date == null ?  new Date() : date;
 		date = this.modDateToNull( date );
 
-		this.startSaveModifiedLoop();
-
-		return new Promise( resolve =>
+		return new Observable( observer =>
 		{
-			var table:any[] = this.localSQLite.export( this.tableID, this.getSQLStringSelectDayFromTable( this.tableID, date ) ).map( Modified );
-			resolve( table[ 0 ] || [] );
+				let answerWithTableData = () =>
+				{
+					var table:any[] = this.localSQLite.export( this.tableID, this.getSQLStringSelectDayFromTable( this.tableID, date ) ).map( Modified );
+					observer.next( table[ 0 ] || [] );
+				};
+
+				let execute = () =>
+				{
+					answerWithTableData();
+					this.insertModifiedPathsInLocalSQLDatabase();
+				};
+
+				this.startSaveModifiedLoop( execute );
+				answerWithTableData();
 		});
 	}
 
-	startSaveModifiedLoop():void
+
+
+	startSaveModifiedLoop(callback:Function):void
 	{
 		if( ModifiedService.MODIFIED_INTERVAL == undefined )
 		{
 			let everyMinute:number = 1000 * 60;
 
-			let execute = () =>
-			{
-				this.receiveUsername( username =>
-				{
-					console.log( username );
-
-					this.receiveLastModified( username, list =>
-					{
-						list = this.filter.apply( list );
-						list = this.getModifiedWithDate( list );
-
-						this.localSQLite.insert( this.tableID, list );
-					});
-				});
-			}
-
-			ModifiedService.MODIFIED_INTERVAL = setInterval( execute, everyMinute );
-			execute();
+			ModifiedService.MODIFIED_INTERVAL = setInterval( callback, everyMinute );
+			callback();
 		}
+	}
+
+	insertModifiedPathsInLocalSQLDatabase():void
+	{
+			this.receiveUsername( username =>
+			{
+				this.receiveLastModified( username, list =>
+				{
+					list = this.filter.apply( list );
+					list = this.getModifiedWithDate( list );
+
+					this.localSQLite.insert( this.tableID, list );
+				});
+			});
 	}
 
 	getModifiedWithDate(list):Modified[]
@@ -119,7 +131,7 @@ export class ModifiedService
 		{
 			var string = data.toString();
 			var list = string.split( '\n' );
-			// list.pop();
+			list.pop();
 
 			callback( list );
 
@@ -131,19 +143,26 @@ export class ModifiedService
 
 	receiveUsername(callback)
 	{
-		const whoami = spawn( 'whoami' );
-
-		let string = '';
-
-		whoami.stdout.on( 'data', data =>
+		if( ModifiedService.USERNAME )
+			callback( ModifiedService.USERNAME );
+		else
 		{
-			string += data.toString();
-		});
+			const whoami = spawn( 'whoami' );
 
-		whoami.on( 'close', code =>
-		{
-			var username = string.replace( "\n", "" ).replace( " ", "" );
-			callback( username );
-		});
+			let string = '';
+
+			whoami.stdout.on( 'data', data =>
+			{
+				string += data.toString();
+			});
+
+			whoami.on( 'close', code =>
+			{
+				var username = string.replace( "\n", "" ).replace( " ", "" );
+				ModifiedService.USERNAME = username;
+
+				callback( username );
+			});
+		}
 	}
 }
