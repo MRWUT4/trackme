@@ -1,15 +1,9 @@
-:host
+.parent
 {
   height: 4em;
-  width: 100%;
   color: #fff;
   display: inline-block;
   text-align: center;
-}
-
-
-.parent
-{
   background-color: #66B2E8;
   height: 5em;
   position: relative;

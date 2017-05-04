@@ -13,18 +13,28 @@ export class CurrentVersionService
 
   constructor (private http: Http){}
 
+
   getCurrentVersion():Observable<String>
   {
     let url = this.currentVersionURL + this.currentVersionPHP;
-    return this.http.get( url ).map( this.mapRequestDate ).catch( this.handleError );
+
+    return this.http.get( url )
+      .map( this.mapRequestDate( this.currentVersionURL ) )
+      .catch( this.handleError );
   }
 
-  mapRequestDate(response:Response)
+  mapRequestDate(url:String)
   {
-    return response.text() || {};
+    return (response:Response) =>
+    {
+      let json = response.json();
+      json.url = url + json.name;
+
+      return json || { };
+    }
   }
 
-  private handleError (error: Response | any)
+  handleError(error: Response | any)
   {
     return Observable.throw( error.message );
   }

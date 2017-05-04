@@ -7,7 +7,7 @@
     "start": "electron main.js",
     "build": "webpack --progress --profile --colors --display-error-details --display-cached",
     "watch": "webpack --watch --progress --profile --colors --display-error-details --display-cached",
-    "distribute": "npm run build && electron-packager . trackme --platform=darwin --arch=x64 --out=releases/ --overwrite --icon=src/assets/trackme.icns --asar",
+    "distribute": "npm run build -prod && electron-packager . trackme --platform=darwin --arch=x64 --out=releases/ --overwrite --icon=src/assets/trackme.icns --asar",
     "postinstall": "install-app-deps"
   },
   "build": {

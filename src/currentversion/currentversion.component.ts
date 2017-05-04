@@ -1,6 +1,7 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { CurrentVersionService } from '../currentversion/currentversion.service';
 import { remote } from 'electron';
+import { shell } from 'electron';
 
 @Component(
 {
@@ -11,10 +12,14 @@ import { remote } from 'electron';
 })
 export class CurrentVersionComponent implements OnInit
 {
+  private openDownloadURL:Function = () => {};
+
   public downloadURL:string = 'http://davidochmann.de';
   public hasNewVersion:Boolean = false;
 
+
   constructor(private ngZone:NgZone, private currentVersionService:CurrentVersionService){}
+
 
   render()
 	{
@@ -28,32 +33,39 @@ export class CurrentVersionComponent implements OnInit
 
   getCurrentVersion():void
   {
-    this.currentVersionService.getCurrentVersion().subscribe( (currentVersion:string) =>
+    this.currentVersionService.getCurrentVersion().subscribe( (json:any) =>
     {
-      this.retrieveCurrentVersion( currentVersion );
+      this.showBannerIfNewVersionIsAvailable( json );
+
+      this.openDownloadURL = this.curryOpenDownloadURL( json.url );
+
       this.render();
     });
   }
 
-  retrieveCurrentVersion(currentVersion:string)
+  showBannerIfNewVersionIsAvailable(json:any)
   {
     const isProd = remote.process.execPath.search( 'electron-prebuilt' ) === -1;
-
-    // if( isProd && remote.app.getVersion() !=  )
-
-    // let window = new BrowserWindow( { width:200, height:300 } );
-
-    this.hasNewVersion = remote.app.getVersion() != currentVersion;
-
-    console.log( remote.process.version, remote.process.versions );
-    console.log( remote.app.getVersion()  )
-    console.log( remote.app.getVersion(), currentVersion, this.hasNewVersion );
-
-    console.log( this );
+    this.hasNewVersion = isProd && remote.app.getVersion() != json.version;
   }
 
-  downloadClickHandler():void
+  curryOpenDownloadURL(url:String):Function
   {
-    console.log( 'downloadClickHandler' );
+    return () =>
+    {
+      shell.openExternal( url );
+    }
+  }
+
+
+  onCloseClick():void
+  {
+    this.hasNewVersion = false;
+    this.render();
+  }
+
+  onDownloadClick():void
+  {
+    this.openDownloadURL();
   }
 }

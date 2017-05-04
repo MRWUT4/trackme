@@ -119,7 +119,7 @@ export class ModifiedService
 		{
 			var string = data.toString();
 			var list = string.split( '\n' );
-			list.pop();
+			// list.pop();
 
 			callback( list );
 
