@@ -19,7 +19,6 @@ let mainWindow, menu, dockMenu;
 
 let createWindow = () =>
 {
-
   // Create the browser window.
   mainWindow = new BrowserWindow(
   {

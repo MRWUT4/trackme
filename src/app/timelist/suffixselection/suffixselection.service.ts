@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LocalSQLite, Column } from '../localsqlite/localsqlite';
+import { LocalSQLite, Column } from '../../shared/localsqlite/localsqlite';
 import { Selection } from './selection';
 
 @Injectable()

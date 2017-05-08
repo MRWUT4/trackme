@@ -13,7 +13,7 @@
   ></progress-text>
 </div>
 
-<div *ngIf='modifiedsFiltered.length > 0'>
+<div *ngIf='modifieds.length > 0; else showSpinner'>
   <suffix-picker
     (change)='onSuffixPickerChange()'
     [suffixSelectionList]='suffixSelectionList'
@@ -33,6 +33,6 @@
   </table>
 </div>
 
-<div class='relative' *ngIf='modifiedsFiltered.length == 0'>
+<ng-template class='relative' #showSpinner>
   <img class='spinner' src='src/assets/spinner.gif'>
-</div>
+</ng-template>

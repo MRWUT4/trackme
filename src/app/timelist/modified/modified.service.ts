@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Modified } from './modified';
 import { spawn } from 'child_process';
-import { Filter, FilterElement } from '../filter/Filter';
-import { LocalSQLite, Column } from '../localsqlite/localsqlite';
+import { Filter, FilterElement } from '../../shared/filter/Filter';
+import { LocalSQLite, Column } from '../../shared/localsqlite/localsqlite';
 import { Observable } from 'rxjs/Observable';
 
 import * as os from 'os';

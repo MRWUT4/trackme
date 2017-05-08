@@ -1,8 +1,8 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import { Modified } from '../modified/modified';
-import { GroupModified } from '../modified/groupmodified';
-import { ModifiedService } from '../modified/modified.service';
-import { Selection } from '../suffixselection/selection';
+import { Modified } from './modified/modified';
+import { GroupModified } from './modified/groupmodified';
+import { ModifiedService } from './modified/modified.service';
+import { Selection } from './suffixselection/selection';
 
 @Component(
 {
@@ -68,7 +68,6 @@ export class TimeListComponent implements OnInit
 	/** DatePicker handling. */
 	onDateChange(date:Date):void
 	{
-		console.log( 'onDateChange' );
 		this.getModifiedList( date );
 	}
 
