@@ -31,49 +31,56 @@ export class TimeListComponent implements OnInit
 	public modifiedsDistanceGrouped:any[];
 
 
-	constructor(private ngZone:NgZone, private modifiedService:ModifiedService){}
+	/**
+ 	 * Getter / Setter
+	 */
 
-
-	ngOnInit():void
+	getMinuteResolution(time:number, resolution:number = 1):number
 	{
-			this.getTimeWithResolution = ( time:number ) => { return this.getMinuteResolution( time, this.resolution ) };
-			this.getModifiedDistance = this.curryGetModifiedDistance( this.resolution );
-
-			this.getModifiedList( this.date );
+		return  Math.round( time / 1000 / 60 / resolution ) * resolution * 1000 * 60;
 	}
 
-	render()
+	getTimeAsMinutes(time:number):number
 	{
-		this.ngZone.run( () => {} ); // <- Electron template update fix.
+		return Math.floor( ( time / 1000 ) / 60 );
 	}
 
-
-	/** Service handling. */
-	getModifiedList(date:Date = null):void
+	getClonedModifiedList(modifieds:Modified[]):Modified[]
 	{
-		this.modifieds = [];
+		return modifieds.map( modified => modified.clone() );
+	}
 
-		this.modifiedService.getModifiedList( date ).subscribe( modifieds =>
+	getFilteredModifiedList(modifieds:Modified[], filters:Selection[]):Modified[]
+	{
+		return modifieds.filter( modified => this.getSelectionById( this.suffixSelectionList, modified.suffix ).selected );
+	}
+
+	getRemovePathDuplicates(modifieds:Modified[]):Modified[]
+	{
+		let result:Modified[] = [];
+
+		modifieds.forEach( (modified, index) =>
 		{
-			this.modifieds = modifieds;
-			this.suffixList = this.getSuffixList( this.modifieds );
-			this.suffixSelectionList = this.getSuffixSelectionList( this.suffixList );
-
-			this.updateFilteredModifiedList();
-			this.render();
+			if( !result.find( element => element.path == modified.path ) )
+				result.push( modified );
 		});
+
+		return result;
 	}
 
-
-	/** DatePicker handling. */
-	onDateChange(date:Date):void
+	getElementsSortedByProperty(modifieds:Modified[], property:string):Modified[]
 	{
-		this.getModifiedList( date );
-	}
+		modifieds.sort( (a:Modified, b:Modified) =>
+		{
+			if( a[ property ] > b[ property ] )
+				return 1;
+			if( a[ property ] < b[ property ] )
+				return - 1;
+			else
+				return 0;
+		});
 
-	onSuffixPickerChange():void
-	{
-		this.updateFilteredModifiedList();
+		return modifieds;
 	}
 
 
@@ -108,8 +115,47 @@ export class TimeListComponent implements OnInit
 	}
 
 
+
+	/**
+ 	 * Interface functions
+	 */
+
+	constructor(private ngZone:NgZone, private modifiedService:ModifiedService){}
+
+	ngOnInit():void
+	{
+			this.getTimeWithResolution = ( time:number ) => { return this.getMinuteResolution( time, this.resolution ) };
+			this.getModifiedDistance = this.curryGetModifiedDistance( this.resolution );
+
+			this.setupModifiedList( this.date );
+	}
+
+	render()
+	{
+		this.ngZone.run( () => {} ); // <- Electron template update fix.
+	}
+
+
+
+	/** Service handling. */
+	setupModifiedList(date:Date = null, updateSuffixList:Boolean = true):void
+	{
+		this.modifieds = [];
+
+		this.modifiedService.getModifiedList( date ).subscribe( modifieds =>
+		{
+			this.modifieds = modifieds;
+
+			this.suffixList = this.getSuffixList( this.modifieds );
+			this.suffixSelectionList = this.getSuffixSelectionList( this.suffixList );
+
+			this.setupFilteredModifiedList();
+		});
+	}
+
+
 	/** Filter handling. */
-	updateFilteredModifiedList():void
+	setupFilteredModifiedList():void
 	{
 		let modifiedsFiltered = this.getClonedModifiedList( this.modifieds );
 		modifiedsFiltered = this.modTimeResolution( modifiedsFiltered );
@@ -119,9 +165,31 @@ export class TimeListComponent implements OnInit
 		modifiedsFiltered = this.modTableRowDistance( modifiedsFiltered );
 		modifiedsFiltered = this.modClearRepeatingClockValues( modifiedsFiltered );
 
-		this.modifiedsFiltered = modifiedsFiltered;
-
+		this.modifiedsFiltered =  modifiedsFiltered;
 		this.render();
+	}
+
+
+	/** Curry functions. */
+	curryGetModifiedDistance(resolution:number = 1):Function
+	{
+		return (current:Modified, previous:Modified):number =>
+		{
+			var value = ( this.getTimeAsMinutes( current.time ) - ( this.getTimeAsMinutes( previous.time ) + resolution ) );
+			return value;
+		}
+	}
+
+
+	/** Event handling. */
+	onDateChange(date:Date):void
+	{
+		this.setupModifiedList( date );
+	}
+
+	onSuffixPickerChange():void
+	{
+		this.setupFilteredModifiedList();
 	}
 
 
@@ -132,22 +200,12 @@ export class TimeListComponent implements OnInit
 		return modifieds;
 	}
 
-	getMinuteResolution(time:number, resolution:number = 1):number
-	{
-		return  Math.round( time / 1000 / 60 / resolution ) * resolution * 1000 * 60;
-	}
-
-	getTimeAsMinutes(time:number):number
-	{
-		return Math.floor( ( time / 1000 ) / 60 );
-	}
-
 	modClearRepeatingPathValuesInGroup(modifieds:Modified[]):Modified[]
 	{
 		let groups = GroupModified.byDistance( modifieds );
 		let list = groups.map( group => this.getRemovePathDuplicates( group ) );
 
-		let result = this.getUngroupedList( list );
+		let result = GroupModified.ungroup( list );
 
 		return result;
 	}
@@ -179,68 +237,5 @@ export class TimeListComponent implements OnInit
 		});
 
 		return modifieds;
-	}
-
-
-	curryGetModifiedDistance(resolution:number = 1):Function
-	{
-		return (current:Modified, previous:Modified):number =>
-		{
-			var value = ( this.getTimeAsMinutes( current.time ) - ( this.getTimeAsMinutes( previous.time ) + resolution ) );
-			return value;
-		}
-	}
-
-	getClonedModifiedList(modifieds:Modified[]):Modified[]
-	{
-		return modifieds.map( modified => modified.clone() );
-	}
-
-	getFilteredModifiedList(modifieds:Modified[], filters:Selection[]):Modified[]
-	{
-		return modifieds.filter( modified => this.getSelectionById( this.suffixSelectionList, modified.suffix ).selected );
-	}
-
-	getRemovePathDuplicates(modifieds:Modified[]):Modified[]
-	{
-		let result:Modified[] = [];
-
-		// let getIsInList = ( list, search ) => list.find( modified => modified.path == search.path );
-
-		modifieds.forEach( (modified, index) =>
-		{
-			if( !result.find( element => element.path == modified.path ) )
-				result.push( modified );
-
-			// let previous = modifieds[ index - 1 ];
-			//
-			// if( !previous || modified.path != previous.path )
-			// 	result.push( modified );
-		});
-
-		return result;
-	}
-
-	getElementsSortedByProperty(modifieds:Modified[], property:string):Modified[]
-	{
-		modifieds.sort( (a:Modified, b:Modified) =>
-		{
-			if( a[ property ] > b[ property ] )
-				return 1;
-			if( a[ property ] < b[ property ] )
-				return - 1;
-			else
-				return 0;
-		});
-
-		return modifieds;
-	}
-
-	getUngroupedList(groups:any[]):any[]
-	{
-		let list = [];
-		groups.forEach( element => list = list.concat( element ) );
-
-		return list;
 	}
 }

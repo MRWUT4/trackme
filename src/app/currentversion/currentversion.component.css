@@ -2,19 +2,21 @@
 {
   height: 4em;
   color: #fff;
-  display: inline-block;
-  text-align: center;
   background-color: #66B2E8;
-  height: 5em;
-  position: relative;
-  display: inline-block;
-  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+
+.child
+{
+  text-align: center;
 }
 
 .close
 {
-  margin-top: .6em;
-  margin-left: .6em;
+  /*margin-top: .6em;*/
+  margin-left: .4em;
   background-color: #fff;
   border-radius: 50%;
   height: 1.3em;
@@ -27,17 +29,6 @@
 label
 {
   -webkit-user-select: none;
-}
-
-.child
-{
-  text-align: center;
-}
-
-.big
-{
-  float: left;
-  margin-top: -2.4em;
 }
 
 span

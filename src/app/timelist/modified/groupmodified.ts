@@ -47,4 +47,12 @@ export class GroupModified
 
     return list;
   }
+
+  static ungroup(groups:any[]):any[]
+  {
+  		let list = [];
+  		groups.forEach( element => list = list.concat( element ) );
+
+  		return list;
+  }
 }

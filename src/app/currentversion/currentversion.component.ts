@@ -44,7 +44,8 @@ export class CurrentVersionComponent implements OnInit
 
   showBannerIfNewVersionIsAvailable(json:any)
   {
-    const isProd = remote.process.execPath.search( 'electron-prebuilt' ) === -1;
+    let isProd = remote.process.execPath.search( 'electron-prebuilt' ) === -1;
+    // isProd = true;
     this.hasNewVersion = isProd && remote.app.getVersion() != json.version;
   }
 
