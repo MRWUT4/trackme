@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 
 import { TimeListModule } from './timelist/timelist.module';
 import { AppComponent } from './app.component';
+import { MenuBarComponent } from './menubar/menubar.component';
 import { CurrentVersionComponent } from './currentversion/currentversion.component';
 
 @NgModule(
@@ -12,7 +13,8 @@ import { CurrentVersionComponent } from './currentversion/currentversion.compone
 	declarations:
 	[
 		AppComponent,
-		CurrentVersionComponent
+		CurrentVersionComponent,
+		MenuBarComponent
 	],
 	imports:
 	[

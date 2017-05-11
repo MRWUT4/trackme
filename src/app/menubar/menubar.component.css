@@ -1,0 +1,10 @@
+:host
+{
+  height: 3em;
+  background-color: #66B2E8;
+  display: block;
+  position: fixed;
+
+  -ms-overflow-style: scrollbar;
+  -webkit-app-region:drag;
+}

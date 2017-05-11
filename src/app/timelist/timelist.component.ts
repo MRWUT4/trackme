@@ -17,8 +17,8 @@ export class TimeListComponent implements OnInit
 	static BUTTON_ID_NONE:String = 'none';
 
 	// public date:Date = new Date( 2017, 3, 29 );
-	// public date:Date = new Date( 2017, 4, 5 );
-	public date:Date = new Date();
+	public date:Date = new Date( 2017, 4, 8 );
+	// public date:Date = new Date();
 
 	public getTimeWithResolution:Function;
 	public getModifiedDistance:Function;
@@ -136,6 +136,16 @@ export class TimeListComponent implements OnInit
 	}
 
 
+	/** Curry functions. */
+	curryGetModifiedDistance(resolution:number = 1):Function
+	{
+		return (current:Modified, previous:Modified):number =>
+		{
+			var value = ( this.getTimeAsMinutes( current.time ) - ( this.getTimeAsMinutes( previous.time ) + resolution ) );
+			return value;
+		}
+	}
+
 
 	/** Service handling. */
 	setupModifiedList(date:Date = null, updateSuffixList:Boolean = true):void
@@ -167,17 +177,6 @@ export class TimeListComponent implements OnInit
 
 		this.modifiedsFiltered =  modifiedsFiltered;
 		this.render();
-	}
-
-
-	/** Curry functions. */
-	curryGetModifiedDistance(resolution:number = 1):Function
-	{
-		return (current:Modified, previous:Modified):number =>
-		{
-			var value = ( this.getTimeAsMinutes( current.time ) - ( this.getTimeAsMinutes( previous.time ) + resolution ) );
-			return value;
-		}
 	}
 
 

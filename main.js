@@ -23,8 +23,8 @@ let createWindow = () =>
   mainWindow = new BrowserWindow(
   {
     width: isProd ? 800 : 1200,
-    height: 600
-    // titleBarStyle: 'hidden'
+    height: 600,
+    titleBarStyle: 'hidden'
   });
 
   // and load the index.html of the app.
